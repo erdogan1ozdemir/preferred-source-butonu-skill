@@ -24,9 +24,9 @@ Bunun bedeli açıkça yazılır: üç ton **kartı** değiştirir, Google'ın b
 
 **Ton:** koyu kontrast · marka tinti · minimal çerçeve
 **Yerleşim:** tam genişlik banner · kompakt şerit · yazı sonu kutusu
-**Çerçeve:** sade · conic kenarlık · gökkuşağı kenarlık · pulse glow · dış hale
+**Çerçeve:** sade · conic kenarlık · gökkuşağı kenarlık · pulse glow · geniş hale
 
-Üçü bağımsızdır ve serbestçe mixlenir. Sade seçim gerçekten sade kod üretir: `f0` seçiliyken çıktıda `conic`, `animation`, `@property` ve `mask` hiç bulunmaz.
+Üçü bağımsızdır ve serbestçe mixlenir. Sade seçim gerçekten sade kod üretir: `f0` seçiliyken çıktıda `conic`, `animation`, `@property`, `mask` ve `tcps-wrap` hiç bulunmaz.
 
 ## Dosyalar
 

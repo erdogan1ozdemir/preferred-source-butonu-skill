@@ -98,15 +98,15 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
 
 .swatch.fr{background:var(--surface-2);border:1px solid var(--line);display:flex;
   align-items:center;justify-content:center;padding:0;position:relative;isolation:isolate}
-.swatch.fr span{display:block;width:26px;height:15px;border-radius:5px;background:#164193;position:relative}
-.swatch.fr.f1 span::before,.swatch.fr.f2 span::before{content:'';position:absolute;inset:0;
-  border-radius:5px;padding:1.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+.swatch.fr span{display:block;width:24px;height:14px;border-radius:5px;background:#164193;position:relative;z-index:1}
+.swatch.fr.f1 span::before,.swatch.fr.f2 span::before{content:'';position:absolute;inset:-3px;
+  border-radius:7px;padding:1.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude}
 .swatch.fr.f1 span::before{background:conic-gradient(from 210deg,transparent 0deg,#FFC900 60deg,transparent 130deg,transparent 360deg)}
-.swatch.fr.f2 span::before{background:conic-gradient(#FF4D4D,#FFC900,#39D98A,#0071CE,#A24DFF,#FF4D4D)}
+.swatch.fr.f2 span::before{background:conic-gradient(#F2B8B5,#F6CDA0,#F7E6A8,#C8E6B4,#A8D8CE,#9DC0F5,#BDB2F0,#E9BEDC,#F2B8B5)}
 .swatch.fr.f3 span{box-shadow:0 0 9px rgba(22,65,147,.75)}
-.swatch.fr.f4 span::after{content:'';position:absolute;inset:-3px;border-radius:7px;z-index:-1;
-  filter:blur(3px);background:conic-gradient(#FFC900,#0071CE,#164193,#FFC900)}
+.swatch.fr.f4 span::after{content:'';position:absolute;inset:-6px;border-radius:10px;z-index:-1;
+  filter:blur(5px);opacity:.6;background:conic-gradient(#FFC900,#0071CE,#164193,#FFC900)}
 
 .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--surface-2)}
 .seg button{
@@ -317,8 +317,7 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
         <li><b>Uygunluk:</b> Google hesabıyla giriş yapıp <code>google.com/preferences/source?q=turkcell.com.tr</code> adresinde marka listede mi bakılır. Google yalnız domain ve subdomain kabul ediyor, alt dizin uygun değil.</li>
         <li><b>Script tekrarı:</b> <code>publisher.js</code> sayfa başına yalnız bir kez yüklenir; şablona konursa kart parçasından çıkarılır.</li>
         <li><b>data-theme:</b> canlıda görülür, buton karta karışıyorsa değer çevrilir.</li>
-        <li><b>Conic ve gökkuşağı kenarlık</b> kartın dışına taşmaz; ışık yayı kenarlığın kendisinde durur.</li>
-        <li><b>Pulse glow ve dış hale</b> kartın ~11px dışına taşar. Gövdede <code>overflow:hidden</code> varsa kırpılır; şablonda kontrol edilir.</li>
+        <li><b>Conic ve gökkuşağı kenarlık</b> kartın 4px dışında dolaşır. <b>Geniş hale</b> ~24px taşar. Gövdede <code>overflow:hidden</code> varsa kırpılır; şablonda kontrol edilir.</li>
         <li>Hareket <code>prefers-reduced-motion</code> ile duruyor; halka statik kalıyor.</li>
       </ul>
     </div>
@@ -383,10 +382,10 @@ var PLACES = {
 
 var FRAMES = {
   f0:{k:"f0",nm:"Sade",ds:"Efekt yok · en sakin"},
-  f1:{k:"f1",nm:"Conic kenarlık",ds:"Kenarlıkta dönen ışık yayı · marka rengi"},
-  f2:{k:"f2",nm:"Gökkuşağı kenarlık",ds:"Kenarlıkta dönen çok renkli yay"},
+  f1:{k:"f1",nm:"Conic kenarlık",ds:"Çerçevenin dışında dolaşan ışık yayı"},
+  f2:{k:"f2",nm:"Gökkuşağı kenarlık",ds:"Aynı halka · yumuşak pastel geçişler"},
   f3:{k:"f3",nm:"Pulse glow",ds:"Nefes alan yumuşak parıltı"},
-  f4:{k:"f4",nm:"Dış hale",ds:"Kartın arkasında bulanık conic parıltı"}
+  f4:{k:"f4",nm:"Geniş hale",ds:"Daha yayvan, ortam ışığı gibi"}
 };
 var state={tone:"t1",place:"p1",frame:"f0",gt:"light",dev:"desk",tab:"html",gtTouched:false};
 
@@ -432,36 +431,38 @@ function css(t,p,f){
   }
   s+="@media (max-width:640px){.tcps{gap:14px}.tcps__act{margin-left:0;width:100%}"+
      ".tcps__btn{width:100%;justify-content:center}}";
+  var halka = (f.k==="f1"||f.k==="f2");
+  if(halka){
+    var stops = f.k==="f2"
+      ? "#F2B8B5,#F6CDA0,#F7E6A8,#C8E6B4,#A8D8CE,#9DC0F5,#BDB2F0,#E9BEDC,#F2B8B5"
+      : "transparent 0deg,rgba("+t.glow+",.35) 25deg,rgb("+t.glow+") 60deg,rgba("+t.glow+",.35) 95deg,transparent 130deg,transparent 360deg";
+    s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
+       ".tcps{position:relative}"+
+       ".tcps::before{content:'';position:absolute;inset:-4px;border-radius:16px;padding:1.5px;"+
+       "background:conic-gradient(from var(--tcps-a),"+stops+");"+
+       "-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);"+
+       "-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;"+
+       "animation:tcps-spin 6s linear infinite}"+
+       "@keyframes tcps-spin{to{--tcps-a:360deg}}";
+  }
+  if(f.k==="f3"){
+    s+=".tcps{position:relative;animation:tcps-pulse 2.8s ease-in-out infinite}"+
+       "@keyframes tcps-pulse{0%,100%{box-shadow:0 0 14px rgba("+t.glow+",.28)}"+
+       "50%{box-shadow:0 0 32px rgba("+t.glow+",.6)}}";
+  }
+  if(f.k==="f4"){
+    s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
+       ".tcps-wrap{position:relative;margin:28px 0}"+
+       ".tcps-wrap>.tcps{margin:0;position:relative}"+
+       ".tcps-wrap::before{content:'';position:absolute;inset:-9px;border-radius:21px;"+
+       "background:conic-gradient(from var(--tcps-a),rgb("+t.glow+"),#0071CE,#164193,rgb("+t.glow+"));"+
+       "filter:blur(15px);opacity:.55;pointer-events:none;"+
+       "animation:tcps-spin 6s linear infinite}"+
+       "@keyframes tcps-spin{to{--tcps-a:360deg}}";
+  }
   if(f.k!=="f0"){
-    s+=".tcps{position:relative}";
-    if(f.k==="f1"||f.k==="f2"){
-      var ring = f.k==="f1"
-        ? "transparent 0deg,rgba("+t.glow+",.35) 25deg,rgb("+t.glow+") 60deg,rgba("+t.glow+",.35) 95deg,transparent 130deg,transparent 360deg"
-        : "#FF4D4D,#FFC900,#39D98A,#0071CE,#A24DFF,#FF4D4D";
-      s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
-         ".tcps{border-color:transparent}"+
-         ".tcps::before{content:'';position:absolute;inset:0;border-radius:12px;padding:1.5px;"+
-         "background:conic-gradient(from var(--tcps-a),"+ring+");"+
-         "-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);"+
-         "-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;"+
-         "animation:tcps-spin 6s linear infinite}"+
-         "@keyframes tcps-spin{to{--tcps-a:360deg}}";
-    }
-    if(f.k==="f3"){
-      s+=".tcps{animation:tcps-pulse 2.8s ease-in-out infinite}"+
-         "@keyframes tcps-pulse{0%,100%{box-shadow:0 0 14px rgba("+t.glow+",.28)}"+
-         "50%{box-shadow:0 0 32px rgba("+t.glow+",.6)}}";
-    }
-    if(f.k==="f4"){
-      s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
-         ".tcps{isolation:isolate}"+
-         ".tcps::before{content:'';position:absolute;inset:-3px;border-radius:15px;z-index:-1;"+
-         "background:conic-gradient(from var(--tcps-a),"+ "#FFC900,#0071CE,#164193,#FFC900" +");"+
-         "filter:blur(8px);opacity:.9;pointer-events:none;"+
-         "animation:tcps-spin 6s linear infinite}"+
-         "@keyframes tcps-spin{to{--tcps-a:360deg}}";
-    }
-    s+="@media (prefers-reduced-motion:reduce){.tcps,.tcps::before{animation:none}}";
+    var sec = f.k==="f4" ? ".tcps-wrap::before" : (f.k==="f3" ? ".tcps" : ".tcps::before");
+    s+="@media (prefers-reduced-motion:reduce){"+sec+"{animation:none}}";
   }
   return s;
 }
@@ -472,7 +473,9 @@ function card(preview){
   var btn = preview
     ? '<span class="tcps__btn tcps__btn--'+gt+'" role="img" aria-label="Google tercih edilen kaynak butonu (temsili)">'+GLOGO+'Tercih edilen kaynak olarak ekle</span>'
     : '<div google-add-preferred-source-btn data-theme="'+gt+'" data-lang="tr"></div>';
+  var isik = (f.k==="f4");
   return '<style>'+css(t,p,f)+'</style>\n'+
+  (isik?'<div class="tcps-wrap">\n':'')+
   '<div class="tcps" id="preferred-source-button">\n'+
   '  <div class="tcps__mark"><img class="tcps__logo" src="'+logo+'" alt="Turkcell" width="'+p.logoH+'" height="'+p.logoH+'" loading="lazy"></div>\n'+
   '  <div class="tcps__copy">\n'+
@@ -481,6 +484,7 @@ function card(preview){
   '  </div>\n'+
   '  <div class="tcps__act">'+btn+'</div>\n'+
   '</div>'+
+  (isik?'\n</div>':'')+
   (preview?"":'\n\n<script async src="https://news.google.com/swg/js/v1/publisher.js"><\/script>');
 }
 

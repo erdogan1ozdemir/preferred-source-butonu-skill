@@ -34,23 +34,23 @@ Her tonun başlık ve açıklama kontrastı hesaplanır; 4.5:1 altındaysa ton d
 
 ## Çerçeve
 
-| Kod | Ad | Teknik | Taşma | Karakter |
+| Kod | Ad | Teknik | Konum | Taşma |
 |---|---|---|---|---|
-| `f0` | Sade | efekt yok | yok | En sakin, öntanımlı |
-| `f1` | Conic kenarlık | kenarlık şeridinde dönen ışık yayı, marka rengi | yok | İstenen referans efekt |
-| `f2` | Gökkuşağı kenarlık | aynı teknik, çok renkli yay | yok | En dikkat çekici kenarlık |
-| `f3` | Pulse glow | nefes alan `box-shadow` | ~11px | Yumuşak, sürekli |
-| `f4` | Dış hale | kartın arkasında bulanık conic | ~11px | Kart yüzer gibi durur |
+| `f0` | Sade | efekt yok | - | yok |
+| `f1` | Conic kenarlık | dönen ışık yayı, marka rengi | çerçevenin 4px dışında | ~4px |
+| `f2` | Gökkuşağı kenarlık | aynı halka, pastel spektrum | çerçevenin 4px dışında | ~4px |
+| `f3` | Pulse glow | nefes alan `box-shadow` | kart üzerinde | ~11px |
+| `f4` | Geniş hale | bulanık conic, kartın arkasında | sarmalayıcıda | ~24px |
 
 ### Conic kenarlık (f1, f2)
 
-Işık yayı **kenarlığın kendisindedir**, arkada bulanık bir hale değil. Gradyan `mask-composite` ile 1.5px'lik şeride kırpılır.
+Işık yayı **kartın kenar çizgisinin dışında** dolaşır. Gradyan `mask-composite` ile 1.5px'lik şeride kırpılır, `inset:-4px` ile dışarı taşınır.
 
 ```css
 @property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}
-.tcps{position:relative;border-color:transparent}
+.tcps{position:relative}
 .tcps::before{
-  content:'';position:absolute;inset:0;border-radius:12px;padding:1.5px;
+  content:'';position:absolute;inset:-4px;border-radius:16px;padding:1.5px;
   background:conic-gradient(from var(--tcps-a), <duraklar>);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
@@ -61,41 +61,46 @@ Işık yayı **kenarlığın kendisindedir**, arkada bulanık bir hale değil. G
 @keyframes tcps-spin{to{--tcps-a:360deg}}
 ```
 
-- **`padding` + `mask-composite:exclude` çifti zorunlu.** Maske, pseudo-element'in content-box'ını dışarıda bırakır; geriye yalnız 1.5px'lik kenar şeridi kalır. `padding` kaldırılırsa gradyan kartın tamamını kaplar.
-- **`border-color:transparent`** verilir; kartın kendi kenarlığı ışık yayının altında ikinci bir çizgi olarak görünmesin.
-- **`z-index` verilmez.** Halka kart zemininin üstünde durmalıdır; `z-index:-1` onu sayfa zeminine düşürür ve halka kaybolur (bu yalnız `f4` için doğrudur).
-- `f1` durakları tek parlak yay üretir: `transparent 0deg` -> marka rengi `60deg` -> `transparent 130deg`. `f2` tam spektrumdur, boşluksuz.
-- Yay rengi tona göre gelir: koyu kartta marka vurgusu, açık kartlarda marka koyu rengi.
-- **Kart dışına taşmaz.** Gövdede `overflow:hidden` olsa bile kırpılmaz.
+- **`padding` + `mask-composite:exclude` çifti zorunlu.** Maske pseudo-element'in içini dışarıda bırakır, geriye yalnız kenar şeridi kalır. `padding` kaldırılırsa gradyan tüm alanı doldurur.
+- **`inset:-4px`** halkayı kartın kenar çizgisinin dışına taşır. Kartın kendi kenarlığı yerinde kalır, ikisi üst üste binmez.
+- **`z-index` verilmez ve `isolation` kullanılmaz.** Halka zaten kartın dışında; `z-index:-1` onu sayfa zeminine düşürüp görünmez yapar.
+- **`f1` durakları** tek parlak yay üretir: `transparent` -> marka rengi `60deg` -> `transparent 130deg`. Yay rengi tona göre gelir: koyu kartta marka vurgusu, açık kartlarda marka koyu rengi.
+- **`f2` durakları pastel spektrumdur** ve premium bir geçiş için 9 durak kullanılır, doygun renk yoktur:
+  `#F2B8B5, #F6CDA0, #F7E6A8, #C8E6B4, #A8D8CE, #9DC0F5, #BDB2F0, #E9BEDC, #F2B8B5`
+  Az sayıda doygun durak sert bantlar üretir; yumuşak geçiş için durak sayısı artırılır ve doygunluk düşürülür.
 
 ### Pulse (f3)
 
 ```css
-.tcps{animation:tcps-pulse 2.8s ease-in-out infinite}
+.tcps{position:relative;animation:tcps-pulse 2.8s ease-in-out infinite}
 @keyframes tcps-pulse{
   0%,100%{box-shadow:0 0 14px rgba(<marka>,.28)}
   50%{box-shadow:0 0 32px rgba(<marka>,.6)}
 }
 ```
 
-### Dış hale (f4)
+### Geniş hale (f4)
 
-Kartın **arkasında** bulanık conic parıltı. `f1`'den farkı: halka değil hale.
+Bulanık conic parıltı kartın **arkasında** durur. Bunun için sarmalayıcı zorunludur.
 
+```html
+<div class="tcps-wrap"><div class="tcps" id="preferred-source-button">…</div></div>
+```
 ```css
-.tcps{position:relative;isolation:isolate}
-.tcps::before{
-  content:'';position:absolute;inset:-3px;border-radius:15px;z-index:-1;
+.tcps-wrap{position:relative;margin:28px 0}
+.tcps-wrap>.tcps{margin:0;position:relative}
+.tcps-wrap::before{
+  content:'';position:absolute;inset:-9px;border-radius:21px;
   background:conic-gradient(from var(--tcps-a), <marka durakları>);
-  filter:blur(8px);opacity:.9;pointer-events:none;
+  filter:blur(15px);opacity:.55;pointer-events:none;
   animation:tcps-spin 6s linear infinite;
 }
 ```
 
-`isolation:isolate` şart: `z-index:-1` olan pseudo-element aksi halde sayfa zeminine düşer.
+**Neden sarmalayıcı:** parıltıyı `.tcps::before` üzerinde `z-index:-1` ile denemek çalışmaz. `isolation:isolate` eklenirse `.tcps` yığın bağlamı olur ve negatif z-index'li pseudo kartın zemininin **üstüne** boyanır, renk kartın yüzeyine taşar. `isolation` eklenmezse pseudo bu kez sayfa zemininin arkasına düşer. Sarmalayıcının `::before`'u DOM sırasında karttan önce geldiği için hiçbir z-index ayarı gerekmez.
 
 ### Ortak kurallar
 
-- Her efekt için `@media (prefers-reduced-motion:reduce){.tcps,.tcps::before{animation:none}}` eklenir.
+- Hareket kısıtı yalnız aktif seçiciye uygulanır: `f3` için `.tcps`, `f4` için `.tcps-wrap::before`, diğerleri için `.tcps::before`.
 - `@property` desteklenmeyen tarayıcıda halka **statik** kalır; kart yine düzgün görünür. Bilinçli zarif düşüş.
-- `f0` seçildiğinde üretilen kodda `conic`, `animation`, `@property` ve `mask` **hiç bulunmaz**; sade seçim gerçekten sade kod üretir.
+- `f0` seçildiğinde üretilen kodda `conic`, `animation`, `@property`, `mask` ve `tcps-wrap` **hiç bulunmaz**.
