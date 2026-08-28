@@ -66,5 +66,5 @@ git clone https://github.com/erdogan1ozdemir/preferred-source-butonu-skill.git ~
 
 - **Uygunluk kontrolü otomatikleştirilemiyor.** `google.com/preferences/source` Google hesabı girişi ister; skill giriş yapmaz.
 - **`data-theme` anlamı dokümanda net değil.** Karta göre zıt değer öntanımlı verilir, QA'da canlı doğrulama istenir.
-- **GA4 tıklamayı sayar, eklemeyi değil.** Onay Google tarafında gerçekleşir ve siteye sinyal dönmez.
+- **Google'ın butonu iframe olarak basılır.** Görüntülenme güvenilir ölçülür; tıklama yalnız yaklaşık ölçülebilir, ekleme sayısı hiç ölçülemez.
 - **Artifact önizlemesinde Google butonu temsilidir.** Artifact CSP'si dış script'e izin vermez.
