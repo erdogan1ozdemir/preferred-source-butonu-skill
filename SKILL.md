@@ -36,7 +36,10 @@ Kurallar:
 
 ### Aşama 2 · Markaya sunum dokümanı
 
-Varyantlardan **önce**, süreci markaya anlatan tek dosyalık bir HTML doküman üretilir: `scripts/build_button.py config.json dokuman.html --doc`
+Varyantlardan **önce**, süreci markaya anlatan bir doküman üretilir. İki biçim vardır:
+
+- **Word / Google Docs (varsayılan):** `node scripts/build_brand_docx.js` · markanın kendi ekibinde dolaşacak, yorumlanacak ve düzenlenecek doküman için. `docx` npm paketi gerekir.
+- **HTML:** `python3 scripts/build_button.py config.json dokuman.html --doc` · bağlantı olarak paylaşılacaksa.
 
 Bu doküman "şu butonu ekleyelim" demez; **neden** eklendiğini ve markanın ne kazanacağını anlatır. Yedi bölüm:
 
@@ -50,7 +53,9 @@ Bu doküman "şu butonu ekleyelim" demez; **neden** eklendiğini ve markanın ne
 | 06 Teslim kapsamı | Hangi parçaların verileceği |
 | 07 Ölçüm ve sınırlar | Neyin ölçülebildiği, neyin ölçülemediği |
 
-**Örnek bölümü zorunludur.** Marka kartı yazıda göreceği biçimde görmeden karar veremez; doküman bu yüzden statik bir görsel değil, gerçek kartı canlı basar.
+**Örnek bölümü zorunludur.** Marka kartı yazıda göreceği biçimde görmeden karar veremez. HTML biçiminde kart canlı basılır; Word biçiminde üç ton tarayıcıda render edilip PNG olarak gömülür.
+
+**Kart render tuzağı:** üç varyant tek sayfada gösterilirken her biri ayrı sınıfa alınmalıdır. Üçü de `.tcps` seçicisini kullanırsa son `<style>` bloğu diğerlerini ezer ve üç kart aynı görünür.
 
 **Dil rejimi [A] kurumsal.** `icerik-dili-rehberi` kuralları bağlayıcıdır: em dash yok, emoji yok, kesin vaat yok, pasif ton, CSS `text-transform:uppercase` ile Türkçe etiket üretilmez. Logo bandı zorunludur: marka logosu solda, Inbound logosu sağda, ikisi de `data:` URI olarak gömülü.
 

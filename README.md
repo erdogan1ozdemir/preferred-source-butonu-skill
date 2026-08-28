@@ -16,7 +16,7 @@ Bunun bedeli açıkça yazılır: üç ton **kartı** değiştirir, Google'ın b
 |---|---|
 | 0 | Uygunluk ön kontrolü (manuel, Google girişi ister) |
 | 1 | Canlı marka denetimi · `getComputedStyle` ile gerçek token'lar |
-| 2 | Markaya sunum dokümanı · süreci ve gerekçeyi anlatır, canlı örnek içerir |
+| 2 | Markaya sunum dokümanı · Word veya HTML, süreci ve gerekçeyi anlatır, örnek içerir |
 | 3 | 3 ton x 3 yerleşim x 5 çerçeve üretimi, WCAG AA düzeltmesi |
 | 4 | Tek dosyalık HTML yapılandırıcı · 45 kombinasyon serbest eşleşir |
 | 5 | Yalın kod + GA4 + yerleştirme notu + QA listesi |
@@ -42,11 +42,14 @@ scripts/
   inspect_brand.js              tarayıcıda çalışan token çıkarıcı
   contrast.py                   WCAG hesabı ve otomatik ton düzeltmesi
   build_button.py               config -> doküman ve yapılandırıcı, statik doğrulamalı
-  brand_doc_template.html       markaya sunum dokümanı şablonu
+  brand_doc_template.html       markaya sunum dokümanı (HTML)
+  build_brand_docx.js           markaya sunum dokümanı (Word / Google Docs)
   configurator_template.html    yapılandırıcı şablonu
 examples/
   turkcell-config.json
-  turkcell-preferred-source-doc.html   markaya sunum dokümanı
+  Turkcell-Tercih-Edilen-Kaynak-Butonu.docx  markaya sunum dokümanı (Word)
+  turkcell-preferred-source-doc.html   markaya sunum dokümanı (HTML)
+  kart-ornek.png                       üç ton render'ı
   turkcell-preferred-source.html       yapılandırıcı
   tc-corp.png
 ```
