@@ -99,8 +99,8 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
 .swatch.fr{background:var(--surface-2);border:1px solid var(--line);display:flex;
   align-items:center;justify-content:center;padding:0;position:relative;isolation:isolate}
 .swatch.fr span{display:block;width:24px;height:14px;border-radius:5px;background:#164193;position:relative;z-index:1}
-.swatch.fr.f1 span::before,.swatch.fr.f2 span::before{content:'';position:absolute;inset:-3px;
-  border-radius:7px;padding:1.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+.swatch.fr.f1 span::before,.swatch.fr.f2 span::before{content:'';position:absolute;inset:-1.5px;
+  border-radius:6.5px;padding:1.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude}
 .swatch.fr.f1 span::before{background:conic-gradient(from 210deg,transparent 0deg,#FFC900 60deg,transparent 130deg,transparent 360deg)}
 .swatch.fr.f2 span::before{background:conic-gradient(#F2B8B5,#F6CDA0,#F7E6A8,#C8E6B4,#A8D8CE,#9DC0F5,#BDB2F0,#E9BEDC,#F2B8B5)}
@@ -317,7 +317,7 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
         <li><b>Uygunluk:</b> Google hesabıyla giriş yapıp <code>google.com/preferences/source?q=turkcell.com.tr</code> adresinde marka listede mi bakılır. Google yalnız domain ve subdomain kabul ediyor, alt dizin uygun değil.</li>
         <li><b>Script tekrarı:</b> <code>publisher.js</code> sayfa başına yalnız bir kez yüklenir; şablona konursa kart parçasından çıkarılır.</li>
         <li><b>data-theme:</b> canlıda görülür, buton karta karışıyorsa değer çevrilir.</li>
-        <li><b>Conic ve gökkuşağı kenarlık</b> kartın 4px dışında dolaşır. <b>Geniş hale</b> ~24px taşar. Gövdede <code>overflow:hidden</code> varsa kırpılır; şablonda kontrol edilir.</li>
+        <li><b>Conic ve gökkuşağı kenarlık</b> kartın kenarına yapışık, 1.5px dışında dolaşır ve kartın kendi kenar çizgisinin yerini alır. <b>Geniş hale</b> ~24px taşar. Gövdede <code>overflow:hidden</code> varsa kırpılır; şablonda kontrol edilir.</li>
         <li>Hareket <code>prefers-reduced-motion</code> ile duruyor; halka statik kalıyor.</li>
       </ul>
     </div>
@@ -437,8 +437,8 @@ function css(t,p,f){
       ? "#F2B8B5,#F6CDA0,#F7E6A8,#C8E6B4,#A8D8CE,#9DC0F5,#BDB2F0,#E9BEDC,#F2B8B5"
       : "transparent 0deg,rgba("+t.glow+",.35) 25deg,rgb("+t.glow+") 60deg,rgba("+t.glow+",.35) 95deg,transparent 130deg,transparent 360deg";
     s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
-       ".tcps{position:relative}"+
-       ".tcps::before{content:'';position:absolute;inset:-4px;border-radius:16px;padding:1.5px;"+
+       ".tcps{position:relative;border-color:transparent}"+
+       ".tcps::before{content:'';position:absolute;inset:-1.5px;border-radius:13.5px;padding:1.5px;"+
        "background:conic-gradient(from var(--tcps-a),"+stops+");"+
        "-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);"+
        "-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;"+

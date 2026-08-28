@@ -36,7 +36,8 @@ document.head.appendChild(st);
 - **Script tekrarı:** `publisher.js` sayfada bir kez mi yükleniyor.
 - **Butonun gerçek ölçüsü:** `publisher.js` butonu iframe olarak basar ve öntanımlı genişliği ~540px'dir. Dar kolonlarda ve mobilde kartın taşmadığı canlıda doğrulanır; mock önizleme bu ölçüyü göstermez.
 - **Tıklama event'i:** staging'de butona tıklanıp `dataLayer`'a event düşüyor mu bakılır (iframe yüzünden düşmeyebilir).
-- **Taşma:** conic ve gökkuşağı kenarlık kartın 4px dışında dolaşır, pulse glow ~11px, geniş hale ~24px taşar. Gövdede `overflow:hidden` varsa kırpılır.
+- **Taşma:** conic ve gökkuşağı kenarlık kartın 1.5px dışında dolaşır, pulse glow ~11px, geniş hale ~24px taşar. Gövdede `overflow:hidden` varsa kırpılır.
+- **Çifte çerçeve çizgisi:** halka aktifken kartın kendi kenarlığı `transparent` olmalı. İkisi birlikte görünürse aralarında boşluk kalan iki çizgi oluşur.
 - **Halka görünürlüğü:** conic kenarlıkta `::before` üzerinde ne `z-index` ne `isolation` olmalı. `isolation:isolate` + `z-index:-1` parıltıyı kartın zemininin üstüne boyar ve renk kart yüzeyine taşar; `isolation` olmadan `z-index:-1` ise halkayı sayfa zemininin arkasına düşürür. Kartın arkasına parıltı gerekiyorsa (geniş hale) sarmalayıcı kullanılır.
 - **Hareket kısıtı:** işletim sisteminde hareket azaltma açıkken animasyon duruyor mu.
 - **Font:** kart markanın kendi fontuyla mı geliyor (lisanslı fontlar önizlemede sistem fontuna düşer).

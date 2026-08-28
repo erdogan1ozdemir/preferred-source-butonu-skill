@@ -37,8 +37,8 @@ Her tonun başlık ve açıklama kontrastı hesaplanır; 4.5:1 altındaysa ton d
 | Kod | Ad | Teknik | Konum | Taşma |
 |---|---|---|---|---|
 | `f0` | Sade | efekt yok | - | yok |
-| `f1` | Conic kenarlık | dönen ışık yayı, marka rengi | çerçevenin 4px dışında | ~4px |
-| `f2` | Gökkuşağı kenarlık | aynı halka, pastel spektrum | çerçevenin 4px dışında | ~4px |
+| `f1` | Conic kenarlık | dönen ışık yayı, marka rengi | kart kenarına yapışık, 1.5px dışında | ~1.5px |
+| `f2` | Gökkuşağı kenarlık | aynı halka, pastel spektrum | kart kenarına yapışık, 1.5px dışında | ~1.5px |
 | `f3` | Pulse glow | nefes alan `box-shadow` | kart üzerinde | ~11px |
 | `f4` | Geniş hale | bulanık conic, kartın arkasında | sarmalayıcıda | ~24px |
 
@@ -48,9 +48,9 @@ Işık yayı **kartın kenar çizgisinin dışında** dolaşır. Gradyan `mask-c
 
 ```css
 @property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}
-.tcps{position:relative}
+.tcps{position:relative;border-color:transparent}
 .tcps::before{
-  content:'';position:absolute;inset:-4px;border-radius:16px;padding:1.5px;
+  content:'';position:absolute;inset:-1.5px;border-radius:13.5px;padding:1.5px;
   background:conic-gradient(from var(--tcps-a), <duraklar>);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
@@ -62,7 +62,8 @@ Işık yayı **kartın kenar çizgisinin dışında** dolaşır. Gradyan `mask-c
 ```
 
 - **`padding` + `mask-composite:exclude` çifti zorunlu.** Maske pseudo-element'in içini dışarıda bırakır, geriye yalnız kenar şeridi kalır. `padding` kaldırılırsa gradyan tüm alanı doldurur.
-- **`inset:-4px`** halkayı kartın kenar çizgisinin dışına taşır. Kartın kendi kenarlığı yerinde kalır, ikisi üst üste binmez.
+- **`inset:-1.5px` + `border-color:transparent` birlikte kullanılır.** Halka kartın kenarına yapışır ve kartın **kendi kenar çizgisinin yerini alır**. İkisi birlikte bırakılırsa aralarında boşluk kalan **iki ayrı çerçeve çizgisi** oluşur ve kart oturmamış görünür; `inset:-4px` denenip bu yüzden geri alındı.
+- Halkanın yarıçapı kartınkinden 1.5px büyüktür (`13.5px` / `12px`), böylece köşelerde iç içe geçme olmaz.
 - **`z-index` verilmez ve `isolation` kullanılmaz.** Halka zaten kartın dışında; `z-index:-1` onu sayfa zeminine düşürüp görünmez yapar.
 - **`f1` durakları** tek parlak yay üretir: `transparent` -> marka rengi `60deg` -> `transparent 130deg`. Yay rengi tona göre gelir: koyu kartta marka vurgusu, açık kartlarda marka koyu rengi.
 - **`f2` durakları pastel spektrumdur** ve premium bir geçiş için 9 durak kullanılır, doygun renk yoktur:
