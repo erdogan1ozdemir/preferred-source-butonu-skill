@@ -37,8 +37,8 @@ Her tonun başlık ve açıklama kontrastı hesaplanır; 4.5:1 altındaysa ton d
 | Kod | Ad | Teknik | Konum | Taşma |
 |---|---|---|---|---|
 | `f0` | Sade | efekt yok | - | yok |
-| `f1` | Conic kenarlık | dönen ışık yayı, marka rengi | kart kenarına yapışık, 1.5px dışında | ~1.5px |
-| `f2` | Gökkuşağı kenarlık | aynı halka, pastel spektrum | kart kenarına yapışık, 1.5px dışında | ~1.5px |
+| `f1` | Conic kenarlık | dönen ışık yayı, marka rengi | kart kenarına yapışık, 2px dışında | ~2px |
+| `f2` | Gökkuşağı kenarlık | aynı halka, pastel spektrum | kart kenarına yapışık, 2px dışında | ~2px |
 | `f3` | Pulse glow | nefes alan `box-shadow` | kart üzerinde | ~11px |
 | `f4` | Geniş hale | bulanık conic, kartın arkasında | sarmalayıcıda | ~24px |
 
@@ -50,7 +50,7 @@ Işık yayı **kartın kenar çizgisinin dışında** dolaşır. Gradyan `mask-c
 @property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}
 .tcps{position:relative;border-color:transparent}
 .tcps::before{
-  content:'';position:absolute;inset:-1.5px;border-radius:13.5px;padding:1.5px;
+  content:'';position:absolute;inset:-2px;border-radius:14px;padding:2px;
   background:conic-gradient(from var(--tcps-a), <duraklar>);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
@@ -62,8 +62,8 @@ Işık yayı **kartın kenar çizgisinin dışında** dolaşır. Gradyan `mask-c
 ```
 
 - **`padding` + `mask-composite:exclude` çifti zorunlu.** Maske pseudo-element'in içini dışarıda bırakır, geriye yalnız kenar şeridi kalır. `padding` kaldırılırsa gradyan tüm alanı doldurur.
-- **`inset:-1.5px` + `border-color:transparent` birlikte kullanılır.** Halka kartın kenarına yapışır ve kartın **kendi kenar çizgisinin yerini alır**. İkisi birlikte bırakılırsa aralarında boşluk kalan **iki ayrı çerçeve çizgisi** oluşur ve kart oturmamış görünür; `inset:-4px` denenip bu yüzden geri alındı.
-- Halkanın yarıçapı kartınkinden 1.5px büyüktür (`13.5px` / `12px`), böylece köşelerde iç içe geçme olmaz.
+- **`inset:-2px` + `border-color:transparent` birlikte kullanılır.** Halka kartın kenarına yapışır ve kartın **kendi kenar çizgisinin yerini alır**. İkisi birlikte bırakılırsa aralarında boşluk kalan **iki ayrı çerçeve çizgisi** oluşur ve kart oturmamış görünür; `inset:-4px` denenip bu yüzden geri alındı.
+- Halkanın yarıçapı kartınkinden 2px büyüktür (`14px` / `12px`), böylece köşelerde iç içe geçme olmaz.
 - **`z-index` verilmez ve `isolation` kullanılmaz.** Halka zaten kartın dışında; `z-index:-1` onu sayfa zeminine düşürüp görünmez yapar.
 - **`f1` durakları** tek parlak yay üretir: `transparent` -> marka rengi `60deg` -> `transparent 130deg`. Yay rengi tona göre gelir: koyu kartta marka vurgusu, açık kartlarda marka koyu rengi.
 - **`f2` durakları pastel spektrumdur** ve premium bir geçiş için 9 durak kullanılır, doygun renk yoktur:
@@ -99,6 +99,20 @@ Bulanık conic parıltı kartın **arkasında** durur. Bunun için sarmalayıcı
 ```
 
 **Neden sarmalayıcı:** parıltıyı `.tcps::before` üzerinde `z-index:-1` ile denemek çalışmaz. `isolation:isolate` eklenirse `.tcps` yığın bağlamı olur ve negatif z-index'li pseudo kartın zemininin **üstüne** boyanır, renk kartın yüzeyine taşar. `isolation` eklenmezse pseudo bu kez sayfa zemininin arkasına düşer. Sarmalayıcının `::before`'u DOM sırasında karttan önce geldiği için hiçbir z-index ayarı gerekmez.
+
+### Dönüşün görünür olması · kritik kural
+
+Halka ve hale **her zaman döner**, ama dönüş yalnız gradyanın çember boyunca **eşit olmayan** dağılımıyla algılanır. Düzgün dağılmış bir renk çarkı döndüğünde göz hiçbir hareket görmez.
+
+Bu yüzden üç efektin de duraklarında bir **parlak yoğunluk bölgesi** ve düşük alfalı bir kuyruk bulunur:
+
+| Efekt | Yoğunluk | Kuyruk |
+|---|---|---|
+| `f1` | marka rengi tam opak, `60deg` | `.28` alfa, kalan çember |
+| `f2` | pastel spektrum `30deg`-`180deg` tam opak | `.22` alfa, `225deg`-`360deg` |
+| `f4` | marka rengi `55deg`, mavi `110deg` | `.12` alfa, `200deg` sonrası |
+
+**Kuyruk şeffaf değil, düşük alfalı olmalıdır.** Tamamen `transparent` bırakılırsa çemberin büyük bölümünde hiç çizgi kalmaz; halka aktifken kartın kendi kenarlığı zaten `transparent` olduğu için kart **çerçevesiz** görünür. Bu hata bir kez yapıldı: `f1`'in kuyruğu `transparent`ti, lacivert kartta çerçeve hiç görünmüyordu.
 
 ### Ortak kurallar
 
