@@ -6,7 +6,7 @@
 :root{
   --ground:#F0EDE8; --surface:#FFFFFF; --surface-2:#F7F5F1;
   --ink:#10332F; --muted:#5F736E; --line:#DFD9D0; --line-soft:#EAE5DD;
-  --accent:#FF7B52; --accent-ink:#B0421F; --gold:#F5A623;
+  --accent:#FF7B52; --accent-ink:#B0421F; --gold:#F5A623; --warn:#C62828;
   --code-bg:#10332F; --code-ink:#DCE9E5; --code-line:#1E4640;
   --shadow:0 1px 2px rgba(16,51,47,.06),0 8px 28px rgba(16,51,47,.07);
 }
@@ -14,7 +14,7 @@
   :root:not([data-theme="light"]){
     --ground:#0A1D1A; --surface:#10332F; --surface-2:#0D2724;
     --ink:#E9F0ED; --muted:#93AAA4; --line:#1E4640; --line-soft:#193C37;
-    --accent:#FF8C68; --accent-ink:#FFB79E; --gold:#F5A623;
+    --accent:#FF8C68; --accent-ink:#FFB79E; --gold:#F5A623; --warn:#FF8A80;
     --code-bg:#061512; --code-ink:#CFE2DD; --code-line:#1E4640;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
   }
@@ -22,7 +22,7 @@
 :root[data-theme="dark"]{
   --ground:#0A1D1A; --surface:#10332F; --surface-2:#0D2724;
   --ink:#E9F0ED; --muted:#93AAA4; --line:#1E4640; --line-soft:#193C37;
-  --accent:#FF8C68; --accent-ink:#FFB79E; --gold:#F5A623;
+  --accent:#FF8C68; --accent-ink:#FFB79E; --gold:#F5A623; --warn:#FF8A80;
   --code-bg:#061512; --code-ink:#CFE2DD; --code-line:#1E4640;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
 }
@@ -98,12 +98,15 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
 
 .swatch.fr{background:var(--surface-2);border:1px solid var(--line);display:flex;
   align-items:center;justify-content:center;padding:0;position:relative;isolation:isolate}
-.swatch.fr span{display:block;width:24px;height:14px;border-radius:4px;background:#164193;position:relative;z-index:1}
-.swatch.fr.f1 span::after,.swatch.fr.f3 span::after{content:"";position:absolute;inset:-3px;
-  border-radius:6px;z-index:-1;filter:blur(3px)}
-.swatch.fr.f1 span::after{background:conic-gradient(#FFC900,#0071CE,#164193,#FFC900)}
-.swatch.fr.f3 span::after{background:conic-gradient(#FF4D4D,#FFC900,#39D98A,#0071CE,#A24DFF,#FF4D4D)}
-.swatch.fr.f2 span{box-shadow:0 0 9px rgba(22,65,147,.75)}
+.swatch.fr span{display:block;width:26px;height:15px;border-radius:5px;background:#164193;position:relative}
+.swatch.fr.f1 span::before,.swatch.fr.f2 span::before{content:'';position:absolute;inset:0;
+  border-radius:5px;padding:1.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude}
+.swatch.fr.f1 span::before{background:conic-gradient(from 210deg,transparent 0deg,#FFC900 60deg,transparent 130deg,transparent 360deg)}
+.swatch.fr.f2 span::before{background:conic-gradient(#FF4D4D,#FFC900,#39D98A,#0071CE,#A24DFF,#FF4D4D)}
+.swatch.fr.f3 span{box-shadow:0 0 9px rgba(22,65,147,.75)}
+.swatch.fr.f4 span::after{content:'';position:absolute;inset:-3px;border-radius:7px;z-index:-1;
+  filter:blur(3px);background:conic-gradient(#FFC900,#0071CE,#164193,#FFC900)}
 
 .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--surface-2)}
 .seg button{
@@ -129,6 +132,8 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
 }
 .panel h2{font-size:13.5px;font-weight:700;letter-spacing:-.005em}
 .panel .hint{font-size:11.5px;color:var(--muted)}
+.panel .hint .warn{color:var(--warn);font-weight:700}
+
 .stage-body{background:var(--surface-2);padding:26px 20px;display:flex;justify-content:center}
 .viewport{
   background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(16,51,47,.13);
@@ -312,7 +317,8 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
         <li><b>Uygunluk:</b> Google hesabıyla giriş yapıp <code>google.com/preferences/source?q=turkcell.com.tr</code> adresinde marka listede mi bakılır. Google yalnız domain ve subdomain kabul ediyor, alt dizin uygun değil.</li>
         <li><b>Script tekrarı:</b> <code>publisher.js</code> sayfa başına yalnız bir kez yüklenir; şablona konursa kart parçasından çıkarılır.</li>
         <li><b>data-theme:</b> canlıda görülür, buton karta karışıyorsa değer çevrilir.</li>
-        <li><b>Glow çerçeveler</b> kartın 11px dışına taşar. Yazı gövdesinde <code>overflow:hidden</code> varsa parıltı kırpılır; şablonda kontrol edilir.</li>
+        <li><b>Conic ve gökkuşağı kenarlık</b> kartın dışına taşmaz; ışık yayı kenarlığın kendisinde durur.</li>
+        <li><b>Pulse glow ve dış hale</b> kartın ~11px dışına taşar. Gövdede <code>overflow:hidden</code> varsa kırpılır; şablonda kontrol edilir.</li>
         <li>Hareket <code>prefers-reduced-motion</code> ile duruyor; halka statik kalıyor.</li>
       </ul>
     </div>
@@ -377,9 +383,10 @@ var PLACES = {
 
 var FRAMES = {
   f0:{k:"f0",nm:"Sade",ds:"Efekt yok · en sakin"},
-  f1:{k:"f1",nm:"Conic glow",ds:"Marka renklerinde dönen halka"},
-  f2:{k:"f2",nm:"Pulse glow",ds:"Nefes alan yumuşak parıltı"},
-  f3:{k:"f3",nm:"Gökkuşağı conic",ds:"Çok renkli dönen halka · en dikkat çekici"}
+  f1:{k:"f1",nm:"Conic kenarlık",ds:"Kenarlıkta dönen ışık yayı · marka rengi"},
+  f2:{k:"f2",nm:"Gökkuşağı kenarlık",ds:"Kenarlıkta dönen çok renkli yay"},
+  f3:{k:"f3",nm:"Pulse glow",ds:"Nefes alan yumuşak parıltı"},
+  f4:{k:"f4",nm:"Dış hale",ds:"Kartın arkasında bulanık conic parıltı"}
 };
 var state={tone:"t1",place:"p1",frame:"f0",gt:"light",dev:"desk",tab:"html",gtTouched:false};
 
@@ -421,28 +428,38 @@ function css(t,p,f){
   ".tcps__btn:hover{filter:brightness(.96)}"+
   ".tcps__btn:focus-visible{outline:2px solid #0071CE;outline-offset:2px}";
   if(p.stack){
-    s+=".tcps{flex-direction:column;align-items:flex-start}"+
-       ".tcps__act{margin-left:0}"+
-       ".tcps__copy{flex:1 1 auto;width:100%}";
+    s+=".tcps__act{flex:1 0 100%;margin-left:0;margin-top:4px}";
   }
   s+="@media (max-width:640px){.tcps{gap:14px}.tcps__act{margin-left:0;width:100%}"+
      ".tcps__btn{width:100%;justify-content:center}}";
   if(f.k!=="f0"){
-    s+=".tcps{position:relative;isolation:isolate}";
-    if(f.k==="f1"||f.k==="f3"){
-      var stops = f.k==="f1"
-        ? "#FFC900,#0071CE,#164193,#FFC900"
+    s+=".tcps{position:relative}";
+    if(f.k==="f1"||f.k==="f2"){
+      var ring = f.k==="f1"
+        ? "transparent 0deg,rgba("+t.glow+",.35) 25deg,rgb("+t.glow+") 60deg,rgba("+t.glow+",.35) 95deg,transparent 130deg,transparent 360deg"
         : "#FF4D4D,#FFC900,#39D98A,#0071CE,#A24DFF,#FF4D4D";
       s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
-         ".tcps::before{content:'';position:absolute;inset:-3px;border-radius:15px;z-index:-1;"+
-         "background:conic-gradient(from var(--tcps-a),"+stops+");filter:blur(8px);opacity:.9;"+
+         ".tcps{border-color:transparent}"+
+         ".tcps::before{content:'';position:absolute;inset:0;border-radius:12px;padding:1.5px;"+
+         "background:conic-gradient(from var(--tcps-a),"+ring+");"+
+         "-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);"+
+         "-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;"+
          "animation:tcps-spin 6s linear infinite}"+
          "@keyframes tcps-spin{to{--tcps-a:360deg}}";
     }
-    if(f.k==="f2"){
+    if(f.k==="f3"){
       s+=".tcps{animation:tcps-pulse 2.8s ease-in-out infinite}"+
          "@keyframes tcps-pulse{0%,100%{box-shadow:0 0 14px rgba("+t.glow+",.28)}"+
          "50%{box-shadow:0 0 32px rgba("+t.glow+",.6)}}";
+    }
+    if(f.k==="f4"){
+      s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
+         ".tcps{isolation:isolate}"+
+         ".tcps::before{content:'';position:absolute;inset:-3px;border-radius:15px;z-index:-1;"+
+         "background:conic-gradient(from var(--tcps-a),"+ "#FFC900,#0071CE,#164193,#FFC900" +");"+
+         "filter:blur(8px);opacity:.9;pointer-events:none;"+
+         "animation:tcps-spin 6s linear infinite}"+
+         "@keyframes tcps-spin{to{--tcps-a:360deg}}";
     }
     s+="@media (prefers-reduced-motion:reduce){.tcps,.tcps::before{animation:none}}";
   }
@@ -501,9 +518,12 @@ function render(){
   document.getElementById("vp").classList.toggle("mob",state.dev==="mob");
 
   var r=ratio(t.ink,t.bg), rs=ratio(t.sub,t.bg);
+  var btnBg = state.gt==="light" ? "#FFFFFF" : "#202124";
+  var rb = ratio(btnBg, t.bg);
+  var uyari = rb<2 ? " · <b class='warn'>buton kartla ayrışmıyor ("+rb.toFixed(2)+":1), data-theme çevrilmeli</b>" : "";
   document.getElementById("contrast").innerHTML =
     "Kontrast · başlık <b>"+r.toFixed(1)+":1</b> · açıklama <b>"+rs.toFixed(1)+":1</b> · "+
-    (Math.min(r,rs)>=4.5?"WCAG AA geçer":"AA altı");
+    (Math.min(r,rs)>=4.5?"WCAG AA geçer":"<b class='warn'>AA altı</b>") + uyari;
 
   var code = state.tab==="html" ? card(false) : GA4.replace("__VAR__", state.tone+"-"+state.place+"-"+state.frame);
   document.getElementById("code").textContent = code;
@@ -546,7 +566,7 @@ function optBtn(o,kind){
   b.addEventListener("click",function(){state.place=k;render();});
   document.getElementById("places").appendChild(b);
 });
-["f0","f1","f2","f3"].forEach(function(k){
+["f0","f1","f2","f3","f4"].forEach(function(k){
   var b=optBtn(FRAMES[k],"frame");
   b.addEventListener("click",function(){state.frame=k;render();});
   document.getElementById("frames").appendChild(b);

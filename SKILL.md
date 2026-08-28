@@ -1,6 +1,6 @@
 ---
 name: preferred-source-butonu
-description: Bir markanın blog veya haber sayfası için Google "tercih edilen kaynak" (preferred source) butonunu marka renklerine ve sayfa yapısına uygun bir kart içinde üretir. Markanın canlı sayfasını tarayıcıda ölçüp gerçek token'ları (zemin, metin rengi, içerik kolonu genişliği, tipografi, köşe yarıçapı, marka vurgusu) çıkarır; 3 ton x 3 yerleşim x 4 çerçeve efektini serbestçe eşleştirilebilir bir artifact yapılandırıcısında sunar; seçim sonrası yalın HTML+CSS kod bloğu, GA4 takibi, yerleştirme notu ve QA listesi teslim eder. Bu skill'i şu durumlarda kullan - kullanıcı "preferred source butonu", "tercih edilen kaynak butonu", "Google tercih edilen kaynak", "preferred sources ekle", "şu markaya preferred source kartı yap" dediğinde; bir domain verip "Google'da tercih edilen kaynak olarak eklensin" istediğinde; mevcut bir preferred source kartını revize etmek istediğinde. Kullanıcı "buton" kelimesini kullanmasa bile Google preferred sources özelliğinden söz edip markaya uygulamak istiyorsa tetikle.
+description: Bir markanın blog veya haber sayfası için Google "tercih edilen kaynak" (preferred source) butonunu marka renklerine ve sayfa yapısına uygun bir kart içinde üretir. Markanın canlı sayfasını tarayıcıda ölçüp gerçek token'ları (zemin, metin rengi, içerik kolonu genişliği, tipografi, köşe yarıçapı, marka vurgusu) çıkarır; 3 ton x 3 yerleşim x 5 çerçeve efektini serbestçe eşleştirilebilir bir artifact yapılandırıcısında sunar; seçim sonrası yalın HTML+CSS kod bloğu, GA4 takibi, yerleştirme notu ve QA listesi teslim eder. Bu skill'i şu durumlarda kullan - kullanıcı "preferred source butonu", "tercih edilen kaynak butonu", "Google tercih edilen kaynak", "preferred sources ekle", "şu markaya preferred source kartı yap" dediğinde; bir domain verip "Google'da tercih edilen kaynak olarak eklensin" istediğinde; mevcut bir preferred source kartını revize etmek istediğinde. Kullanıcı "buton" kelimesini kullanmasa bile Google preferred sources özelliğinden söz edip markaya uygulamak istiyorsa tetikle.
 ---
 
 # Preferred Source Butonu
@@ -36,7 +36,7 @@ Kurallar:
 
 ### Aşama 2 · Ton, yerleşim, çerçeve üretimi
 
-Ölçülen token'lardan 3 ton, 3 yerleşim ve 4 çerçeve türetilir. Üçü **bağımsız eksendir**, 36 kombinasyon serbestçe eşleşir. Tam spesifikasyon: `references/ton-yerlesim-cerceve.md`
+Ölçülen token'lardan 3 ton, 3 yerleşim ve 5 çerçeve türetilir. Üçü **bağımsız eksendir**, 45 kombinasyon serbestçe eşleşir. Tam spesifikasyon: `references/ton-yerlesim-cerceve.md`
 
 Her tonun metin/zemin kontrastı `scripts/contrast.py` ile hesaplanır; WCAG AA (4.5:1) altındaysa ton otomatik düzeltilir.
 
@@ -44,7 +44,7 @@ Her tonun metin/zemin kontrastı `scripts/contrast.py` ile hesaplanır; WCAG AA 
 
 `scripts/build_button.py` token JSON'undan tek dosyalık yapılandırıcıyı üretir: ton, yerleşim, çerçeve, cihaz ve `data-theme` seçicileri; markanın kendi tipografisiyle kurulmuş sahte yazı sayfası içinde canlı önizleme; anında güncellenen kod bloğu.
 
-Yapılandırıcı yayınlanmadan önce **36 kombinasyon taranır** (bkz. `references/qa-checklist.md`). Taşma, buton dokunma alanı ve yatay kaydırma sıfır olmalıdır.
+Yapılandırıcı yayınlanmadan önce **45 kombinasyon taranır** (bkz. `references/qa-checklist.md`). Taşma, buton dokunma alanı ve yatay kaydırma sıfır olmalıdır.
 
 ### Aşama 4 · Teslim
 

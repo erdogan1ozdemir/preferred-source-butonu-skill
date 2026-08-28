@@ -16,17 +16,17 @@ Bunun bedeli açıkça yazılır: üç ton **kartı** değiştirir, Google'ın b
 |---|---|
 | 0 | Uygunluk ön kontrolü (manuel, Google girişi ister) |
 | 1 | Canlı marka denetimi · `getComputedStyle` ile gerçek token'lar |
-| 2 | 3 ton x 3 yerleşim x 4 çerçeve üretimi, WCAG AA düzeltmesi |
-| 3 | Artifact yapılandırıcı · 36 kombinasyon serbest eşleşir |
+| 2 | 3 ton x 3 yerleşim x 5 çerçeve üretimi, WCAG AA düzeltmesi |
+| 3 | Artifact yapılandırıcı · 45 kombinasyon serbest eşleşir |
 | 4 | Yalın kod + GA4 + yerleştirme notu + QA listesi |
 
 ## Eksenler
 
 **Ton:** koyu kontrast · marka tinti · minimal çerçeve
 **Yerleşim:** tam genişlik banner · kompakt şerit · yazı sonu kutusu
-**Çerçeve:** sade · conic glow · pulse glow · gökkuşağı conic
+**Çerçeve:** sade · conic kenarlık · gökkuşağı kenarlık · pulse glow · dış hale
 
-Üçü bağımsızdır ve serbestçe mixlenir. Sade seçim gerçekten sade kod üretir: `f0` seçiliyken çıktıda `conic`, `animation` ve `@property` hiç bulunmaz.
+Üçü bağımsızdır ve serbestçe mixlenir. Sade seçim gerçekten sade kod üretir: `f0` seçiliyken çıktıda `conic`, `animation`, `@property` ve `mask` hiç bulunmaz.
 
 ## Dosyalar
 
@@ -34,7 +34,7 @@ Bunun bedeli açıkça yazılır: üç ton **kartı** değiştirir, Google'ın b
 SKILL.md
 references/
   google-preferred-sources.md   resmî dokümantasyon, uygunluk, data-theme belirsizliği
-  ton-yerlesim-cerceve.md       36 kombinasyonun tam spesifikasyonu
+  ton-yerlesim-cerceve.md       45 kombinasyonun tam spesifikasyonu
   ga4-tracking.md               event, GTM kurulumu, ölçüm sınırı
   qa-checklist.md               otomatik tarama eşikleri ve bilinen tuzaklar
 scripts/
@@ -52,7 +52,7 @@ examples/
 
 `turkcell.com.tr/blog/fps-nedir` üzerinde ölçüldü: içerik kolonu 846px, paragraf `#5F6B76` 17.6/31.68, başlık `#253342`, marka lacivert `#164193`, marka sarı `#EFE700`, köşe yarıçapı 12px, font greycliff.
 
-Doğrulama: 72 kombinasyon (36 x 2 cihaz) tarandı; taşma 0, buton yüksekliği 44px, yatay kaydırma 0. Kontrast koyu tonda 9.5:1, tint tonda 12.3:1.
+Doğrulama: 90 kombinasyon (45 x 2 cihaz) tarandı; taşma 0, buton yüksekliği 44px, yatay kaydırma 0. Kontrast koyu tonda 9.5:1, tint tonda 12.3:1.
 
 `build_button.py`, `turkcell-config.json`'dan yapılandırıcıyı **birebir** yeniden üretir (bayt eşitliği doğrulandı).
 
