@@ -95,7 +95,8 @@ def main():
         raise SystemExit("DOGRULAMA BASARISIZ:\n  - " + "\n  - ".join(sorun))
     open(sys.argv[2], "w", encoding="utf-8").write(html)
     print("yazildi: %s (%d bayt)" % (sys.argv[2], len(html.encode())))
-    print("dogrulama gecti. Artifact olarak yayinlamadan once 45 kombinasyonu tarayin.")
+    print("dogrulama gecti. 45 kombinasyonu tarayin, sonra dosyayi tarayicida acin")
+    print("veya Artifact araci varsa yayinlayin. Dosya kendi kendine yeter.")
 
 
 if __name__ == "__main__":

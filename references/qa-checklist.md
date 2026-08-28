@@ -27,6 +27,8 @@ document.head.appendChild(st);
 
 **Derleme tuzağı:** üretilen JS her derlemeden sonra `node --check` ile denetlenir. Python `re.sub` **değiştirme metnindeki** `\n` kaçışları gerçek satır sonuna dönüşüp JS string'lerini böler; sayfa sessizce boş açılır.
 
+- **İz uzunluğu:** parlak yay çemberin dörtte birini aşmamalı, kuyruk alfası `.10` civarında kalmalı. Aksi halde dönen iz yerine sürekli parlak halka görünür.
+
 ## Elle kontrol (canlıda)
 
 - **Uygunluk:** domain `google.com/preferences/source?q=<domain>` listesinde mi (giriş gerekir).

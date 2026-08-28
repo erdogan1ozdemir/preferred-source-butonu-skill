@@ -1,6 +1,6 @@
 ---
 name: preferred-source-butonu
-description: Bir markanın blog veya haber sayfası için Google "tercih edilen kaynak" (preferred source) butonunu marka renklerine ve sayfa yapısına uygun bir kart içinde üretir. Markanın canlı sayfasını tarayıcıda ölçüp gerçek token'ları (zemin, metin rengi, içerik kolonu genişliği, tipografi, köşe yarıçapı, marka vurgusu) çıkarır; 3 ton x 3 yerleşim x 5 çerçeve efektini serbestçe eşleştirilebilir bir artifact yapılandırıcısında sunar; seçim sonrası yalın HTML+CSS kod bloğu, GA4 takibi, yerleştirme notu ve QA listesi teslim eder. Bu skill'i şu durumlarda kullan - kullanıcı "preferred source butonu", "tercih edilen kaynak butonu", "Google tercih edilen kaynak", "preferred sources ekle", "şu markaya preferred source kartı yap" dediğinde; bir domain verip "Google'da tercih edilen kaynak olarak eklensin" istediğinde; mevcut bir preferred source kartını revize etmek istediğinde. Kullanıcı "buton" kelimesini kullanmasa bile Google preferred sources özelliğinden söz edip markaya uygulamak istiyorsa tetikle.
+description: Bir markanın blog veya haber sayfası için Google "tercih edilen kaynak" (preferred source) butonunu marka renklerine ve sayfa yapısına uygun bir kart içinde üretir. Markanın canlı sayfasını tarayıcıda ölçüp gerçek token'ları (zemin, metin rengi, içerik kolonu genişliği, tipografi, köşe yarıçapı, marka vurgusu) çıkarır; 3 ton x 3 yerleşim x 5 çerçeve efektini serbestçe eşleştirilebilir tek dosyalık bir HTML yapılandırıcıda sunar (Artifact aracı varsa yayınlanır, yoksa dosya olarak teslim edilir); seçim sonrası yalın HTML+CSS kod bloğu, GA4 takibi, yerleştirme notu ve QA listesi teslim eder. Bu skill'i şu durumlarda kullan - kullanıcı "preferred source butonu", "tercih edilen kaynak butonu", "Google tercih edilen kaynak", "preferred sources ekle", "şu markaya preferred source kartı yap" dediğinde; bir domain verip "Google'da tercih edilen kaynak olarak eklensin" istediğinde; mevcut bir preferred source kartını revize etmek istediğinde. Kullanıcı "buton" kelimesini kullanmasa bile Google preferred sources özelliğinden söz edip markaya uygulamak istiyorsa tetikle.
 ---
 
 # Preferred Source Butonu
@@ -40,11 +40,15 @@ Kurallar:
 
 Her tonun metin/zemin kontrastı `scripts/contrast.py` ile hesaplanır; WCAG AA (4.5:1) altındaysa ton otomatik düzeltilir.
 
-### Aşama 3 · Artifact yapılandırıcı
+### Aşama 3 · Yapılandırıcı
 
-`scripts/build_button.py` token JSON'undan tek dosyalık yapılandırıcıyı üretir: ton, yerleşim, çerçeve, cihaz ve `data-theme` seçicileri; markanın kendi tipografisiyle kurulmuş sahte yazı sayfası içinde canlı önizleme; anında güncellenen kod bloğu.
+`scripts/build_button.py` token JSON'undan **tek dosyalık, kendi kendine yeten bir HTML** üretir: ton, yerleşim, çerçeve, cihaz ve `data-theme` seçicileri; markanın kendi tipografisiyle kurulmuş sahte yazı sayfası içinde canlı önizleme; anında güncellenen kod bloğu ve kontrast uyarısı.
 
-Yapılandırıcı yayınlanmadan önce **45 kombinasyon taranır** (bkz. `references/qa-checklist.md`). Taşma, buton dokunma alanı ve yatay kaydırma sıfır olmalıdır.
+**Çıktı her ortamda çalışır.** Dosya tarayıcıda doğrudan açılır; harici bağımlılığı yoktur (logo `data:` URI, JS ve CSS gömülü). Tek dış istek Google Fonts'tur ve erişilemezse sistem fontuna düşer, yapılandırıcı çalışmaya devam eder.
+
+**Yayınlama isteğe bağlıdır.** Artifact aracı varsa (Claude Code) dosya artifact olarak yayınlanıp bağlantı paylaşılabilir. Araç yoksa (Cursor, başka bir IDE, düz terminal) **akış değişmez**: aynı HTML dosyası teslim edilir, kullanıcı tarayıcıda açar ve seçimini yapar. Artifact bir gereklilik değil, bir kolaylıktır.
+
+Yayınlamadan veya teslim etmeden önce **45 kombinasyon taranır** (bkz. `references/qa-checklist.md`). Taşma, buton dokunma alanı ve yatay kaydırma sıfır olmalıdır.
 
 ### Aşama 4 · Teslim
 

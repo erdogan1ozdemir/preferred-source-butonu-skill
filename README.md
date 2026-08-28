@@ -17,7 +17,7 @@ Bunun bedeli açıkça yazılır: üç ton **kartı** değiştirir, Google'ın b
 | 0 | Uygunluk ön kontrolü (manuel, Google girişi ister) |
 | 1 | Canlı marka denetimi · `getComputedStyle` ile gerçek token'lar |
 | 2 | 3 ton x 3 yerleşim x 5 çerçeve üretimi, WCAG AA düzeltmesi |
-| 3 | Artifact yapılandırıcı · 45 kombinasyon serbest eşleşir |
+| 3 | Tek dosyalık HTML yapılandırıcı · 45 kombinasyon serbest eşleşir |
 | 4 | Yalın kod + GA4 + yerleştirme notu + QA listesi |
 
 ## Eksenler
@@ -61,6 +61,12 @@ Doğrulama: 90 kombinasyon (45 x 2 cihaz) tarandı; taşma 0, buton yüksekliği
 ```bash
 git clone https://github.com/erdogan1ozdemir/preferred-source-butonu-skill.git ~/.claude/skills/preferred-source-butonu
 ```
+
+## Ortam bağımsızlığı
+
+Yapılandırıcı **tek dosyalık, kendi kendine yeten bir HTML**tir. Tarayıcıda doğrudan açılır; logo `data:` URI olarak gömülüdür, JS ve CSS dosyanın içindedir. Tek dış istek Google Fonts'tur ve erişilemezse sistem fontuna düşer.
+
+Bu yüzden skill **Artifact aracına bağımlı değildir**. Claude Code'da dosya artifact olarak yayınlanıp bağlantı paylaşılabilir; Cursor'da, başka bir IDE'de veya düz terminalde ise aynı dosya doğrudan teslim edilir ve tarayıcıda açılır. Akış ve çıktı iki durumda da aynıdır.
 
 ## Bilinen sınırlar
 

@@ -113,9 +113,11 @@ Bu yüzden üç efektin de duraklarında bir **parlak yoğunluk bölgesi** ve d�
 
 | Efekt | Yoğunluk | Kuyruk |
 |---|---|---|
-| `f1` | marka rengi tam opak, `60deg` | `.28` alfa, kalan çember |
-| `f2` | pastel spektrum `30deg`-`180deg` tam opak | `.22` alfa, `225deg`-`360deg` |
+| `f1` | marka rengi tam opak, `58deg`; parlak yay ~96 derece | `.10` alfa, kalan çember |
+| `f2` | pastel spektrum `40deg`-`122deg` tam opak; parlak yay ~150 derece | `.10` alfa, kalan çember |
 | `f4` | marka rengi `55deg`, mavi `110deg` | `.12` alfa, `200deg` sonrası |
+
+**İz uzunluğu.** Parlak yay dar tutulur; çemberin tamamı aydınlatılırsa dönen bir iz yerine **sürekli parlak bir halka** görünür ve hareket kaybolur. Kuyruk alfası `.10` seviyesindedir: çerçeve çizgisi olarak var, iz olarak yok. Bu değer bir kez `.28` denendi, iz çemberin tamamına yayıldı ve Gameplus referansındaki kısa süpürme etkisi kayboldu.
 
 **Kuyruk şeffaf değil, düşük alfalı olmalıdır.** Tamamen `transparent` bırakılırsa çemberin büyük bölümünde hiç çizgi kalmaz; halka aktifken kartın kendi kenarlığı zaten `transparent` olduğu için kart **çerçevesiz** görünür. Bu hata bir kez yapıldı: `f1`'in kuyruğu `transparent`ti, lacivert kartta çerçeve hiç görünmüyordu.
 
