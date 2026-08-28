@@ -1,0 +1,256 @@
+<title>Tercih Edilen Kaynak Butonu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Outfit:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#F0EDE8; --surface:#FFFFFF; --surface-2:#FAF8F5;
+  --ink:#10332F; --body:#3D544F; --muted:#6B7F7A;
+  --line:#DFD9D0; --line-soft:#EDE8E1;
+  --accent:#FF7B52; --accent-ink:#B0421F; --gold:#F5A623;
+  --deep:#10332F; --deep-ink:#E4EFEB; --deep-line:#1E4640;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#081815; --surface:#0E2724; --surface-2:#0B201D;
+    --ink:#E9F0ED; --body:#B9CCC7; --muted:#8CA49E;
+    --line:#1C403A; --line-soft:#163430;
+    --accent:#FF8C68; --accent-ink:#FFC0AC; --gold:#F5A623;
+    --deep:#0A1F1C; --deep-ink:#E4EFEB; --deep-line:#1E4640;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#081815; --surface:#0E2724; --surface-2:#0B201D;
+  --ink:#E9F0ED; --body:#B9CCC7; --muted:#8CA49E;
+  --line:#1C403A; --line-soft:#163430;
+  --accent:#FF8C68; --accent-ink:#FFC0AC; --gold:#F5A623;
+  --deep:#0A1F1C; --deep-ink:#E4EFEB; --deep-line:#1E4640;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ground);color:var(--body);
+  font-family:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Bricolage Grotesque","Outfit",system-ui,sans-serif;
+  color:var(--ink);text-wrap:balance;margin:0;letter-spacing:-.018em}
+p{margin:0}
+strong{color:var(--ink);font-weight:600}
+
+/* logo bandi */
+.band{background:var(--deep);border-bottom:1px solid var(--deep-line)}
+.band .in{max-width:940px;margin:0 auto;padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.band .slot{display:flex;align-items:center;gap:13px}
+.band .cap{font-size:10px;letter-spacing:.13em;color:#7E9A94;font-weight:600}
+.band .plate{background:#fff;border-radius:9px;padding:7px 10px;display:flex;align-items:center}
+.band .plate img{display:block;height:26px;width:26px}
+.band .ib img{display:block;height:22px;width:auto;filter:brightness(0) invert(1)}
+
+.wrap{max-width:940px;margin:0 auto;padding:0 28px 72px}
+
+/* kapak */
+.cover{padding:52px 0 40px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;letter-spacing:.15em;color:var(--accent-ink);font-weight:700;margin-bottom:14px}
+.cover h1{font-size:clamp(30px,4.4vw,44px);line-height:1.1;font-weight:800}
+.cover .lede{margin-top:18px;font-size:18px;line-height:1.6;max-width:62ch;color:var(--body)}
+.cover .meta{margin-top:24px;display:flex;gap:9px;flex-wrap:wrap;font-size:12px}
+.cover .meta span{border:1px solid var(--line);border-radius:999px;padding:6px 13px;
+  color:var(--muted);background:var(--surface)}
+
+/* bolumler */
+section{padding:44px 0;border-bottom:1px solid var(--line-soft)}
+section:last-of-type{border-bottom:0}
+.num{font-size:11px;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:10px}
+section h2{font-size:25px;font-weight:700;line-height:1.22}
+section > p{margin-top:16px;max-width:66ch}
+section > p + p{margin-top:13px}
+
+/* adim akisi */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;margin-top:26px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:20px}
+.step .k{width:26px;height:26px;border-radius:50%;background:var(--deep);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;margin-bottom:13px}
+.step h3{font-size:15px;font-weight:700;margin-bottom:7px}
+.step p{font-size:14px;color:var(--body);line-height:1.55}
+
+/* liste */
+.pts{margin:22px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:13px;max-width:66ch}
+.pts li{position:relative;padding-left:22px;font-size:15.5px}
+.pts li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;
+  border-radius:50%;background:var(--accent)}
+
+/* tablo */
+.tbl{width:100%;border-collapse:collapse;margin-top:24px;font-size:14.5px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tbl th{background:var(--deep);color:#fff;text-align:left;padding:12px 15px;font-weight:600;font-size:13.5px}
+.tbl td{padding:12px 15px;border-top:1px solid var(--line-soft);vertical-align:top;color:var(--body)}
+.tbl td:first-child{color:var(--ink);font-weight:600;white-space:nowrap}
+.wrapx{overflow-x:auto}
+
+/* not blogu */
+.note{background:var(--surface);border:1px solid var(--line);border-radius:13px;
+  padding:20px 22px;margin-top:26px}
+.note .lbl{font-size:11px;letter-spacing:.13em;color:var(--accent-ink);font-weight:700;margin-bottom:9px}
+.note p{font-size:14.5px;color:var(--body)}
+.note p + p{margin-top:10px}
+
+/* ornek sahne */
+.stage{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:13px;
+  padding:34px 30px;overflow:hidden}
+.stage .cap{font-size:11px;letter-spacing:.13em;color:#6B7F7A;font-weight:700;margin-bottom:20px}
+.stage .txt{font-family:system-ui,-apple-system,Arial,sans-serif;
+  font-size:16px;line-height:29px;color:#5F6B76;margin:0}
+
+.src{margin-top:34px;font-size:13px;color:var(--muted)}
+.src a{color:var(--accent-ink)}
+
+@media (max-width:640px){
+  .wrap{padding:0 18px 56px}
+  .band .in{padding:14px 18px}
+  .cover{padding:36px 0 30px}
+  section{padding:34px 0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="band">
+  <div class="in">
+    <div class="slot">
+      <span class="cap">MARKA</span>
+      <span class="plate"><img src="data:image/png;base64,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" alt="Turkcell" width="26" height="26"></span>
+    </div>
+    <div class="slot ib">
+      <span class="cap">HAZIRLAYAN</span>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOYAAAAwCAYAAAAFDQaJAAAABHNCSVQICAgIfAhkiAAABu1JREFUeJztneuV4ygQhYs9E80mMTiIicdyOpuE6CB207n7o8FGtIAqQAjLfOf4eMYSxeVRPCSgCXFWGhQA/8REn61tMuEA4E/C9/78dbbAyWTyk+mYk8mATMecTAZkOuZkMiApx3x0UzGZTDbMHnMyGZCYYz6UUqankMlk8mLPMY1SauktZDKZvAgd86GUup2iZDKZPPlFRMb++0FEBEC7i3vDWf96CGf468KPNFTOpfkMwnw+QlesLGviktaPd65Ph9Yb6ZK8kiV8ABYA614Y+9GxsBF71UvyrKYUYl2lAND2s5dHIQuApVGcMXSF3Wh+trjfhmlanwRpW5CuN+y4kVmSd2hGZhJRk6hixxRqEumSAr4zxih2UryhY+Kg+sRIk7TOIBc3znLMwsQAjIqGAsdEAyfI6eLSQEu1NryZY+LA+pRJT2m8ybhxhmPiZ6Vbd35LkcxMCB0T6UooIamLQ0MtVfoyOnRF+mIMW58SaZHEkU1HYLuvY+JV4At2ChjM3iKTYWzHRHtHWDiFGtFd0/o21Yc3cUx0qE8RXVmbAvaG5d0dE+ANR3MOE7UBmWOuoU4EhQzZwxdW+nZ09HBKtj68j2O2SA/LhmeLW1buYZAOdKz4WZeWII5+jgnhhBv5DNi1BaZj7thf9uwFYVg9LDeNzHQeQTKteAPHRKf6FNjglP9SqGfxrnV1TJbgjPhsBoDhmNhmsPg0BuR7T1ZaUTaUXiMfKbpQVzQcI73RNEnvR6f6FIRfE+FZNgJ7m3z2fu96goHpFIbD3dkvWc1kwxiG/Rw6c93Q9+KOm3pxi3yUUkoR0c2GSemTaBwV0ykMET0XDOjELQ/pclW78OBZ/9iOnWqxhPcXn7dToCHZY2LbSulSXRltQH64GGu9V6uxShsjnmj6MX6P2a0+eeHW0rAMTc8ysv8/b4GBQHQ0QyL35xzT2VtKNXlxJectmbB76FpNQq2xchzdMbvVJxsmN+XQpXq8OFz5LPjQw7g0Ndolk7OB+Dw4/N3Ykaip1RRDKbXYoa6/yb1Zz3xxUsN+03st7uUc06uELU9gqLXVddeObUx8ze8+1zybJnXJK5dseVzOMR0tW7hMr/k78rvLfPEDgxYEzql7x/9OIP3Qp3tvSXRNx7zTMU96YzZ1+IM/dDxz07mN2xBtNU1EfDW2Z+z3n9RNV3TMo5AUkLbfIxxoNoKG0dGJa6ZlRNze96qO2bqVSxLrjUY4osWrCPpEGZMtJnfDFR1T03GLFiSYswV4mLMFDE7sOcFpJ1pc0TGJjukdjODeaEFPhqTrCMvyd+riVR3zCLTg3jMKOoU+W8DkB/+lLl7RMc3ZAiz6bAGTes56mn1FxzwKyTzEEAkWLB/ICBreHH2GzSs65hcds9JFF4S5D/D+8E40xhPigTG9IvLqw8cNZYmo7RAkY8uEP9ge1P1+2nK4moXgn0TmyWvr8nP2/k3ddDnH9HoG3dBsqnByL/B1bwexOyVWGmuhw+iY2IUDpgPRuByXc0yPli2dLggT7vBAj/me7d19pyQa54HYyBz+JD2zJnfDVR3T/bmHpdZQpreLLnAOhrOOOxqdpB7i9ZKh3pK/3KZLNZSEG4HMHPzeqMyeGxuydyY2aw67sRW8M38cS4Wuqs2zmfBrjTbPvjuVjZ1/XviotgpNIpsHaSjNj+JN8QxNzrY7/S+5UfpXTWSD4/a93QGIt+7gNSSMkrOplDIADO33QJq+h7huN4wbSpk929g2Aq7l3bPrUzq3zNndBRd/NQNgLdlXa/OF31vaQKIWS3o/U8MqaaXAP77SRwv0JFvOAnvR9B1ItjxQeaJcYMv13iI9NfoTWtaYUUbYXNmvKK9L/unyH3m0iMNvnVZETvP2wbZ1iyHtgbs/FW1wYsIdMue8xCkJjPe9mmxdSt1k69pKXr5IyuTKQ1lSSi22kXSZ8xza0vfQ0dB22MatXCJHs0PaG2WGxg1hVQCbP78pPnS9A0hWVq8he9h0CqUOCef4jzu20xBDr3zcCytrnFNddov7mRrWmNHI/dI/KhS1X4CuSGfuYVItq1QfU9MK77hN++8FwQMNey1qIxK/6H5mmtaYUYENznSGy7Jj/2Mf/jxRSt2wfeFeyq1mf54Nq8AbLkspPdjaAMj1ENp+KFK3L7eAYWe0VUrRmU9Xn2M+sZW2tAI9Wh49uXOKXQ2GvhuM4jml1VMS3sVtSuMemYp8cRQfxPYxjkm0yWgjCHbIKXfBGbASPQ5D1iFbOIZSylg9XFuPVnGPTEG+EL0a8qU03o8Yyvq4FTn4ni/5wxRtvw3Zd4o9dmT4cXhzEbfFzNfkKFnJI9Fzw2ue6r8vNdQxX0bDjUiCeqPtt7HfX63y5n+b9r89aO1vPQAAAABJRU5ErkJggg==" alt="Inbound" width="105" height="22">
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="cover">
+    <div class="eyebrow">TURKCELL BLOG | GOOGLE GÖRÜNÜRLÜĞÜ</div>
+    <h1>Tercih Edilen Kaynak Butonu</h1>
+    <p class="lede">Google, 20 Ağustos 2026'da site sahiplerinin kendi sayfalarına yerleştirebileceği bir buton açtı. Okuyucu bu butona bastığında Turkcell Blog'u kendi arama tercihlerine ekliyor ve sonraki aramalarında markanın içeriklerini daha önce görüyor.</p>
+    <div class="meta">
+      <span>turkcell.com.tr/blog</span>
+      <span>Hazırlık tarihi: 28.08.2026</span>
+      <span>Uygulama: tek parça HTML</span>
+    </div>
+  </div>
+
+  <section>
+    <div class="num">01</div>
+    <h2>Ne değişti</h2>
+    <p>Google'ın arama tercihleri aracı bir süredir kullanıcı tarafında mevcuttu; okuyucu, arama sonuçlarında öne çıkmasını istediği kaynakları buradan seçebiliyordu. Yeni olan, seçimin <strong>yayıncının kendi sayfasından</strong> yapılabilmesi. Okuyucunun ayrı bir Google ekranına gidip markayı araması gerekmiyor.</p>
+    <p>Bu, arama görünürlüğünde alışılmış sıralama yarışından farklı bir alan açıyor: sıralamayı Google belirlerken, tercih edilen kaynak seçimini okuyucunun kendisi yapıyor.</p>
+  </section>
+
+  <section>
+    <div class="num">02</div>
+    <h2>Okuyucu tarafında nasıl işliyor</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="k">1</div>
+        <h3>Yazının içinde görür</h3>
+        <p>Kart, blog yazısının akışına yerleştirilir. Okuyucu içeriği okurken karşısına çıkar.</p>
+      </div>
+      <div class="step">
+        <div class="k">2</div>
+        <h3>Butona basar ve onaylar</h3>
+        <p>Google'ın kendi onay ekranı açılır. Onay verildikten sonra okuyucu kaldığı satıra geri döner.</p>
+      </div>
+      <div class="step">
+        <div class="k">3</div>
+        <h3>Sonraki aramalarında görür</h3>
+        <p>Markanın içerikleri, o okuyucunun arama sonuçlarında tercih edilen kaynak işaretiyle öne çıkar.</p>
+      </div>
+    </div>
+    <div class="note">
+      <div class="lbl">YÖNTEM</div>
+      <p>Tıklanan öğe Google'ın kendi resmî butonudur. Bunun getirisi, butonun okuyucunun diline göre otomatik çevrilmesi ve onay sonrası sayfaya dönüş davranışının Google tarafından yönetilmesidir. Butonu çevreleyen kart ise markaya özeldir: logo, renk, metin ve çerçeve markanın kendi tasarım diline göre kurulur.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="num">03</div>
+    <h2>Marka için ne ifade ediyor</h2>
+    <ul class="pts">
+      <li><strong>Sadık okuyucuyla doğrudan bağ.</strong> İçeriği beğenen okuyucu, bir kez onay vererek sonraki aramalarında markayı görmeyi seçmiş oluyor. Bu bağ algoritma değişikliklerinden bağımsız kalıyor.</li>
+      <li><strong>Yapay zeka cevaplarında görünürlük.</strong> Tercih edilen kaynak seçimi, Google'ın yapay zeka destekli arama deneyimlerinde de dikkate alınıyor. Arama sonuçlarının giderek cevap biçimine döndüğü bir dönemde bu alan değer kazanabilir.</li>
+      <li><strong>Rekabette erken konumlanma.</strong> Özellik yeni açıldığı için Türkiye'de yaygınlaşması henüz sınırlı. Erken uygulayan markaların okuyucu tabanını daha az rekabetle kurma fırsatı bulunuyor.</li>
+      <li><strong>Uygulama maliyeti düşük.</strong> Tek parça HTML kod, blog şablonuna bir kez eklenir. Sürekli bakım veya içerik üretimi gerektirmiyor.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="num">04</div>
+    <h2>Uygunluk koşulu</h2>
+    <p>Google, tercih edilen kaynak seçiminde yalnız domain ve subdomain seviyesini kabul ediyor. Alt dizinler bu kapsamda değerlendirilmiyor.</p>
+    <div class="wrapx">
+      <table class="tbl">
+        <thead><tr><th>Adres</th><th>Durum</th><th>Açıklama</th></tr></thead>
+        <tbody>
+          <tr><td>turkcell.com.tr</td><td>Uygun</td><td>Domain seviyesi</td></tr>
+          <tr><td>blog.turkcell.com.tr</td><td>Uygun</td><td>Subdomain seviyesi</td></tr>
+          <tr><td>turkcell.com.tr/blog</td><td>Uygun değil</td><td>Alt dizin, ayrı kaynak sayılmıyor</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:18px">Blog içeriği <strong>turkcell.com.tr</strong> alan adı altında yayınlandığı için seçim domain seviyesinde yapılır. Butonun yayına alınmasından önce markanın Google'ın kaynak tercihleri listesinde göründüğünün doğrulanması önerilir; bu kontrol Google hesabıyla giriş gerektirdiğinden marka tarafında yapılabilir.</p>
+  </section>
+
+  <section>
+    <div class="num">05</div>
+    <h2>Örnek</h2>
+    <p>Aşağıdaki kart, Turkcell Blog'un ölçülen tasarım değerleriyle kurulmuştur: içerik kolonu genişliği, paragraf tipografisi, başlık rengi ve köşe yarıçapı canlı sayfadan alınmıştır. Kart, yazı akışının içinde bu biçimde görünür.</p>
+    <div class="stage">
+      <div class="cap">YAZI İÇİ GÖRÜNÜM</div>
+      <p class="txt">FPS (Frames Per Second), bir ekranda saniye başına çizilen kare sayısını gösteren temel performans ölçütüdür. Değer ne kadar yüksek olursa hareket o kadar akıcı algılanıyor.</p>
+      <style>.tcps{--bg:#164193;--ink:#FFFFFF;--sub:#C6D3EA;--line:rgba(255,255,255,.20);display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin:26px 0;padding:20px 24px;background:var(--bg);border:1px solid var(--line);border-radius:12px;font-family:system-ui,-apple-system,Arial,sans-serif;color:var(--ink);box-sizing:border-box}.tcps *{box-sizing:border-box}.tcps__mark{flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:transparent;padding:0;border-radius:0}.tcps__logo{display:block;width:38px;height:38px}.tcps__copy{flex:1 1 200px;min-width:0}.tcps__ttl{display:block;font-size:17px;line-height:1.35;font-weight:700;color:var(--ink);letter-spacing:-.01em}.tcps__sub{display:block;margin-top:5px;font-size:14.5px;line-height:1.5;color:var(--sub)}.tcps__act{flex:0 0 auto;margin-left:auto;min-height:44px;display:flex;align-items:center}.tcps__btn{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:11px 18px;border-radius:999px;font-size:14.5px;font-weight:600;line-height:1.2;border:1px solid #DADCE0;background:#FFFFFF;color:#1F1F1F;white-space:nowrap}@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}.tcps{position:relative;border-color:transparent}.tcps::before{content:'';position:absolute;inset:-2px;border-radius:14px;padding:2px;background:conic-gradient(from var(--tcps-a),rgba(255,201,0,.10) 0deg,rgba(255,201,0,.10) 20deg,rgba(255,201,0,.7) 45deg,rgb(255,201,0) 58deg,rgba(255,201,0,.7) 71deg,rgba(255,201,0,.10) 96deg,rgba(255,201,0,.10) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:tcps-spin 7s linear infinite}@keyframes tcps-spin{0%{--tcps-a:0deg;animation-timing-function:cubic-bezier(.5,0,.5,1)}38%{--tcps-a:205deg;animation-timing-function:cubic-bezier(.5,0,.5,1)}62%{--tcps-a:250deg;animation-timing-function:cubic-bezier(.5,0,.5,1)}100%{--tcps-a:360deg}}@media (prefers-reduced-motion:reduce){.tcps::before{animation:none}}</style>
+<div class="tcps">
+  <div class="tcps__mark"><img class="tcps__logo" src="data:image/png;base64,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" alt="Turkcell" width="38" height="38"></div>
+  <div class="tcps__copy">
+    <strong class="tcps__ttl">Turkcell Blog’u Google’da tercih edilen kaynaklarınıza ekleyin</strong>
+    <span class="tcps__sub">Teknoloji ve mobil dünyasına dair içeriklerimiz arama sonuçlarınızda daha önce çıksın.</span>
+  </div>
+  <div class="tcps__act"><span class="tcps__btn"><svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Tercih edilen kaynak olarak ekle</span></div>
+</div>
+      <p class="txt">FPS değeri oyun deneyiminden video düzenlemeye, simülasyon yazılımlarından CAD uygulamalarına kadar görsel çıktının kalitesini doğrudan belirleyen bir metrik.</p>
+    </div>
+    <p style="margin-top:18px">Kartın tonu, yerleşimi ve çerçevesi ayrı ayrı seçilebilir. Toplam 45 kombinasyon, ayrı bir yapılandırıcı üzerinden canlı olarak karşılaştırılabilir ve seçim yapıldıktan sonra ilgili kod teslim edilir.</p>
+  </section>
+
+  <section>
+    <div class="num">06</div>
+    <h2>Teslim kapsamı</h2>
+    <div class="wrapx">
+      <table class="tbl">
+        <thead><tr><th>Parça</th><th>İçerik</th></tr></thead>
+        <tbody>
+          <tr><td>Kart kodu</td><td>Tek parça HTML ve CSS. Yorum satırı içermez, blog şablonuna doğrudan yerleştirilir.</td></tr>
+          <tr><td>Google script'i</td><td>Sayfa başına bir kez yüklenen resmî buton script'i.</td></tr>
+          <tr><td>Ölçüm kodu</td><td>Görüntülenme ve tıklama için GA4 katmanı. İsteğe bağlıdır; buton ölçüm kodu olmadan da çalışır.</td></tr>
+          <tr><td>Yerleştirme notu</td><td>Hangi şablona, gövdenin neresine ekleneceği.</td></tr>
+          <tr><td>Kontrol listesi</td><td>Yayın öncesi mobil, kontrast, sayfa kayması ve erişilebilirlik kontrolleri.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="num">07</div>
+    <h2>Ölçüm ve sınırlar</h2>
+    <p>Kartın <strong>görüntülenme sayısı</strong> güvenilir biçimde ölçülebilir. <strong>Tıklama sayısı</strong> ise yaklaşık olarak ölçülür: Google'ın butonu sayfaya ayrı bir çerçeve içinde yerleştiği için tıklama doğrudan yakalanamıyor, dolaylı yöntemle tahmin ediliyor.</p>
+    <p><strong>Kaç okuyucunun markayı tercih edilen kaynak olarak eklediği ölçülemez.</strong> Onay Google tarafında gerçekleşiyor ve siteye geri sinyal dönmüyor. Bu nedenle raporlamada ekleme sayısı yerine görüntülenme ve tıklama eğilimi paylaşılır.</p>
+    <div class="note">
+      <div class="lbl">NOT</div>
+      <p>Butonun görünümü Google tarafından belirlenir ve marka renklerine göre değiştirilemez. Kartın rengi, logosu, metni ve çerçevesi markaya özeldir; içindeki buton Google'ın standart butonudur.</p>
+    </div>
+  </section>
+
+  <p class="src">Kaynak: Google Search Central, Preferred Sources dokümantasyonu · <a href="https://developers.google.com/search/docs/appearance/preferred-sources" target="_blank" rel="noopener noreferrer">developers.google.com/search/docs/appearance/preferred-sources</a><br>Tasarım değerleri: turkcell.com.tr/blog/fps-nedir sayfasından 28.08.2026 tarihinde ölçülmüştür.</p>
+
+</div>

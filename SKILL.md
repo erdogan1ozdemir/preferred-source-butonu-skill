@@ -13,7 +13,7 @@ Ayrıntılı dokümantasyon: `references/google-preferred-sources.md`
 
 ## Akış
 
-Beş aşama sırayla işletilir. Aşama 0 geçilmeden kod üretilmez.
+Altı aşama sırayla işletilir. Aşama 0 geçilmeden kod üretilmez, Aşama 2 paylaşılmadan varyant üretilmez.
 
 ### Aşama 0 · Uygunluk ön kontrolü
 
@@ -34,13 +34,35 @@ Kurallar:
 - Çerez bandı varsa **reddedilir** (kabul edilmez), sonra ölçülür.
 - **Logo seçimi:** header'daki lockup çoğu markada kendi zemin plakasını taşır. Kurumsal sembol (şeffaf, kare) varsa o tercih edilir; kartın her tonunda çalışır ve büyütülebilir.
 
-### Aşama 2 · Ton, yerleşim, çerçeve üretimi
+### Aşama 2 · Markaya sunum dokümanı
+
+Varyantlardan **önce**, süreci markaya anlatan tek dosyalık bir HTML doküman üretilir: `scripts/build_button.py config.json dokuman.html --doc`
+
+Bu doküman "şu butonu ekleyelim" demez; **neden** eklendiğini ve markanın ne kazanacağını anlatır. Yedi bölüm:
+
+| Bölüm | İçerik |
+|---|---|
+| 01 Ne değişti | Google'ın 20 Ağustos 2026'da açtığı yetki, eskisinden farkı |
+| 02 Okuyucu tarafında nasıl işliyor | Üç adımlık akış: görür, onaylar, sonraki aramalarında görür |
+| 03 Marka için ne ifade ediyor | Sadık okuyucu bağı, AI cevaplarında görünürlük, erken konumlanma, düşük uygulama maliyeti |
+| 04 Uygunluk koşulu | Domain / subdomain / alt dizin tablosu, markanın kendi durumu |
+| 05 Örnek | Markanın ölçülen değerleriyle kurulmuş **canlı kart**, yazı akışı içinde |
+| 06 Teslim kapsamı | Hangi parçaların verileceği |
+| 07 Ölçüm ve sınırlar | Neyin ölçülebildiği, neyin ölçülemediği |
+
+**Örnek bölümü zorunludur.** Marka kartı yazıda göreceği biçimde görmeden karar veremez; doküman bu yüzden statik bir görsel değil, gerçek kartı canlı basar.
+
+**Dil rejimi [A] kurumsal.** `icerik-dili-rehberi` kuralları bağlayıcıdır: em dash yok, emoji yok, kesin vaat yok, pasif ton, CSS `text-transform:uppercase` ile Türkçe etiket üretilmez. Logo bandı zorunludur: marka logosu solda, Inbound logosu sağda, ikisi de `data:` URI olarak gömülü.
+
+**Kaynaksız istatistik yazılmaz.** Dolaşımdaki "iki kat tıklama" ve "600.000 kaynak seçildi" gibi sayılar Google'ın resmî dokümantasyonunda doğrulanamadı; doğrulanabilir bir kaynak bulunmadıkça dokümana girmez.
+
+### Aşama 3 · Ton, yerleşim, çerçeve üretimi
 
 Ölçülen token'lardan 3 ton, 3 yerleşim ve 5 çerçeve türetilir. Üçü **bağımsız eksendir**, 45 kombinasyon serbestçe eşleşir. Tam spesifikasyon: `references/ton-yerlesim-cerceve.md`
 
 Her tonun metin/zemin kontrastı `scripts/contrast.py` ile hesaplanır; WCAG AA (4.5:1) altındaysa ton otomatik düzeltilir.
 
-### Aşama 3 · Yapılandırıcı
+### Aşama 4 · Yapılandırıcı
 
 `scripts/build_button.py` token JSON'undan **tek dosyalık, kendi kendine yeten bir HTML** üretir: ton, yerleşim, çerçeve, cihaz ve `data-theme` seçicileri; markanın kendi tipografisiyle kurulmuş sahte yazı sayfası içinde canlı önizleme; anında güncellenen kod bloğu ve kontrast uyarısı.
 
@@ -50,7 +72,7 @@ Her tonun metin/zemin kontrastı `scripts/contrast.py` ile hesaplanır; WCAG AA 
 
 Yayınlamadan veya teslim etmeden önce **45 kombinasyon taranır** (bkz. `references/qa-checklist.md`). Taşma, buton dokunma alanı ve yatay kaydırma sıfır olmalıdır.
 
-### Aşama 4 · Teslim
+### Aşama 5 · Teslim
 
 Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 
@@ -61,6 +83,7 @@ Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 
 ## Değişmez kurallar
 
+- **Doküman varyantlardan önce gelir.** Marka süreci anlamadan tasarım seçimi yapmaz.
 - **Kod yalın olur.** Üretilen HTML, CSS ve JS'te `<!-- -->` yorumu bulunmaz. Açıklama koda değil, sohbete veya not bölümüne yazılır.
 - **Logo dış adresten çekilir.** Üretim kodunda `data:` URI kullanılmaz; yalnız artifact önizlemesinde gömülür.
 - **Butona sabit `min-height:44px`** verilir. Script geç yüklendiğinde sayfa zıplamaz ve dokunma alanı korunur.

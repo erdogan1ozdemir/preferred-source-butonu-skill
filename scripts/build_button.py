@@ -1,7 +1,8 @@
 """Marka config'inden preferred source yapilandiricisini uretir.
 
 Kullanim:
-    python3 build_button.py config.json cikti.html
+    python3 build_button.py config.json yapilandirici.html
+    python3 build_button.py config.json dokuman.html --doc
 
 config.json anahtarlari configurator_template.html icindeki {{...}} yer
 tutucularina birebir karsilik gelir. LOGO_B64 dogrudan verilebilir ya da
@@ -20,6 +21,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, "configurator_template.html")
+DOC_TEMPLATE = os.path.join(HERE, "brand_doc_template.html")
 
 ZORUNLU = [
     "BRAND_NAME", "BLOG_URL", "ARTICLE_URL", "LOGO_URL",
@@ -48,13 +50,16 @@ def logo_b64(cfg):
     return raw
 
 
-def build(cfg):
-    tpl = open(TEMPLATE, encoding="utf-8").read()
+def build(cfg, template=None):
+    tpl = open(template or TEMPLATE, encoding="utf-8").read()
     eksik = [k for k in ZORUNLU if not cfg.get(k)]
     if eksik:
         raise SystemExit("Eksik config anahtarlari: " + ", ".join(eksik))
     cfg = dict(cfg)
     cfg["LOGO_B64"] = logo_b64(cfg)
+    if "INBOUND_B64" not in cfg and cfg.get("INBOUND_FILE"):
+        cfg["INBOUND_B64"] = base64.b64encode(
+            open(cfg["INBOUND_FILE"], "rb").read()).decode()
     for k, v in sorted(cfg.items(), key=lambda kv: -len(kv[0])):
         tpl = tpl.replace("{{%s}}" % k, str(v))
     kalan = set(re.findall(r"\{\{([A-Z_0-9]+)\}\}", tpl))
@@ -89,13 +94,17 @@ def main():
     if len(sys.argv) < 3:
         raise SystemExit(__doc__)
     cfg = json.load(open(sys.argv[1], encoding="utf-8"))
-    html = build(cfg)
+    doc = "--doc" in sys.argv
+    html = build(cfg, DOC_TEMPLATE if doc else None)
     sorun = dogrula(html)
     if sorun:
         raise SystemExit("DOGRULAMA BASARISIZ:\n  - " + "\n  - ".join(sorun))
     open(sys.argv[2], "w", encoding="utf-8").write(html)
     print("yazildi: %s (%d bayt)" % (sys.argv[2], len(html.encode())))
-    print("dogrulama gecti. 45 kombinasyonu tarayin, sonra dosyayi tarayicida acin")
+    if doc:
+        print("markaya giden dokuman. Once bu paylasilir, sonra varyantlar uretilir.")
+    else:
+        print("yapilandirici. 45 kombinasyonu tarayin, sonra tarayicida acin")
     print("veya Artifact araci varsa yayinlayin. Dosya kendi kendine yeter.")
 
 
