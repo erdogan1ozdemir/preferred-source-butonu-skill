@@ -40,6 +40,7 @@ document.head.appendChild(st);
 - **Çifte çerçeve çizgisi:** halka aktifken kartın kendi kenarlığı `transparent` olmalı. İkisi birlikte görünürse aralarında boşluk kalan iki çizgi oluşur.
 - **Çerçeve sürekliliği:** halkanın düşük alfalı kuyruğu çemberin tamamını kapatmalı. Kuyruk `transparent` bırakılırsa kart, kendi kenarlığı da şeffaf olduğu için çerçevesiz görünür.
 - **Dönüş algılanıyor mu:** gradyanda parlak yoğunluk bölgesi yoksa dönüş görünmez. `--tcps-a` iki farklı açıya sabitlenip parlak bölgenin yer değiştirdiği doğrulanır.
+- **Hız değişimi:** `animation-delay` negatif değerlerle tura sarılıp `--tcps-a` örneklenir; ardışık açı farkları hızın değiştiğini göstermelidir. Döngü ek yerinde son ve ilk hız birbirine yakın olmalı, yoksa tur başa sarınca sıçrama görünür.
 - **Halka görünürlüğü:** conic kenarlıkta `::before` üzerinde ne `z-index` ne `isolation` olmalı. `isolation:isolate` + `z-index:-1` parıltıyı kartın zemininin üstüne boyar ve renk kart yüzeyine taşar; `isolation` olmadan `z-index:-1` ise halkayı sayfa zemininin arkasına düşürür. Kartın arkasına parıltı gerekiyorsa (geniş hale) sarmalayıcı kullanılır.
 - **Hareket kısıtı:** işletim sisteminde hareket azaltma açıkken animasyon duruyor mu.
 - **Font:** kart markanın kendi fontuyla mı geliyor (lisanslı fontlar önizlemede sistem fontuna düşer).

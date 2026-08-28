@@ -56,9 +56,14 @@ Işık yayı **kartın kenar çizgisinin dışında** dolaşır. Gradyan `mask-c
   -webkit-mask-composite:xor;
           mask-composite:exclude;
   pointer-events:none;
-  animation:tcps-spin 6s linear infinite;
+  animation:tcps-spin 7s linear infinite;
 }
-@keyframes tcps-spin{to{--tcps-a:360deg}}
+@keyframes tcps-spin{
+  0%  {--tcps-a:0deg;   animation-timing-function:cubic-bezier(.5,0,.5,1)}
+  38% {--tcps-a:205deg; animation-timing-function:cubic-bezier(.5,0,.5,1)}
+  62% {--tcps-a:250deg; animation-timing-function:cubic-bezier(.5,0,.5,1)}
+  100%{--tcps-a:360deg}
+}
 ```
 
 - **`padding` + `mask-composite:exclude` çifti zorunlu.** Maske pseudo-element'in içini dışarıda bırakır, geriye yalnız kenar şeridi kalır. `padding` kaldırılırsa gradyan tüm alanı doldurur.
@@ -94,7 +99,7 @@ Bulanık conic parıltı kartın **arkasında** durur. Bunun için sarmalayıcı
   content:'';position:absolute;inset:-9px;border-radius:21px;
   background:conic-gradient(from var(--tcps-a), <marka durakları>);
   filter:blur(15px);opacity:.55;pointer-events:none;
-  animation:tcps-spin 6s linear infinite;
+  animation:tcps-spin 7s linear infinite;
 }
 ```
 
@@ -113,6 +118,18 @@ Bu yüzden üç efektin de duraklarında bir **parlak yoğunluk bölgesi** ve d�
 | `f4` | marka rengi `55deg`, mavi `110deg` | `.12` alfa, `200deg` sonrası |
 
 **Kuyruk şeffaf değil, düşük alfalı olmalıdır.** Tamamen `transparent` bırakılırsa çemberin büyük bölümünde hiç çizgi kalmaz; halka aktifken kartın kendi kenarlığı zaten `transparent` olduğu için kart **çerçevesiz** görünür. Bu hata bir kez yapıldı: `f1`'in kuyruğu `transparent`ti, lacivert kartta çerçeve hiç görünmüyordu.
+
+### Değişken dönüş hızı
+
+Sabit hızlı (`linear`, tek `to{}` karesi) dönüş mekanik durur. Bunun yerine anahtar kareler **eşit olmayan açı adımlarıyla** yazılır ve her kareye `cubic-bezier(.5,0,.5,1)` yumuşatması verilir.
+
+- `0%` -> `38%` arası 205 derece: hızlı süpürme.
+- `38%` -> `62%` arası yalnız 45 derece: neredeyse duraklama.
+- `62%` -> `100%` arası 110 derece: orta hızda tamamlama.
+
+Ölçülen sonuç: hız **7 ile 146 derece/saniye** arasında değişiyor, oran 20 kat.
+
+**Döngü ek yeri kuralı:** son ve ilk karedeki hız birbirine yakın olmalıdır. Kare başına yumuşatma verildiği için her anahtar karede hız sıfıra yaklaşır; `100%` ve `0%` de yavaş olduğundan tur başa sardığında sıçrama görünmez. Kareler `linear` bırakılırsa ek yerinde ani hız değişimi fark edilir.
 
 ### Ortak kurallar
 
