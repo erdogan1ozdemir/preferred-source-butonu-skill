@@ -1,0 +1,576 @@
+<title>Turkcell Tercih Edilen Kaynak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#F0EDE8; --surface:#FFFFFF; --surface-2:#F7F5F1;
+  --ink:#10332F; --muted:#5F736E; --line:#DFD9D0; --line-soft:#EAE5DD;
+  --accent:#FF7B52; --accent-ink:#B0421F; --gold:#F5A623;
+  --code-bg:#10332F; --code-ink:#DCE9E5; --code-line:#1E4640;
+  --shadow:0 1px 2px rgba(16,51,47,.06),0 8px 28px rgba(16,51,47,.07);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0A1D1A; --surface:#10332F; --surface-2:#0D2724;
+    --ink:#E9F0ED; --muted:#93AAA4; --line:#1E4640; --line-soft:#193C37;
+    --accent:#FF8C68; --accent-ink:#FFB79E; --gold:#F5A623;
+    --code-bg:#061512; --code-ink:#CFE2DD; --code-line:#1E4640;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0A1D1A; --surface:#10332F; --surface-2:#0D2724;
+  --ink:#E9F0ED; --muted:#93AAA4; --line:#1E4640; --line-soft:#193C37;
+  --accent:#FF8C68; --accent-ink:#FFB79E; --gold:#F5A623;
+  --code-bg:#061512; --code-ink:#CFE2DD; --code-line:#1E4640;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Bricolage Grotesque","Outfit",system-ui,sans-serif;text-wrap:balance;margin:0}
+code,kbd,.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---------- header ---------- */
+.hd{
+  border-bottom:1px solid var(--line); background:var(--surface);
+  padding:18px 26px; display:flex; flex-wrap:wrap; gap:18px;
+  align-items:baseline; justify-content:space-between;
+}
+.hd h1{font-size:20px;font-weight:800;letter-spacing:-.015em}
+.hd .sub{color:var(--muted);font-size:13.5px;margin-top:3px}
+.stamp{
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  font-size:11px;letter-spacing:.04em;font-weight:600;
+}
+.stamp span{
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px;
+  color:var(--muted);background:var(--surface-2);
+}
+.stamp span.live{color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+
+/* ---------- shell ---------- */
+.wrap{display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;align-items:start}
+.rail{
+  position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;
+  border-right:1px solid var(--line);background:var(--surface);
+  padding:22px 20px 40px;display:flex;flex-direction:column;gap:26px;
+}
+main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
+
+/* ---------- rail groups ---------- */
+.grp>.lbl{
+  font-size:10.5px;letter-spacing:.11em;font-weight:700;
+  color:var(--muted);display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;
+}
+.grp>.lbl b{color:var(--ink);font-weight:700;letter-spacing:.02em;font-size:12px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:grid;grid-template-columns:44px minmax(0,1fr);gap:11px;align-items:center;
+  border:1px solid var(--line);background:var(--surface-2);border-radius:10px;
+  padding:9px 11px;cursor:pointer;text-align:left;color:inherit;font:inherit;
+  transition:border-color .15s,background .15s,box-shadow .15s;
+}
+.opt:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt[aria-pressed="true"]{
+  border-color:var(--accent);background:var(--surface);
+  box-shadow:0 0 0 1px var(--accent) inset;
+}
+.opt .nm{display:block;font-size:13px;font-weight:600;line-height:1.25}
+.opt .ds{display:block;font-size:11.5px;color:var(--muted);line-height:1.35;margin-top:3px}
+.swatch{height:34px;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:5px}
+.swatch i{display:block;height:3px;border-radius:2px;background:currentColor;opacity:.55}
+.swatch i:first-child{width:70%}.swatch i:last-child{width:45%}
+.swatch.t1{background:#164193;color:#fff}
+.swatch.t2{background:#FDFBE3;color:#253342;border:1px solid #E4DFA8}
+.swatch.t3{background:#fff;color:#253342;border:1px solid #E3E7EB}
+.swatch.pl{background:var(--surface);border:1px solid var(--line);color:var(--muted);
+  display:flex;flex-direction:column;gap:2.5px;justify-content:center;padding:6px 5px}
+.swatch.pl u{display:block;height:2px;background:currentColor;opacity:.3;border-radius:2px;text-decoration:none}
+.swatch.pl b{display:block;height:8px;border-radius:2px;background:var(--accent);opacity:.85}
+.swatch.pl b.thin{height:4px}
+
+.swatch.fr{background:var(--surface-2);border:1px solid var(--line);display:flex;
+  align-items:center;justify-content:center;padding:0;position:relative;isolation:isolate}
+.swatch.fr span{display:block;width:24px;height:14px;border-radius:4px;background:#164193;position:relative;z-index:1}
+.swatch.fr.f1 span::after,.swatch.fr.f3 span::after{content:"";position:absolute;inset:-3px;
+  border-radius:6px;z-index:-1;filter:blur(3px)}
+.swatch.fr.f1 span::after{background:conic-gradient(#FFC900,#0071CE,#164193,#FFC900)}
+.swatch.fr.f3 span::after{background:conic-gradient(#FF4D4D,#FFC900,#39D98A,#0071CE,#A24DFF,#FF4D4D)}
+.swatch.fr.f2 span{box-shadow:0 0 9px rgba(22,65,147,.75)}
+
+.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--surface-2)}
+.seg button{
+  flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12.5px;font-weight:600;
+  padding:8px 6px;cursor:pointer;transition:background .15s,color .15s;
+}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+.tokens{border-top:1px solid var(--line-soft);padding-top:16px}
+.tokens dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;font-size:11.5px}
+.tokens dt{color:var(--muted)}
+.tokens dd{margin:0;text-align:right;font-family:"JetBrains Mono",monospace;font-size:10.8px;font-variant-numeric:tabular-nums;display:flex;gap:6px;align-items:center;justify-content:flex-end}
+.chip{width:11px;height:11px;border-radius:3px;border:1px solid rgba(128,128,128,.35);flex:none}
+.src{font-size:10.5px;color:var(--muted);margin-top:12px;line-height:1.45}
+
+/* ---------- stage ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.panel>header{
+  padding:13px 18px;border-bottom:1px solid var(--line-soft);
+  display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+}
+.panel h2{font-size:13.5px;font-weight:700;letter-spacing:-.005em}
+.panel .hint{font-size:11.5px;color:var(--muted)}
+.stage-body{background:var(--surface-2);padding:26px 20px;display:flex;justify-content:center}
+.viewport{
+  background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(16,51,47,.13);
+  width:894px;max-width:100%;transition:width .3s ease;overflow:hidden;
+}
+.viewport.mob{width:375px}
+.tcbar{background:#164193;height:44px;display:flex;align-items:center;padding:0 16px;gap:14px}
+.tcbar .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35)}
+.tcbar .u{margin-left:6px;font-size:10.5px;color:rgba(255,255,255,.8);font-family:"JetBrains Mono",monospace;
+  background:rgba(255,255,255,.12);border-radius:5px;padding:3px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* --- mock article: measured Turkcell tokens --- */
+.art{padding:26px 24px 34px;font-family:greycliff,system-ui,-apple-system,Arial,sans-serif;background:#fff}
+.viewport.mob .art{padding:18px 16px 26px}
+.art .crumb{font-size:12px;color:#5F6B76;margin-bottom:12px}
+.art h3.t{font-size:32px;line-height:1.16;font-weight:800;color:#253342;letter-spacing:-.02em;margin:0 0 14px;
+  font-family:greycliff,system-ui,-apple-system,Arial,sans-serif}
+.viewport.mob .art h3.t{font-size:23px}
+.art .meta{display:flex;gap:9px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+.art .pill{background:#EFE700;color:#000;font-size:12px;font-weight:600;border-radius:16px;padding:4px 12px}
+.art .by{font-size:12.5px;color:#5F6B76}
+.art p{font-size:17.6px;line-height:31.68px;color:#5F6B76;margin:0 0 20px}
+.viewport.mob .art p{font-size:16px;line-height:28px}
+.art h4.s{font-size:28.16px;line-height:1.25;font-weight:700;color:#253342;margin:26px 0 14px;
+  font-family:greycliff,system-ui,-apple-system,Arial,sans-serif}
+.viewport.mob .art h4.s{font-size:21px}
+.art .hero{height:150px;border-radius:12px;margin-bottom:22px;
+  background:linear-gradient(118deg,#164193,#0071CE 58%,#3E8FD6)}
+.viewport.mob .art .hero{height:104px}
+
+/* ---------- code ---------- */
+.codewrap{background:var(--code-bg)}
+.codewrap pre{
+  margin:0;padding:20px 22px;overflow-x:auto;color:var(--code-ink);
+  font-family:"JetBrains Mono",monospace;font-size:12.2px;line-height:1.72;tab-size:2;
+}
+.codewrap pre::selection,.codewrap pre *::selection{background:rgba(255,123,82,.35)}
+.tabs{display:flex;gap:2px}
+.tabs button{
+  border:1px solid var(--line);background:var(--surface-2);color:var(--muted);
+  font:inherit;font-size:12px;font-weight:600;padding:6px 13px;border-radius:8px;cursor:pointer;
+}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.copy{
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+  font:inherit;font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer;
+}
+.copy:hover{border-color:var(--accent)}
+.copy:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- notes ---------- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 17px}
+.note h3{font-size:12.5px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.note h3 s{width:7px;height:7px;border-radius:50%;background:var(--accent);text-decoration:none;flex:none}
+.note h3 s.gold{background:var(--gold)}
+.note ul{margin:0;padding-left:17px;font-size:12.8px;color:var(--muted);line-height:1.62}
+.note li+li{margin-top:5px}
+.note li b{color:var(--ink);font-weight:600}
+.note code{font-size:11.4px;background:var(--surface-2);border:1px solid var(--line-soft);
+  border-radius:4px;padding:1px 5px;color:var(--ink)}
+
+@media (max-width:940px){
+  .wrap{grid-template-columns:1fr}
+  .rail{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+  main{padding:18px}
+  .stage-body{padding:16px 10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="hd">
+  <div>
+    <h1>Tercih Edilen Kaynak Butonu</h1>
+    <div class="sub">Turkcell Blog · ton ve yerleşim serbestçe eşleştirilir, kod anında güncellenir</div>
+  </div>
+  <div class="stamp">
+    <span class="live">Canlı ölçüm · 28.08.2026</span>
+    <span>turkcell.com.tr/blog</span>
+  </div>
+</header>
+
+<div class="wrap">
+<aside class="rail">
+
+  <div class="grp">
+    <div class="lbl">KART TONU <b id="tone-nm">Lacivert kontrast</b></div>
+    <div class="opts" id="tones"></div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">YERLEŞİM <b id="place-nm">Tam genişlik banner</b></div>
+    <div class="opts" id="places"></div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">ÇERÇEVE <b id="frame-nm">Sade</b></div>
+    <div class="opts" id="frames"></div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">CİHAZ</div>
+    <div class="seg" id="dev">
+      <button type="button" data-v="desk" aria-pressed="true">Masaüstü 894</button>
+      <button type="button" data-v="mob" aria-pressed="false">Mobil 375</button>
+    </div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">GOOGLE BUTONU TEMASI</div>
+    <div class="seg" id="gtheme">
+      <button type="button" data-v="light" aria-pressed="true">light</button>
+      <button type="button" data-v="dark" aria-pressed="false">dark</button>
+    </div>
+    <div class="src">Karta göre önerilen değer otomatik seçilir. Yayın öncesi canlıda görülüp ters düşüyorsa çevrilir.</div>
+  </div>
+
+  <div class="grp tokens">
+    <div class="lbl">ÖLÇÜLEN TOKEN'LAR</div>
+    <dl>
+      <dt>Gövde zemini</dt><dd><i class="chip" style="background:#fff"></i>#FFFFFF</dd>
+      <dt>Başlık rengi</dt><dd><i class="chip" style="background:#253342"></i>#253342</dd>
+      <dt>Paragraf rengi</dt><dd><i class="chip" style="background:#5F6B76"></i>#5F6B76</dd>
+      <dt>Marka lacivert</dt><dd><i class="chip" style="background:#164193"></i>#164193</dd>
+      <dt>Marka sarı</dt><dd><i class="chip" style="background:#EFE700"></i>#EFE700</dd>
+      <dt>İçerik kolonu</dt><dd>846px</dd>
+      <dt>Paragraf</dt><dd>17.6 / 31.68</dd>
+      <dt>Köşe yarıçapı</dt><dd>12px</dd>
+      <dt>Font</dt><dd>greycliff</dd>
+    </dl>
+    <div class="src">Kaynak: turkcell.com.tr/blog/fps-nedir · getComputedStyle · 1440px viewport</div>
+  </div>
+</aside>
+
+<main>
+
+  <section class="panel">
+    <header>
+      <div>
+        <h2>Yazı içi önizleme</h2>
+        <div class="hint">Gövde metni ve tipografi Turkcell'in ölçülen değerleriyle kuruldu</div>
+      </div>
+      <div class="hint" id="contrast"></div>
+    </header>
+    <div class="stage-body">
+      <div class="viewport" id="vp">
+        <div class="tcbar"><i class="dot"></i><i class="dot"></i><i class="dot"></i>
+          <span class="u">turkcell.com.tr/blog/fps-nedir</span></div>
+        <article class="art">
+          <div class="crumb">Blog › Teknoloji</div>
+          <h3 class="t">FPS Nedir, Ne İşe Yarar? FPS Değerleri Ne Anlama Gelir?</h3>
+          <div class="meta"><span class="pill">Teknoloji</span><span class="by">Turkcell · 4 dk</span></div>
+          <div class="hero"></div>
+          <p>FPS (Frames Per Second), bir ekranda saniye başına çizilen kare sayısını gösteren temel performans ölçütüdür. Değer ne kadar yüksek olursa hareket o kadar akıcı algılanıyor; rekabetçi oyunlarda 60 FPS altı tepki süresini hissedilir biçimde uzatıyor.</p>
+          <div id="slot-a"></div>
+          <p>FPS değeri oyun deneyiminden video düzenlemeye, simülasyon yazılımlarından CAD uygulamalarına kadar görsel çıktının kalitesini doğrudan belirleyen bir metrik. Aynı oyun farklı sistemlerde farklı FPS değerleri üretebiliyor; çünkü kare üretimi tek bir bileşene değil, sistemin bütününe bağlı.</p>
+          <h4 class="s">FPS Nedir?</h4>
+          <p>FPS, "Frames Per Second" yani saniyede gösterilen kare sayısı anlamına geliyor; ekran kartının bir saniye içinde işleyip ekrana yansıttığı görüntü adedini ifade ediyor. İnsan gözü 24 FPS üzerini akıcı hareket olarak algılıyor ancak bu eşik sinema deneyimi için geçerli; etkileşimli içeriklerde rahat algı için en az 60 FPS gerekiyor.</p>
+          <div id="slot-b"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header>
+      <div class="tabs" id="tabs">
+        <button type="button" data-t="html" aria-pressed="true">HTML + CSS</button>
+        <button type="button" data-t="ga4" aria-pressed="false">GA4 takibi</button>
+      </div>
+      <button type="button" class="copy" id="cp">Kodu kopyala</button>
+    </header>
+    <div class="codewrap"><pre id="code"></pre></div>
+  </section>
+
+  <div class="notes">
+    <div class="note">
+      <h3><s class="gold"></s>Yayın öncesi kontrol</h3>
+      <ul>
+        <li><b>Uygunluk:</b> Google hesabıyla giriş yapıp <code>google.com/preferences/source?q=turkcell.com.tr</code> adresinde marka listede mi bakılır. Google yalnız domain ve subdomain kabul ediyor, alt dizin uygun değil.</li>
+        <li><b>Script tekrarı:</b> <code>publisher.js</code> sayfa başına yalnız bir kez yüklenir; şablona konursa kart parçasından çıkarılır.</li>
+        <li><b>data-theme:</b> canlıda görülür, buton karta karışıyorsa değer çevrilir.</li>
+        <li><b>Glow çerçeveler</b> kartın 11px dışına taşar. Yazı gövdesinde <code>overflow:hidden</code> varsa parıltı kırpılır; şablonda kontrol edilir.</li>
+        <li>Hareket <code>prefers-reduced-motion</code> ile duruyor; halka statik kalıyor.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3><s></s>Yerleştirme</h3>
+      <ul>
+        <li><b>Tam genişlik banner</b> ilk paragraftan sonra: okuma akışı henüz kesilmemişken en yüksek görünürlük.</li>
+        <li><b>Kompakt şerit</b> aynı konumda çok daha az dikey yer kaplar (74px), uzun rehber yazılarda tercih edilebilir.</li>
+        <li><b>Yazı sonu kutusu</b> okumayı bitirenlere ulaşır; tıklama oranı düşer, niyet yüksekliği artar.</li>
+        <li>Kart, ölçülen 846px içerik kolonunu aşmaz; şablonda gövde akışının içine girer.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3><s></s>GA4 kurulumu ve ölçüm sınırı</h3>
+      <ul>
+        <li><b>GTM trigger:</b> Custom Event, event name <code>preferred_source_click</code>.</li>
+        <li><b>Tag:</b> GA4 Event, aynı ad. Parametreler <code>cta_id</code>, <code>cta_variant</code>, <code>page_path</code>.</li>
+        <li><code>cta_variant</code> GA4 yönetiminde custom dimension olarak tanımlanır; hangi ton ve yerleşimin çalıştığı böyle ayrışır.</li>
+        <li><b>Sınır:</b> tıklama sarmalayıcı kart düzeyinde yakalanır. Google'ın onay ekranının tamamlanıp tamamlanmadığı ölçülemez; raporda "kaç kişi ekledi" değil <b>"kaç kişi butona tıkladı"</b> denir.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3><s></s>Önizlemenin sınırı</h3>
+      <ul>
+        <li>Bu sayfada Google'ın gerçek butonu <b>temsili</b> çizildi; artifact dış adrese script çağıramıyor.</li>
+        <li>Gerçek butonun etiketi, ölçüsü ve dili Google tarafından üretilir; <code>data-lang="tr"</code> ile Türkçe sabitlenir.</li>
+        <li><b>greycliff</b> Turkcell'in lisanslı fontu, burada sistem fontuna düşüyor; canlıda kendi fontuyla görünür.</li>
+        <li>Mobilde butonun tam genişliğe açılması viewport media query'sine bağlı; bu önizleme gerçek telefon genişliğinde değil, o kural yalnız cihazda görünür.</li>
+      </ul>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var LOGO_CDN = "https://ffo3gv1cf3ir.merlincdn.net/SiteAssets/Bireysel/Navigasyon/turkcell-logo.png";
+var LOGO_DATA = "data:image/png;base64,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";
+
+var TITLE = "Turkcell Blog’u Google’da tercih edilen kaynaklarınıza ekleyin";
+var TITLE_S = "Turkcell Blog’u tercih edilen kaynaklarınıza ekleyin";
+var DESC  = "Teknoloji ve mobil dünyasına dair içeriklerimiz arama sonuçlarınızda daha önce çıksın.";
+
+var TONES = {
+  t1:{k:"t1",nm:"Lacivert kontrast",ds:"Marka laciverti · zeminden en çok ayrışır",
+      bg:"#164193",ink:"#FFFFFF",sub:"#C6D3EA",line:"rgba(255,255,255,.20)",gt:"light",chip:"transparent",pad:0,glow:"255,201,0"},
+  t2:{k:"t2",nm:"Sarı tint",ds:"Marka sarısının açık tonu · sayfaya gömlü durur",
+      bg:"#FDFBE3",ink:"#253342",sub:"#5F6B76",line:"#E4DFA8",gt:"dark",chip:"#164193",pad:6,glow:"22,65,147"},
+  t3:{k:"t3",nm:"Minimal çerçeve",ds:"Beyaz zemin, ince kenarlık · en az müdahale",
+      bg:"#FFFFFF",ink:"#253342",sub:"#5F6B76",line:"#E3E7EB",gt:"dark",chip:"#164193",pad:6,glow:"22,65,147"}
+};
+var PLACES = {
+  p1:{k:"p1",nm:"Tam genişlik banner",ds:"İlk paragraftan sonra, kolon genişliğinde",
+      slot:"a",pad:"20px 24px",gap:"20px",logoH:38,ts:17,stack:false,desc:true},
+  p2:{k:"p2",nm:"Kompakt şerit",ds:"Dar şerit · en az yer kaplar",
+      slot:"a",pad:"14px 18px",gap:"16px",logoH:32,ts:15,stack:false,desc:false},
+  p3:{k:"p3",nm:"Yazı sonu kutusu",ds:"Okumayı bitirene · daha yüksek kart",
+      slot:"b",pad:"26px 28px",gap:"16px",logoH:46,ts:20,stack:true,desc:true}
+};
+
+var FRAMES = {
+  f0:{k:"f0",nm:"Sade",ds:"Efekt yok · en sakin"},
+  f1:{k:"f1",nm:"Conic glow",ds:"Marka renklerinde dönen halka"},
+  f2:{k:"f2",nm:"Pulse glow",ds:"Nefes alan yumuşak parıltı"},
+  f3:{k:"f3",nm:"Gökkuşağı conic",ds:"Çok renkli dönen halka · en dikkat çekici"}
+};
+var state={tone:"t1",place:"p1",frame:"f0",gt:"light",dev:"desk",tab:"html",gtTouched:false};
+
+/* ---------- Google G ---------- */
+var GLOGO='<svg class="tcps__g" viewBox="0 0 48 48" width="18" height="18" aria-hidden="true" focusable="false">'+
+'<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>'+
+'<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>'+
+'<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>'+
+'<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
+
+/* ---------- contrast ---------- */
+function toRgb(c){
+  if(c.charAt(0)==="#"){var h=c.slice(1);if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+  var m=c.match(/[\d.]+/g); return m?[+m[0],+m[1],+m[2]]:[0,0,0];
+}
+function lum(c){var r=toRgb(c).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});
+  return .2126*r[0]+.7152*r[1]+.0722*r[2];}
+function ratio(a,b){var l1=lum(a),l2=lum(b);var hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);}
+
+/* ---------- card ---------- */
+function css(t,p,f){
+  var s=".tcps{--bg:"+t.bg+";--ink:"+t.ink+";--sub:"+t.sub+";--line:"+t.line+";"+
+  "display:flex;flex-wrap:wrap;align-items:center;gap:"+p.gap+";margin:28px 0;padding:"+p.pad+";"+
+  "background:var(--bg);border:1px solid var(--line);border-radius:12px;"+
+  "font-family:greycliff,system-ui,-apple-system,Arial,sans-serif;color:var(--ink);box-sizing:border-box}"+
+  ".tcps *{box-sizing:border-box}"+
+  ".tcps__mark{flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:"+t.chip+";padding:"+t.pad+"px;border-radius:"+(t.pad?10:0)+"px}"+
+  ".tcps__logo{display:block;width:"+p.logoH+"px;height:"+p.logoH+"px}"+
+  ".tcps__copy{flex:1 1 200px;min-width:0}"+
+  ".tcps__ttl{display:block;font-size:"+p.ts+"px;line-height:1.35;font-weight:700;color:var(--ink);letter-spacing:-.01em}"+
+  (p.desc?".tcps__sub{display:block;margin-top:5px;font-size:14.5px;line-height:1.5;color:var(--sub)}":"")+
+  ".tcps__act{flex:0 0 auto;margin-left:auto;min-height:44px;display:flex;align-items:center}"+
+  ".tcps__btn{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:11px 18px;"+
+  "border-radius:999px;font-size:14.5px;font-weight:600;line-height:1.2;text-decoration:none;"+
+  "border:1px solid transparent;cursor:pointer;white-space:nowrap}"+
+  ".tcps__btn--light{background:#FFFFFF;color:#1F1F1F;border-color:#DADCE0}"+
+  ".tcps__btn--dark{background:#202124;color:#FFFFFF;border-color:#202124}"+
+  ".tcps__btn:hover{filter:brightness(.96)}"+
+  ".tcps__btn:focus-visible{outline:2px solid #0071CE;outline-offset:2px}";
+  if(p.stack){
+    s+=".tcps{flex-direction:column;align-items:flex-start}"+
+       ".tcps__act{margin-left:0}"+
+       ".tcps__copy{flex:1 1 auto;width:100%}";
+  }
+  s+="@media (max-width:640px){.tcps{gap:14px}.tcps__act{margin-left:0;width:100%}"+
+     ".tcps__btn{width:100%;justify-content:center}}";
+  if(f.k!=="f0"){
+    s+=".tcps{position:relative;isolation:isolate}";
+    if(f.k==="f1"||f.k==="f3"){
+      var stops = f.k==="f1"
+        ? "#FFC900,#0071CE,#164193,#FFC900"
+        : "#FF4D4D,#FFC900,#39D98A,#0071CE,#A24DFF,#FF4D4D";
+      s+="@property --tcps-a{syntax:'<angle>';initial-value:0deg;inherits:false}"+
+         ".tcps::before{content:'';position:absolute;inset:-3px;border-radius:15px;z-index:-1;"+
+         "background:conic-gradient(from var(--tcps-a),"+stops+");filter:blur(8px);opacity:.9;"+
+         "animation:tcps-spin 6s linear infinite}"+
+         "@keyframes tcps-spin{to{--tcps-a:360deg}}";
+    }
+    if(f.k==="f2"){
+      s+=".tcps{animation:tcps-pulse 2.8s ease-in-out infinite}"+
+         "@keyframes tcps-pulse{0%,100%{box-shadow:0 0 14px rgba("+t.glow+",.28)}"+
+         "50%{box-shadow:0 0 32px rgba("+t.glow+",.6)}}";
+    }
+    s+="@media (prefers-reduced-motion:reduce){.tcps,.tcps::before{animation:none}}";
+  }
+  return s;
+}
+
+function card(preview){
+  var t=TONES[state.tone],p=PLACES[state.place],f=FRAMES[state.frame],gt=state.gt;
+  var logo=preview?LOGO_DATA:LOGO_CDN;
+  var btn = preview
+    ? '<span class="tcps__btn tcps__btn--'+gt+'" role="img" aria-label="Google tercih edilen kaynak butonu (temsili)">'+GLOGO+'Tercih edilen kaynak olarak ekle</span>'
+    : '<div google-add-preferred-source-btn data-theme="'+gt+'" data-lang="tr"></div>';
+  return '<style>'+css(t,p,f)+'</style>\n'+
+  '<div class="tcps" id="preferred-source-button">\n'+
+  '  <div class="tcps__mark"><img class="tcps__logo" src="'+logo+'" alt="Turkcell" width="'+p.logoH+'" height="'+p.logoH+'" loading="lazy"></div>\n'+
+  '  <div class="tcps__copy">\n'+
+  '    <strong class="tcps__ttl">'+(p.desc?TITLE:TITLE_S)+'</strong>\n'+
+  (p.desc?'    <span class="tcps__sub">'+DESC+'</span>\n':'')+
+  '  </div>\n'+
+  '  <div class="tcps__act">'+btn+'</div>\n'+
+  '</div>'+
+  (preview?"":'\n\n<script async src="https://news.google.com/swg/js/v1/publisher.js"><\/script>');
+}
+
+var GA4 =
+'<script>\n'+
+'(function(){\n'+
+'  var el = document.getElementById("preferred-source-button");\n'+
+'  if(!el || el.dataset.psBound) return;\n'+
+'  el.dataset.psBound = "1";\n'+
+'  el.addEventListener("click", function(){\n'+
+'    window.dataLayer = window.dataLayer || [];\n'+
+'    window.dataLayer.push({\n'+
+'      event: "preferred_source_click",\n'+
+'      cta_id: "preferred-source-button",\n'+
+'      cta_variant: "__VAR__",\n'+
+'      page_path: location.pathname\n'+
+'    });\n'+
+'  }, {passive:true});\n'+
+'})();\n'+
+'<\/script>';
+
+/* ---------- render ---------- */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function render(){
+  var t=TONES[state.tone],p=PLACES[state.place];
+
+  document.getElementById("tone-nm").textContent=t.nm;
+  document.getElementById("place-nm").textContent=p.nm;
+  document.getElementById("frame-nm").textContent=FRAMES[state.frame].nm;
+
+  document.getElementById("slot-a").innerHTML = p.slot==="a" ? card(true) : "";
+  document.getElementById("slot-b").innerHTML = p.slot==="b" ? card(true) : "";
+
+  document.getElementById("vp").classList.toggle("mob",state.dev==="mob");
+
+  var r=ratio(t.ink,t.bg), rs=ratio(t.sub,t.bg);
+  document.getElementById("contrast").innerHTML =
+    "Kontrast · başlık <b>"+r.toFixed(1)+":1</b> · açıklama <b>"+rs.toFixed(1)+":1</b> · "+
+    (Math.min(r,rs)>=4.5?"WCAG AA geçer":"AA altı");
+
+  var code = state.tab==="html" ? card(false) : GA4.replace("__VAR__", state.tone+"-"+state.place+"-"+state.frame);
+  document.getElementById("code").textContent = code;
+
+  [["tones",state.tone],["places",state.place],["frames",state.frame]].forEach(function(pair){
+    var box=document.getElementById(pair[0]);
+    Array.prototype.forEach.call(box.children,function(b){
+      b.setAttribute("aria-pressed", b.dataset.v===pair[1] ? "true":"false");
+    });
+  });
+  segSync("dev",state.dev); segSync("gtheme",state.gt); segSync("tabs",state.tab,"t");
+}
+function segSync(id,val,attr){
+  var box=document.getElementById(id);
+  Array.prototype.forEach.call(box.children,function(b){
+    b.setAttribute("aria-pressed",(attr?b.dataset[attr]:b.dataset.v)===val?"true":"false");
+  });
+}
+
+/* ---------- build controls ---------- */
+function optBtn(o,kind){
+  var b=document.createElement("button");
+  b.type="button"; b.className="opt"; b.dataset.v=o.k; b.setAttribute("aria-pressed","false");
+  var sw;
+  if(kind==="tone"){ sw='<div class="swatch '+o.k+'"><i></i><i></i></div>'; }
+  else if(kind==="frame"){ sw='<div class="swatch fr '+o.k+'"><span></span></div>'; }
+  else { sw='<div class="swatch pl">'+(o.k==="p3"?'<u></u><u></u><b></b>':(o.k==="p2"?'<u></u><b class="thin"></b><u></u><u></u>':'<u></u><b></b><u></u><u></u>'))+'</div>'; }
+  b.innerHTML = sw+'<span><span class="nm">'+o.nm+'</span><span class="ds">'+o.ds+'</span></span>';
+  return b;
+}
+["t1","t2","t3"].forEach(function(k){
+  var b=optBtn(TONES[k],"tone");
+  b.addEventListener("click",function(){
+    state.tone=k; if(!state.gtTouched) state.gt=TONES[k].gt; render();
+  });
+  document.getElementById("tones").appendChild(b);
+});
+["p1","p2","p3"].forEach(function(k){
+  var b=optBtn(PLACES[k],"place");
+  b.addEventListener("click",function(){state.place=k;render();});
+  document.getElementById("places").appendChild(b);
+});
+["f0","f1","f2","f3"].forEach(function(k){
+  var b=optBtn(FRAMES[k],"frame");
+  b.addEventListener("click",function(){state.frame=k;render();});
+  document.getElementById("frames").appendChild(b);
+});
+document.getElementById("dev").addEventListener("click",function(e){
+  var b=e.target.closest("button"); if(!b)return; state.dev=b.dataset.v; render();});
+document.getElementById("gtheme").addEventListener("click",function(e){
+  var b=e.target.closest("button"); if(!b)return; state.gt=b.dataset.v; state.gtTouched=true; render();});
+document.getElementById("tabs").addEventListener("click",function(e){
+  var b=e.target.closest("button"); if(!b)return; state.tab=b.dataset.t; render();});
+
+document.getElementById("cp").addEventListener("click",function(){
+  var btn=this, txt=document.getElementById("code").textContent;
+  function done(ok){btn.textContent = ok?"Kopyalandı":"Kopyalanamadı";
+    setTimeout(function(){btn.textContent="Kodu kopyala";},1600);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});
+  } else {
+    try{var ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);
+      ta.select();document.execCommand("copy");document.body.removeChild(ta);done(true);}
+    catch(e){done(false);}
+  }
+});
+
+render();
+})();
+</script>
