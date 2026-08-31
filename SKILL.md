@@ -94,7 +94,7 @@ Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 - **Butona sabit `min-height:44px`** verilir. Script geç yüklendiğinde sayfa zıplamaz ve dokunma alanı korunur.
 - **`data-lang="tr"`** ile dil sabitlenir.
 - **Hareket kısıtı:** çerçeve efektlerine `@media (prefers-reduced-motion:reduce)` ile durdurma eklenir.
-- **Ölçüm dürüstlüğü:** Google'ın butonu bir iframe'dir. Görüntülenme güvenilir ölçülür, tıklama yalnız yaklaşık; ekleme sayısı hiç ölçülemez. Raporda "kaç kişi ekledi" denmez.
+- **Ölçüm dürüstlüğü:** Google'ın butonu cross-origin bir iframe'dir; `id` bazlı klasik tıklama kuralı çalışmaz. Görüntülenme her koşulda ölçülür. Buton `postMessage` kanalı üzerinden tıklama ve ekleme sonucu olayları taşıyor olabilir; kurulumdan önce test ortamında doğrulanır (bkz. `references/ga4-tracking.md`). Doğrulanmadan ekleme sayısı raporlanmaz.
 - **`data-theme` varsayımı yazılır.** Değerin anlamı Google dokümanında net değil; karta göre zıt değer öntanımlı verilir ve QA'da canlı doğrulama istenir.
 
 ## Marka dili

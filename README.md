@@ -78,5 +78,5 @@ Bu yüzden skill **Artifact aracına bağımlı değildir**. Claude Code'da dosy
 
 - **Uygunluk kontrolü otomatikleştirilemiyor.** `google.com/preferences/source` Google hesabı girişi ister; skill giriş yapmaz.
 - **`data-theme` anlamı dokümanda net değil.** Karta göre zıt değer öntanımlı verilir, QA'da canlı doğrulama istenir.
-- **Google'ın butonu iframe olarak basılır.** Görüntülenme güvenilir ölçülür; tıklama yalnız yaklaşık ölçülebilir, ekleme sayısı hiç ölçülemez.
+- **Google'ın butonu cross-origin iframe olarak basılır** (`news.google.com`), bu yüzden `id` bazlı klasik tıklama kuralı çalışmaz. Buton ana sayfayla `postMessage` üzerinden haberleşiyor ve script'inde tıklama ile ekleme sonucu olayları tanımlı; bunların parent'a iletilip iletilmediği test ortamında doğrulanmalıdır.
 - **Artifact önizlemesinde Google butonu temsilidir.** Artifact CSP'si dış script'e izin vermez.

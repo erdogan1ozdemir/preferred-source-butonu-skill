@@ -2,19 +2,59 @@
 
 ## Önce bu: takip zorunlu değil
 
-Buton, hiçbir ölçüm kodu eklenmeden çalışır. GA4 yalnız "bu kart işe yarıyor mu" sorusuna cevap almak isteniyorsa eklenir. İstenmiyorsa bu dosya atlanır.
+Buton, hiçbir ölçüm kodu eklenmeden çalışır. GA4 yalnız "bu kart işe yarıyor mu" sorusuna cevap almak isteniyorsa eklenir.
 
-## Ölçülen gerçek: buton bir iframe
+## Ölçülen gerçek: buton cross-origin iframe
 
-`publisher.js` butonu satır içi DOM olarak değil, **`<iframe title="Add Preferred Source">`** olarak basar (ölçüldü: tek çocuk düğüm `IFRAME`, shadow DOM yok, öntanımlı 540x60px).
+`publisher.js` butonu satır içi DOM olarak değil **iframe** olarak basar. Yerel testte doğrulandı (localhost üzerinden, gerçek script yüklenerek):
 
-Bunun sonucu: **iframe içindeki tıklama ana dokümana çıkmaz.** Sarmalayıcı karta bağlanan `click` dinleyicisi de, GTM'in kendi otomatik tıklama dinleyicisi de butona yapılan tıklamayı görmeyebilir.
+```
+iframe src : https://news.google.com/swg/ui/v1/addpreferredsourcebuttoniframe?...&hl=tr&theme=light
+title      : Add Preferred Source
+ölçü       : 866x60 (konteyner genişliğine göre değişir)
+aynı köken : HAYIR (cross-origin)
+```
 
-Bu yüzden ölçüm iki katmana ayrılır: **görüntülenme güvenilirdir, tıklama değildir.**
+**Bunun sonucu kesindir:** kart sarmalayıcısına verilen `id` üzerinden kurulan klasik tıklama kuralı bu butonda çalışmaz. Ne `addEventListener("click")` ne GTM'in otomatik tıklama dinleyicisi tıklamayı görür, çünkü farklı alan adındaki bir iframe'in içindeki tıklama ana dokümana **hiç ulaşmaz**. Bu bir GTM veya GA4 yapılandırma konusu değil, tarayıcının aynı köken politikasıdır. Kuralı GA4'te tanımlamak sonucu değiştirmez.
 
-## Katman 1 · Görüntülenme (güvenilir)
+## Ama kapalı bir kapı değil: mesaj kanalı
 
-Kartın ekranda gerçekten görüldüğünü sayar. iframe'den bağımsızdır, her koşulda çalışır.
+iframe ana sayfayla `postMessage` üzerinden haberleşir. Yerel testte sayfa yüklenirken **8 mesaj** ölçüldü; hepsi `https://news.google.com` kökenli ve `__ACTIVITIES__` sentinel protokolünü kullanıyor (`connect`, `ready` gibi komutlar).
+
+`publisher.js` içinde şu olay adları tanımlıdır:
+
+| Sabit | Anlamı |
+|---|---|
+| `IMPRESSION_ADD_PREFERRED_SOURCES_BUTTON` | Buton görüntülendi |
+| `ACTION_ADD_PREFERRED_SOURCES_BUTTON_CLICK` | **Butona tıklandı** |
+| `EVENT_ADD_PREFERRED_SOURCE_SUCCESS` | **Ekleme başarılı** |
+| `EVENT_ADD_PREFERRED_SOURCE_FAILURE` | Ekleme başarısız |
+| `EVENT_PREFERRED_SOURCE_ALREADY_ADDED` | Kaynak zaten ekli |
+| `AddPreferredSourceResponse.getStatus()` | Sonuç durumu iframe'den parent'a döner |
+
+**DOĞRULANMAMIŞ NOKTA:** bu olayların ana sayfaya iletilip iletilmediği, yoksa yalnız Google'ın kendi ölçümüne mi gittiği test edilmedi. Doğrulamak için butona gerçekten tıklanması ve Google hesabıyla akışın tamamlanması gerekir. Bu adım marka tarafında, test ortamında yapılmalıdır.
+
+## Doğrulama adımı (kurulumdan önce)
+
+Test ortamına aşağıdaki dinleyici konur, butona tıklanır ve konsola ne düştüğüne bakılır.
+
+```html
+<script>
+window.addEventListener("message", function(e){
+  if (e.origin !== "https://news.google.com") return;
+  var d = e.data;
+  if (!d || d.sentinel !== "__ACTIVITIES__") return;
+  console.log("[preferred-source]", d.cmd, d.payload);
+});
+</script>
+```
+
+- **Tıklama veya sonuç bilgisi düşüyorsa:** ilgili `cmd` / `payload` deseni `dataLayer.push` ile GA4'e bağlanır. Tıklama ve ekleme sonucu **net** ölçülür.
+- **Yalnız `connect` / `ready` düşüyorsa:** kanal yalnız kurulum içindir. O durumda aşağıdaki iki katman kullanılır.
+
+## Katman 1 · Görüntülenme (her koşulda güvenilir)
+
+iframe'den bağımsızdır.
 
 ```html
 <script>
@@ -39,12 +79,9 @@ Kartın ekranda gerçekten görüldüğünü sayar. iframe'den bağımsızdır, 
 </script>
 ```
 
-## Katman 2 · Tıklama (yaklaşık, staging'de doğrulanır)
+## Katman 2 · Tıklama (mesaj kanalı çalışmıyorsa, yaklaşık)
 
-Önce **staging'de** şu denenir: sarmalayıcıya `click` dinleyicisi bağlanır, butona tıklanır, `dataLayer`'a event düşüyor mu bakılır.
-
-- **Düşüyorsa** basit dinleyici yeterlidir.
-- **Düşmüyorsa** (beklenen durum) iframe'e odak geçişi ölçülür: kullanıcı iframe'e tıkladığında ana pencere odağı kaybeder.
+Kullanıcı iframe'e tıkladığında ana pencere odağı kaybeder.
 
 ```html
 <script>
@@ -72,20 +109,18 @@ Kartın ekranda gerçekten görüldüğünü sayar. iframe'den bağımsızdır, 
 </script>
 ```
 
-`olcum: "yaklasik"` parametresi bilinçlidir; raporda bu sayının kesin olmadığı buradan görünür. Dokunmatik cihazda `mouseenter` çalışmaz, bu yüzden mobil tıklamalar eksik sayılır.
+`olcum: "yaklasik"` bilinçlidir; raporda bu sayının kesin olmadığı buradan görünür. Dokunmatik cihazda `mouseenter` çalışmaz, mobil tıklamalar eksik sayılır.
 
 ## GTM kurulumu
 
-Kod `dataLayer`'a yazar, yani sitede GTM olmalıdır. Site GTM yerine doğrudan `gtag.js` kullanıyorsa `dataLayer.push(...)` satırları `gtag('event','preferred_source_view',{...})` ile değiştirilir.
+Kod `dataLayer`'a yazar. Site GTM yerine doğrudan `gtag.js` kullanıyorsa `dataLayer.push(...)` satırları `gtag('event', ...)` ile değiştirilir.
 
 | Katman | Ayar |
 |---|---|
-| Trigger | Custom Event, `preferred_source_view` (ve varsa `preferred_source_click`) |
+| Trigger | Custom Event · `preferred_source_view`, `preferred_source_click` |
 | Tag | GA4 Event, aynı ad |
 | Parametreler | `cta_id`, `cta_variant`, `page_path`, `olcum` |
 | GA4 admin | `cta_variant` ve `olcum` custom dimension olarak tanımlanır |
-
-`cta_variant` ton-yerleşim-çerçeve kodunu taşır (`t1-p1-f0`); birden çok varyant yayındaysa karşılaştırma bu boyutla yapılır.
 
 ## Nereye konur
 
@@ -93,6 +128,6 @@ Script kart parçasının hemen ardına, aynı şablon dosyasına konur. `psSeen
 
 ## Raporlama dili
 
-- **Görüntülenme** net bildirilir: "kart X kez görüntülendi".
-- **Tıklama** yaklaşık bildirilir: "yaklaşık X tıklama". Kesin sayı gibi sunulmaz.
-- **Ekleme sayısı hiç bildirilmez.** Onay Google tarafında gerçekleşir, siteye sinyal dönmez. "Kaç kişi tercih edilen kaynak olarak ekledi" sorusu bu kurulumla cevaplanamaz.
+- **Görüntülenme** net bildirilir.
+- **Tıklama**, mesaj kanalı doğrulanmadıysa "yaklaşık" ibaresiyle bildirilir.
+- **Ekleme sayısı**, mesaj kanalı doğrulanana kadar hiç bildirilmez.

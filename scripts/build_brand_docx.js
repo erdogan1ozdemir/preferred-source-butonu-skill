@@ -25,6 +25,21 @@ const EYEBROW = t => new Paragraph({spacing:{after:90},
   children:[new TextRun({text:t, size:17, bold:true, color:CORAL, font:"Calibri", characterSpacing:30})]});
 const SRC = t => new Paragraph({spacing:{before:60, after:220},
   children:[new TextRun({text:t, size:17, color:MUTED, italics:true, font:"Calibri"})]});
+// Kaynak notu: ad gomulu link olarak verilir
+const SRCL = (onek, links) => {
+  const kids = [new TextRun({text:onek, size:17, color:MUTED, italics:true, font:"Calibri"})];
+  links.forEach(([ad,url],i) => {
+    if (i) kids.push(new TextRun({text:" · ", size:17, color:MUTED, italics:true, font:"Calibri"}));
+    kids.push(new ExternalHyperlink({link:url, children:[
+      new TextRun({text:ad, size:17, color:"0B5FA5", italics:true, underline:{}, font:"Calibri"})]}));
+  });
+  return new Paragraph({spacing:{before:60, after:220}, children:kids});
+};
+const L_DIL  = "https://blog.google/products-and-platforms/products/search/preferred-sources-language-expansion/";
+const L_KESF = "https://blog.google/products-and-platforms/products/search/explore-web-generative-ai-search/";
+const L_ORJ  = "https://blog.google/products-and-platforms/products/search/original-high-quality-content-search/";
+const L_DEV  = "https://developers.google.com/search/docs/appearance/preferred-sources";
+const L_SEJ  = "https://www.searchenginejournal.com/ai-overviews-cut-organic-clicks-38-field-study-finds/573145/";
 const BULLET = t => new Paragraph({numbering:{reference:"pts", level:0}, spacing:{after:110, line:300},
   children:[new TextRun({text:t, size:21, color:BODY, font:"Calibri"})]});
 const BULLET_R = runs => new Paragraph({numbering:{reference:"pts", level:0}, spacing:{after:110, line:300},
@@ -74,7 +89,7 @@ const kids = [
     ["6 Mayıs 2026", "AI Mode ve AI Overviews'a query fan-out tekniğiyle beş yeni keşif yöntemi eklendi", "Yanıtlar özetin ötesine geçip kaynağa yönlendirir hale geldi"],
     ["27 Mayıs 2026", "Highly Cited rozeti ve iki yeni carousel devreye alındı", "Orijinal habercilik ve birinci-el bakış açıları belirginleşti"],
   ]),
-  SRC("Kaynak: blog.google · Preferred Sources dil genişlemesi, Web'i keşfetmenin beş yeni yolu, Orijinal ve yüksek kaliteli içerik duyuruları"),
+  SRCL("Kaynak: ", [["Preferred Sources dil genişlemesi", L_DIL], ["Web'i keşfetmenin beş yeni yolu", L_KESF], ["Orijinal ve yüksek kaliteli içerik", L_ORJ]]),
   RICH([{t:"➔ ", c:CORAL, b:true},
         {t:"Bir ay içindeki üç adım, arama görünürlüğünün klasik sıralamanın yanı sıra yapay zeka yanıtlarının içinde şekillendiğini göstermektedir."}], {after:60}),
 
@@ -83,7 +98,7 @@ const kids = [
   BULLET_R([{t:"Butona basar ve onaylar. ", b:true},{t:"Google'ın kendi onay ekranı açılır. Onay verildikten sonra okuyucu kaldığı satıra geri döner."}]),
   BULLET_R([{t:"Sonraki aramalarında görür. ", b:true},{t:"Markanın içerikleri, o okuyucunun AI Overviews ve AI Mode yanıtlarında Preferred etiketiyle işaretlenir."}]),
   P("Taze içerik yayımlayan her site uygun kabul edilmektedir; ayrı bir başvuru veya onay süreci bulunmamaktadır.", {after:60}),
-  SRC("Kaynak: blog.google · Orijinal ve yüksek kaliteli içerik duyurusu"),
+  SRCL("Kaynak: ", [["Orijinal ve yüksek kaliteli içerik duyurusu", L_ORJ]]),
 
   H2("Ölçek ve etki"),
   table([3000, 6026], [
@@ -92,13 +107,13 @@ const kids = [
     ["Seçilen kaynak sayısı", "Mayıs 2026 itibarıyla 345.000+ benzersiz kaynak; Nisan 2026'da 200.000 seviyesindeydi"],
     ["Dil kapsamı", "Türkçe dâhil tüm diller"],
   ]),
-  SRC("Kaynak: blog.google · Preferred Sources dil genişlemesi ve orijinal içerik duyuruları"),
+  SRCL("Kaynak: ", [["Preferred Sources dil genişlemesi", L_DIL], ["Orijinal ve yüksek kaliteli içerik", L_ORJ]]),
   RICH([{t:"➔ ", c:CORAL, b:true},
         {t:"Seçilen kaynak sayısının bir ay içinde 200.000 seviyesinden 345.000'in üzerine çıkması, özelliğin hızla benimsendiğine işaret etmektedir. Türkiye'de yaygınlaşmanın henüz sınırlı olduğu dikkate alındığında, erken konumlanma değerlendirilebilir."}], {after:60}),
 
   H2("Bu dönemde neden önem kazanıyor?"),
   P("Yapay zeka yanıtlarının arama sonuçlarında yaygınlaşması, klasik organik tıklama davranışını değiştirmektedir. Bağımsız bir saha çalışması, AI Overviews görünen sorgularda organik tıklamaların %38 düştüğünü ortaya koymuştur."),
-  SRC("Kaynak: Search Engine Journal · AI Overviews organik tıklama saha çalışması"),
+  SRCL("Kaynak: ", [["Search Engine Journal · AI Overviews organik tıklama saha çalışması", L_SEJ]]),
   P("Bu tabloda görünürlük yalnız sıralamayla değil, yanıtın içinde kaynak olarak seçilmekle de ilişkilenmektedir. Tercih edilen kaynak seçimi, okuyucunun kendi iradesiyle kurulduğu için algoritma değişikliklerinden görece bağımsız bir bağ oluşturmaktadır.", {after:60}),
 
   H2("Uygunluk koşulu"),
@@ -109,7 +124,7 @@ const kids = [
     ["blog.turkcell.com.tr", "Uygun", "Subdomain seviyesi"],
     ["turkcell.com.tr/blog", "Uygun değil", "Alt dizin, ayrı kaynak sayılmamaktadır"],
   ]),
-  SRC("Kaynak: Google Search Central · Preferred Sources yayıncı dokümantasyonu"),
+  SRCL("Kaynak: ", [["Google Search Central · Preferred Sources yayıncı dokümantasyonu", L_DEV]]),
   P("Blog içeriği turkcell.com.tr alan adı altında yayınlandığından seçim domain seviyesinde gerçekleşir. Butonun yayına alınmasından önce markanın Google'ın kaynak tercihleri listesinde göründüğünün doğrulanması önerilir; bu kontrol Google hesabıyla giriş gerektirdiğinden marka tarafında yapılabilir.", {after:60}),
 
   H2("Kart tasarımı"),
@@ -129,9 +144,18 @@ const kids = [
   ]),
 
   H2("Ölçüm ve sınırlar"),
-  BULLET_R([{t:"Görüntülenme ", b:true},{t:"güvenilir biçimde ölçülebilmektedir."}]),
-  BULLET_R([{t:"Tıklama ", b:true},{t:"yaklaşık olarak ölçülmektedir. Google'ın butonu sayfaya ayrı bir çerçeve içinde yerleştiğinden tıklama doğrudan yakalanamamakta, dolaylı yöntemle tahmin edilmektedir."}]),
-  BULLET_R([{t:"Ekleme sayısı ölçülememektedir. ", b:true},{t:"Onay Google tarafında gerçekleşmekte ve siteye geri sinyal dönmemektedir. Raporlamada ekleme sayısı yerine görüntülenme ve tıklama eğilimi paylaşılır."}]),
+  P("Google'ın butonu sayfaya ayrı bir çerçeve (iframe) içinde yerleşmektedir ve bu çerçeve news.google.com alan adından gelmektedir. Tarayıcı güvenlik kuralları gereği farklı alan adındaki bir çerçevenin içindeki tıklama, ana sayfaya olay olarak ulaşmamaktadır."),
+  RICH([{t:"Bunun pratik sonucu: kart sarmalayıcısına verilen bir kimliğe (id) dayalı klasik tıklama kuralı, etiket yöneticisinde tanımlansa dahi bu butonda çalışmamaktadır. Kural yanlış kurulduğu için değil, tıklamanın ana sayfaya hiç ulaşmaması nedeniyle. "},
+        {t:"Bu bir yapılandırma konusu değil, tarayıcı sınırıdır.", b:true}]),
+  P("Buna karşılık çerçeve, ana sayfayla mesaj kanalı üzerinden haberleşmektedir. Sayfa yüklenirken bu kanaldan mesaj alışverişi gerçekleştiği ölçümlenmiştir. Butonun script'i ayrıca buton görüntülenmesi, buton tıklaması ve ekleme sonucu (başarılı, zaten ekli, uygun değil) için tanımlı olay adları içermektedir."),
+  table([3400, 5626], [
+    ["Ölçüm", "Durum"],
+    ["Kart görüntülenmesi", "Ölçülebilir. Ekran görünürlüğü üzerinden, çerçeveden bağımsız çalışır."],
+    ["Buton tıklaması", "Klasik tıklama kuralıyla ölçülemez. Mesaj kanalı üzerinden ölçüm ihtimali bulunmaktadır; kurulum öncesi test ortamında doğrulanması gerekmektedir."],
+    ["Ekleme sonucu", "Aynı mesaj kanalında ilgili olay adları tanımlıdır. Ana sayfaya iletilip iletilmediği test ortamında doğrulanmalıdır."],
+  ]),
+  P("Doğrulama tamamlanana kadar raporlamada görüntülenme net sayı olarak, tıklama ise yaklaşık değer olarak paylaşılır. Doğrulama olumlu sonuçlanırsa tıklama ve ekleme sonucu da net sayıya dönüşebilir.", {after:60}),
+  SRCL("Kaynak: ", [["Google Search Central · Preferred Sources yayıncı dokümantasyonu", L_DEV]]),
 
   H2("Kaynaklar"),
 ];
