@@ -19,7 +19,7 @@ Bunun bedeli açıkça yazılır: üç ton **kartı** değiştirir, Google'ın b
 | 2 | Markaya sunum dokümanı · Word veya HTML, süreci ve gerekçeyi anlatır, örnek içerir |
 | 3 | 3 ton x 3 yerleşim x 5 çerçeve üretimi, WCAG AA düzeltmesi |
 | 4 | Tek dosyalık HTML yapılandırıcı · 45 kombinasyon serbest eşleşir |
-| 5 | Yalın kod + GA4 + yerleştirme notu + QA listesi |
+| 5 | İki doküman: markaya sunum + IT talep · yalın kod, GA4, QA listesi |
 
 ## Eksenler
 
@@ -44,6 +44,7 @@ scripts/
   build_button.py               config -> doküman ve yapılandırıcı, statik doğrulamalı
   brand_doc_template.html       markaya sunum dokümanı (HTML)
   build_brand_docx.js           markaya sunum dokümanı (Word / Google Docs)
+  build_it_talep.py             IT talep dokümanı (Word) · turkcell-talep-skilli biçimi
   configurator_template.html    yapılandırıcı şablonu
 examples/
   turkcell-config.json

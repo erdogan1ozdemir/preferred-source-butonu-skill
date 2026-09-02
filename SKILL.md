@@ -79,6 +79,17 @@ Yayınlamadan veya teslim etmeden önce **45 kombinasyon taranır** (bkz. `refer
 
 ### Aşama 5 · Teslim
 
+İki doküman üretilir, alıcıları farklıdır. **Uzun doküman markayı bilgilendirir, IT dokümanı işi yaptırır.** Biri diğerinin yerini tutmaz; IT ekibine uzun doküman gönderilmez.
+
+| Doküman | Alıcı | Üretim |
+|---|---|---|
+| Markaya sunum dokümanı | marka, pazarlama | `node scripts/build_brand_docx.js` |
+| IT talep dokümanı | geliştirici ekip | `python3 scripts/build_it_talep.py` |
+
+**IT talep dokümanı** `turkcell-talep-skilli` biçimini taşır: numaralı maddeler, her maddede Mevcut durum -> Talep edilen değişiklik -> Örnek, kopyalanabilir kod. Kapak süsü, "Hazırlayan" satırı ve dokümanın kendini anlattığı cümle bulunmaz. Teslim kontrolü o skill'in `references/teslim-kontrolu.md` listesiyle programatik çalıştırılır; kod satırları 85 karakteri aşmaz.
+
+
+
 Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 
 1. **Yalın HTML + CSS kod bloğu.** Yorum satırı yok, açıklama yok. Logo markanın kendi CDN adresinden çekilir, base64 gömülmez.

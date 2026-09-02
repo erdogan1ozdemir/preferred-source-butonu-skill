@@ -130,7 +130,7 @@ const kids = [
   H2("Kart tasarımı"),
   P("Kartın rengi, logosu, metni ve çerçevesi markaya özeldir; içindeki buton Google'ın standart butonudur ve marka renklerine göre değiştirilememektedir. Tasarım değerleri turkcell.com.tr/blog/fps-nedir sayfasından ölçülmüştür: içerik kolonu genişliği, paragraf tipografisi, başlık rengi ve köşe yarıçapı canlı sayfadan alınmıştır."),
   P("Aşağıda üç kart tonu yer almaktadır. Yerleşim ve çerçeve efekti ayrı eksenlerdir; toplam 45 kombinasyon ayrı bir yapılandırıcı üzerinden karşılaştırılabilir.", {after:200}),
-  new Paragraph({spacing:{after:120}, children:[ new ImageRun({type:"png", data:img, transformation:{width:602, height:352}}) ]}),
+  new Paragraph({spacing:{after:120}, children:[ new ImageRun({type:"png", data:img, transformation:{width:602, height:349}}) ]}),
   SRC("Ton seçenekleri: lacivert kontrast, sarı tint, minimal çerçeve · Ölçüm tarihi 28.08.2026"),
 
   H2("Teslim kapsamı"),

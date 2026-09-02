@@ -441,17 +441,38 @@ var GA4 =
 '<script>\n'+
 '(function(){\n'+
 '  var el = document.getElementById("preferred-source-button");\n'+
-'  if(!el || el.dataset.psBound) return;\n'+
-'  el.dataset.psBound = "1";\n'+
-'  el.addEventListener("click", function(){\n'+
-'    window.dataLayer = window.dataLayer || [];\n'+
+'  if(!el || el.dataset.psInit) return;\n'+
+'  el.dataset.psInit = "1";\n'+
+'  window.dataLayer = window.dataLayer || [];\n'+
+'\n'+
+'  if ("IntersectionObserver" in window) {\n'+
+'    new IntersectionObserver(function(girisler, gozlemci){\n'+
+'      girisler.forEach(function(g){\n'+
+'        if(!g.isIntersecting) return;\n'+
+'        gozlemci.disconnect();\n'+
+'        window.dataLayer.push({\n'+
+'          event: "preferred_source_view",\n'+
+'          cta_id: "preferred-source-button",\n'+
+'          cta_variant: "__VAR__",\n'+
+'          page_path: location.pathname\n'+
+'        });\n'+
+'      });\n'+
+'    }, {threshold: 0.5}).observe(el);\n'+
+'  }\n'+
+'\n'+
+'  window.addEventListener("message", function(e){\n'+
+'    if (e.origin !== "https://news.google.com") return;\n'+
+'    var d = e.data;\n'+
+'    if (!d || d.sentinel !== "__ACTIVITIES__") return;\n'+
 '    window.dataLayer.push({\n'+
-'      event: "preferred_source_click",\n'+
+'      event: "preferred_source_signal",\n'+
 '      cta_id: "preferred-source-button",\n'+
 '      cta_variant: "__VAR__",\n'+
+'      signal_cmd: d.cmd || "",\n'+
+'      signal_payload: d.payload ? JSON.stringify(d.payload).slice(0, 300) : "",\n'+
 '      page_path: location.pathname\n'+
 '    });\n'+
-'  }, {passive:true});\n'+
+'  }, false);\n'+
 '})();\n'+
 '<\/script>';
 
