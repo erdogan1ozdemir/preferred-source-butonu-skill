@@ -1,30 +1,41 @@
 # Google Preferred Sources · uygulama notları
 
 Kaynak: https://developers.google.com/search/docs/appearance/preferred-sources
-Özellik site sahiplerine 20 Ağustos 2026'da açıldı.
 
-## Ne yapar
+Okuyucu, arama sonuçlarında öne çıkmasını istediği kaynakları seçebilir. Seçilen kaynaklar AI Overviews ve AI Mode yanıtlarında Preferred etiketiyle işaretlenir.
 
-Okuyucu butona basar, açılan Google ekranından onaylar, kaldığı satıra geri döner. Sonrasında markayı Top Stories'de ve AI Mode cevaplarında tercih edilen rozetiyle görür.
+## Kullanılan yöntem: deeplink
 
-## Resmî gömme (kullanılan yöntem)
+Buton yayıncının kendi bağlantısıdır.
+
+```html
+<a href="https://www.google.com/preferences/source?q=example.com"
+   target="_blank" rel="noopener noreferrer">Tercih edilen kaynak olarak ekle</a>
+```
+
+Alan adı `q` parametresiyle **açıkça verilir**. Google'ın tercihler ekranı yeni sekmede açılır, okuyucu yazının bulunduğu sekmeden ayrılmaz.
+
+**Neden bu yöntem seçildi:** tıklama sayfada gerçekleşir, bu yüzden GA4 ile **net ölçülür**. Karar gerekçesi `ga4-tracking.md` içindedir.
+
+## Alternatif: Google'ın gömme butonu
 
 ```html
 <div google-add-preferred-source-btn data-theme="dark" data-lang="tr"></div>
 <script async src="https://news.google.com/swg/js/v1/publisher.js"></script>
 ```
 
-- `data-theme`: `light` veya `dark`. Öntanımlı `light`.
-- `data-lang`: tarayıcı dilini ezer. Türkçe için `tr`.
-- Script **sayfa başına bir kez** yüklenir. Şablona konuyorsa kart parçasından çıkarılır.
+Bu yöntem varsayılan değildir. Karşılaştırma:
 
-## Deeplink (yedek yöntem)
+| | Deeplink (kullanılan) | Gömme butonu |
+|---|---|---|
+| Tıklama ölçümü | Net | Ölçülemez (cross-origin iframe) |
+| Buton görünümü | Tamamen kontrol edilebilir | Google belirler |
+| Dil | Elle verilir | Otomatik çevrilir |
+| Dış script | Yok | `publisher.js` |
+| Okuma akışı | Yeni sekme, yazı açık kalır | Onaydan sonra kaldığı satıra döner |
+| Yerel test | Çalışır | Çalışmaz (400) |
 
-```
-https://www.google.com/preferences/source?q=example.com
-```
-
-JavaScript'siz uygulama için. Resmî butonun otomatik çeviri ve geri dönüş davranışını taşımaz; bu skill varsayılan olarak kullanmaz.
+Gömme butonuna dönülürse `ga4-tracking.md` içindeki iframe bölümü geçerli olur.
 
 ## Uygunluk
 
@@ -36,21 +47,17 @@ Yalnız **domain ve subdomain** seviyesi kabul edilir.
 | `https://blog.example.com/` | uygun |
 | `https://www.example.com/blog` | uygun değil |
 
-Kontrol adresi `https://www.google.com/preferences/source?q=<domain>` **Google hesabıyla giriş ister**. Skill giriş yapmaz; kontrol kullanıcıya bırakılır ve sonucu alınmadan kod üretilmez.
-
-## Çözülmemiş nokta · data-theme
-
-Dokümanda `data-theme` değerinin "butonun kendi görünümü" mü yoksa "içinde durduğu zemin" mi olduğu yazmıyor ve script yüklenmeden ayırt edilemiyor.
-
-Skill'in varsayımı: değer **butonun kendi görünümünü** tanımlar. Bu yüzden karta göre **zıt** değer verilir.
-
-| Kart tonu | Öntanımlı `data-theme` | Gerekçe |
-|---|---|---|
-| Koyu | `light` | Beyaz buton koyu kartta okunur |
-| Açık | `dark` | Koyu buton açık kartta ayrışır |
-
-Varsayım QA'da doğrulanır. Buton kartla aynı tona düşüyorsa değer çevrilir.
+Kontrol adresi `https://www.google.com/preferences/source?q=<domain>` Google hesabıyla giriş ister. Skill giriş yapmaz; kontrol kullanıcıya bırakılır ve sonucu alınmadan kod üretilmez.
 
 ## Google'ın grafik varlıkları
 
-Google, özel uygulamalar için çevrilmiş grafik varlıklar da yayımlıyor. Bu skill resmî gömmeyi kullandığı için onlara ihtiyaç duymaz; deeplink yedeğine geçilirse gerekir.
+Google, özel uygulamalar için çevrilmiş grafik varlıklar yayımlamaktadır. Buton kendi işaretlememizle üretildiği için, üzerindeki Google logosunun Google'ın kendi asset setinden alınması önerilir.
+
+## Ölçülen davranış · gömme butonu
+
+Aşağıdakiler yerel testte doğrulanmıştır ve alternatife dönülürse geçerlidir.
+
+- Buton `<iframe src="https://news.google.com/swg/ui/v1/addpreferredsourcebuttoniframe?...">` olarak basılır, aynı köken değildir.
+- Tıklandığında Google'a açılan istek **sayfanın kendi adresini** kaynak olarak gönderir (`source: location.href`). Bu yüzden `localhost` ve `file://` üzerinde tıklamak **400 Bad Request** döndürür; buton render olur, akış tamamlanamaz.
+- iframe ana sayfayla `postMessage` üzerinden haberleşir (`__ACTIVITIES__` sentinel; `connect`, `ready`, `msg`).
+- Script içinde `IMPRESSION_ADD_PREFERRED_SOURCES_BUTTON`, `ACTION_ADD_PREFERRED_SOURCES_BUTTON_CLICK`, `EVENT_ADD_PREFERRED_SOURCE_SUCCESS / FAILURE / ALREADY_ADDED` olayları tanımlıdır. Bunların ana sayfaya iletilip iletilmediği doğrulanmamıştır.

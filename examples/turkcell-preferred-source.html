@@ -232,12 +232,12 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
   </div>
 
   <div class="grp">
-    <div class="lbl">GOOGLE BUTONU TEMASI</div>
+    <div class="lbl">BUTON STİLİ</div>
     <div class="seg" id="gtheme">
       <button type="button" data-v="light" aria-pressed="true">light</button>
       <button type="button" data-v="dark" aria-pressed="false">dark</button>
     </div>
-    <div class="src">Karta göre önerilen değer otomatik seçilir. Yayın öncesi canlıda görülüp ters düşüyorsa çevrilir.</div>
+    <div class="src">Buton bizim bağlantımız olduğu için stili tamamen kontrol edilebilir. Karta göre kontrastı yüksek olan otomatik seçilir.</div>
   </div>
 
   <div class="grp tokens">
@@ -419,9 +419,7 @@ function css(t,p,f){
 function card(preview){
   var t=TONES[state.tone],p=PLACES[state.place],f=FRAMES[state.frame],gt=state.gt;
   var logo=preview?LOGO_DATA:LOGO_CDN;
-  var btn = preview
-    ? '<span class="tcps__btn tcps__btn--'+gt+'" role="img" aria-label="Google tercih edilen kaynak butonu (temsili)">'+GLOGO+'Tercih edilen kaynak olarak ekle</span>'
-    : '<div google-add-preferred-source-btn data-theme="'+gt+'" data-lang="tr"></div>';
+  var btn = '<a class="tcps__btn tcps__btn--'+gt+'" href="https://www.google.com/preferences/source?q=turkcell.com.tr" target="_blank" rel="noopener noreferrer">'+GLOGO+'Tercih edilen kaynak olarak ekle</a>';
   var isik = (f.k==="f4");
   return '<style>'+css(t,p,f)+'</style>\n'+
   (isik?'<div class="tcps-wrap">\n':'')+
@@ -434,45 +432,25 @@ function card(preview){
   '  <div class="tcps__act">'+btn+'</div>\n'+
   '</div>'+
   (isik?'\n</div>':'')+
-  (preview?"":'\n\n<script async src="https://news.google.com/swg/js/v1/publisher.js"><\/script>');
+  '';
 }
 
 var GA4 =
 '<script>\n'+
 '(function(){\n'+
 '  var el = document.getElementById("preferred-source-button");\n'+
-'  if(!el || el.dataset.psInit) return;\n'+
-'  el.dataset.psInit = "1";\n'+
-'  window.dataLayer = window.dataLayer || [];\n'+
-'\n'+
-'  if ("IntersectionObserver" in window) {\n'+
-'    new IntersectionObserver(function(girisler, gozlemci){\n'+
-'      girisler.forEach(function(g){\n'+
-'        if(!g.isIntersecting) return;\n'+
-'        gozlemci.disconnect();\n'+
-'        window.dataLayer.push({\n'+
-'          event: "preferred_source_view",\n'+
-'          cta_id: "preferred-source-button",\n'+
-'          cta_variant: "__VAR__",\n'+
-'          page_path: location.pathname\n'+
-'        });\n'+
-'      });\n'+
-'    }, {threshold: 0.5}).observe(el);\n'+
-'  }\n'+
-'\n'+
-'  window.addEventListener("message", function(e){\n'+
-'    if (e.origin !== "https://news.google.com") return;\n'+
-'    var d = e.data;\n'+
-'    if (!d || d.sentinel !== "__ACTIVITIES__") return;\n'+
+'  if(!el || el.dataset.psBound) return;\n'+
+'  el.dataset.psBound = "1";\n'+
+'  el.addEventListener("click", function(e){\n'+
+'    if(!e.target.closest("a")) return;\n'+
+'    window.dataLayer = window.dataLayer || [];\n'+
 '    window.dataLayer.push({\n'+
-'      event: "preferred_source_signal",\n'+
+'      event: "preferred_source_click",\n'+
 '      cta_id: "preferred-source-button",\n'+
 '      cta_variant: "__VAR__",\n'+
-'      signal_cmd: d.cmd || "",\n'+
-'      signal_payload: d.payload ? JSON.stringify(d.payload).slice(0, 300) : "",\n'+
 '      page_path: location.pathname\n'+
 '    });\n'+
-'  }, false);\n'+
+'  }, {passive:true});\n'+
 '})();\n'+
 '<\/script>';
 
@@ -494,7 +472,7 @@ function render(){
   var r=ratio(t.ink,t.bg), rs=ratio(t.sub,t.bg);
   var btnBg = state.gt==="light" ? "#FFFFFF" : "#202124";
   var rb = ratio(btnBg, t.bg);
-  var uyari = rb<2 ? " · <b class='warn'>buton kartla ayrışmıyor ("+rb.toFixed(2)+":1), data-theme çevrilmeli</b>" : "";
+  var uyari = rb<2 ? " · <b class='warn'> buton kartla ayrışmıyor ("+rb.toFixed(2)+":1), data-theme çevrilmeli</b>" : "";
   document.getElementById("contrast").innerHTML =
     "Kontrast · başlık <b>"+r.toFixed(1)+":1</b> · açıklama <b>"+rs.toFixed(1)+":1</b> · "+
     (Math.min(r,rs)>=4.5?"WCAG AA geçer":"<b class='warn'>AA altı</b>") + uyari;

@@ -6,9 +6,9 @@ Google özelliği site sahiplerine 20 Ağustos 2026'da açtı. Okuyucu butona ba
 
 ## Temel karar
 
-**Kart bizim, tıklama öğesi Google'ın.** Logo, marka rengi, Türkçe metin ve çerçeve efekti bizde; tıklanan öğe Google'ın resmî butonu (`publisher.js` + `google-add-preferred-source-btn`). Böylece otomatik çeviri, kaldığı satıra dönüş ve Google'ın ileride ekleyeceği davranışlar bedava geliyor.
+**Kart da buton da yayıncının.** Buton, Google'ın tercihler ekranına giden kendi bağlantımız (`google.com/preferences/source?q=<domain>`), yeni sekmede açılıyor. Google'ın gömme butonu kullanılmıyor.
 
-Bunun bedeli açıkça yazılır: üç ton **kartı** değiştirir, Google'ın butonunu değiştirmez.
+Gerekçe ölçüm: gömme butonu cross-origin iframe olduğu için tıklaması net ölçülemiyor. Kendi bağlantımızda tıklama sayfada gerçekleşiyor ve GA4'e doğrudan yazılıyor. Bedeli, Google'ın otomatik dil çevirisinden vazgeçmek; metin Türkçe sabit veriliyor.
 
 ## Akış
 
@@ -79,5 +79,6 @@ Bu yüzden skill **Artifact aracına bağımlı değildir**. Claude Code'da dosy
 
 - **Uygunluk kontrolü otomatikleştirilemiyor.** `google.com/preferences/source` Google hesabı girişi ister; skill giriş yapmaz.
 - **`data-theme` anlamı dokümanda net değil.** Karta göre zıt değer öntanımlı verilir, QA'da canlı doğrulama istenir.
-- **Google'ın butonu cross-origin iframe olarak basılır** (`news.google.com`), bu yüzden `id` bazlı klasik tıklama kuralı çalışmaz. Buton ana sayfayla `postMessage` üzerinden haberleşiyor ve script'inde tıklama ile ekleme sonucu olayları tanımlı; bunların parent'a iletilip iletilmediği test ortamında doğrulanmalıdır.
+- **Onay tamamlandı mı bilinemez.** Tıklama net ölçülür, ancak okuyucunun Google ekranında onayı verip vermediği siteye dönmez. Raporda "kaç kişi tıkladı" denir.
+- **Otomatik dil çevirisi yok.** Buton metni elle verilir; çok dilli sitede her dil için ayrı metin gerekir.
 - **Artifact önizlemesinde Google butonu temsilidir.** Artifact CSP'si dış script'e izin vermez.

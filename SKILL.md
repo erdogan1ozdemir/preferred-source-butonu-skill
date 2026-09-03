@@ -7,7 +7,9 @@ description: Bir markanın blog veya haber sayfası için Google "tercih edilen 
 
 Google'ın 20 Ağustos 2026'da site sahiplerine açtığı **tercih edilen kaynak** butonunu, markanın kendi tasarım diline oturan bir kart içinde üretir.
 
-Temel karar: **kart bizim, tıklama öğesi Google'ın.** Logo, marka rengi, Türkçe metin ve çerçeve efekti bizim kontrolümüzde; tıklanan öğe Google'ın resmî butonu. Böylece otomatik çeviri, kullanıcıyı kaldığı satıra döndürme ve Google'ın ileride ekleyeceği davranışlar bedava gelir.
+Temel karar: **kart da buton da yayıncınındır.** Buton, Google'ın tercihler ekranına giden kendi bağlantımızdır (`google.com/preferences/source?q=<domain>`), yeni sekmede açılır. Google'ın gömme butonu kullanılmaz.
+
+Gerekçe **ölçüm**: gömme butonu cross-origin bir iframe olduğu için tıklaması hiçbir yöntemle net ölçülemez. Kendi bağlantımızda tıklama sayfada gerçekleşir ve GA4'e doğrudan yazılır. Bedeli, Google'ın otomatik dil çevirisinden vazgeçmektir; metin Türkçe olarak sabit verilir. Karşılaştırma tablosu: `references/google-preferred-sources.md`
 
 Ayrıntılı dokümantasyon: `references/google-preferred-sources.md`
 
@@ -46,7 +48,7 @@ Bu doküman "şu butonu ekleyelim" demez; **neden** eklendiğini ve markanın ne
 | Bölüm | İçerik |
 |---|---|
 | 01 Ne değişti | Google'ın 20 Ağustos 2026'da açtığı yetki, eskisinden farkı |
-| 02 Okuyucu tarafında nasıl işliyor | Üç adımlık akış: görür, onaylar, sonraki aramalarında görür |
+| 02 Okuyucu tarafında nasıl işliyor | Üç adımlık akış: görür, yeni sekmede onaylar, sonraki aramalarında görür |
 | 03 Marka için ne ifade ediyor | Sadık okuyucu bağı, AI cevaplarında görünürlük, erken konumlanma, düşük uygulama maliyeti |
 | 04 Uygunluk koşulu | Domain / subdomain / alt dizin tablosu, markanın kendi durumu |
 | 05 Örnek | Markanın ölçülen değerleriyle kurulmuş **canlı kart**, yazı akışı içinde |
@@ -103,10 +105,10 @@ Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 - **Kod yalın olur.** Üretilen HTML, CSS ve JS'te `<!-- -->` yorumu bulunmaz. Açıklama koda değil, sohbete veya not bölümüne yazılır.
 - **Logo dış adresten çekilir.** Üretim kodunda `data:` URI kullanılmaz; yalnız artifact önizlemesinde gömülür.
 - **Butona sabit `min-height:44px`** verilir. Script geç yüklendiğinde sayfa zıplamaz ve dokunma alanı korunur.
-- **`data-lang="tr"`** ile dil sabitlenir.
 - **Hareket kısıtı:** çerçeve efektlerine `@media (prefers-reduced-motion:reduce)` ile durdurma eklenir.
-- **Ölçüm dürüstlüğü:** Google'ın butonu cross-origin bir iframe'dir; `id` bazlı klasik tıklama kuralı çalışmaz. Görüntülenme her koşulda ölçülür. Buton `postMessage` kanalı üzerinden tıklama ve ekleme sonucu olayları taşıyor olabilir; kurulumdan önce test ortamında doğrulanır (bkz. `references/ga4-tracking.md`). Doğrulanmadan ekleme sayısı raporlanmaz.
-- **`data-theme` varsayımı yazılır.** Değerin anlamı Google dokümanında net değil; karta göre zıt değer öntanımlı verilir ve QA'da canlı doğrulama istenir.
+- **Ölçüm dürüstlüğü:** tıklama net ölçülür. Okuyucunun Google ekranında onayı tamamlayıp tamamlamadığı ölçülemez; raporda "kaç kişi tıkladı" denir, "kaç kişi ekledi" denmez.
+- **Alan adı `q` parametresiyle verilir.** Yalnız domain veya subdomain yazılır, alt dizin yazılmaz.
+- **Buton yeni sekmede açılır** (`target="_blank" rel="noopener noreferrer"`); okuyucu yazıdan ayrılmaz.
 
 ## Marka dili
 
