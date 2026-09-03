@@ -29,6 +29,23 @@ document.head.appendChild(st);
 
 - **İz uzunluğu:** parlak yay çemberin dörtte birini aşmamalı, kuyruk alfası `.10` civarında kalmalı. Aksi halde dönen iz yerine sürekli parlak halka görünür.
 
+## Google butonu yalnız gerçek alan adında test edilir
+
+Butona tıklandığında Google'a açılan istek, **sayfanın kendi adresini** kaynak olarak gönderir
+(`publisher.js` içinde `source: location.href`). Bu yüzden:
+
+- `localhost` veya `file://` üzerinde butona tıklamak **400 Bad Request** döndürür. Bu bir kurulum
+  hatası değildir; Google localhost'u geçerli bir kaynak olarak kabul etmez.
+- Buton yerel ortamda **görünür ve render olur**, yalnız tıklama akışı tamamlanamaz.
+- Tıklama akışının testi gerçek alan adında ya da Google'ın çözebildiği bir staging alan adında
+  yapılmalıdır.
+- Kaynak her zaman sayfanın bulunduğu alan adıdır; buton başka bir alan adını ekleyecek biçimde
+  yönlendirilemez.
+
+Yerel ortamda tıklama akışını denemek gerekiyorsa deeplink yöntemi kullanılır
+(`google.com/preferences/source?q=<domain>`); orada alan adı parametreyle verildiği için
+localhost'tan da çalışır.
+
 ## Elle kontrol (canlıda)
 
 - **Uygunluk:** domain `google.com/preferences/source?q=<domain>` listesinde mi (giriş gerekir).
