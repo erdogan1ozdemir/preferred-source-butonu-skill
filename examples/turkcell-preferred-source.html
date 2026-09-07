@@ -171,13 +171,6 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
   font-family:"JetBrains Mono",monospace;font-size:12.2px;line-height:1.72;tab-size:2;
 }
 .codewrap pre::selection,.codewrap pre *::selection{background:rgba(255,123,82,.35)}
-.tabs{display:flex;gap:2px}
-.tabs button{
-  border:1px solid var(--line);background:var(--surface-2);color:var(--muted);
-  font:inherit;font-size:12px;font-weight:600;padding:6px 13px;border-radius:8px;cursor:pointer;
-}
-.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
-.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .copy{
   border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
   font:inherit;font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer;
@@ -289,9 +282,9 @@ main{padding:26px;display:flex;flex-direction:column;gap:26px;min-width:0}
 
   <section class="panel">
     <header>
-      <div class="tabs" id="tabs">
-        <button type="button" data-t="html" aria-pressed="true">HTML + CSS</button>
-        <button type="button" data-t="ga4" aria-pressed="false">GA4 takibi</button>
+      <div>
+        <h2>Yerleştirilecek kod</h2>
+        <div class="hint">HTML ve CSS · yorumsuz, doğrudan şablona girer</div>
       </div>
       <button type="button" class="copy" id="cp">Kodu kopyala</button>
     </header>
@@ -336,7 +329,7 @@ var FRAMES = {
   f3:{k:"f3",nm:"Pulse glow",ds:"Nefes alan yumuşak parıltı"},
   f4:{k:"f4",nm:"Geniş hale",ds:"Daha yayvan, ortam ışığı gibi"}
 };
-var state={tone:"t1",place:"p1",frame:"f0",gt:"light",dev:"desk",tab:"html",gtTouched:false};
+var state={tone:"t1",place:"p1",frame:"f0",gt:"light",dev:"desk",gtTouched:false};
 
 /* ---------- Google G ---------- */
 var GLOGO='<svg class="tcps__g" viewBox="0 0 48 48" width="18" height="18" aria-hidden="true" focusable="false">'+
@@ -435,25 +428,6 @@ function card(preview){
   '';
 }
 
-var GA4 =
-'<script>\n'+
-'(function(){\n'+
-'  var el = document.getElementById("preferred-source-button");\n'+
-'  if(!el || el.dataset.psBound) return;\n'+
-'  el.dataset.psBound = "1";\n'+
-'  el.addEventListener("click", function(e){\n'+
-'    if(!e.target.closest("a")) return;\n'+
-'    window.dataLayer = window.dataLayer || [];\n'+
-'    window.dataLayer.push({\n'+
-'      event: "preferred_source_click",\n'+
-'      cta_id: "preferred-source-button",\n'+
-'      cta_variant: "__VAR__",\n'+
-'      page_path: location.pathname\n'+
-'    });\n'+
-'  }, {passive:true});\n'+
-'})();\n'+
-'<\/script>';
-
 /* ---------- render ---------- */
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
@@ -477,7 +451,7 @@ function render(){
     "Kontrast · başlık <b>"+r.toFixed(1)+":1</b> · açıklama <b>"+rs.toFixed(1)+":1</b> · "+
     (Math.min(r,rs)>=4.5?"WCAG AA geçer":"<b class='warn'>AA altı</b>") + uyari;
 
-  var code = state.tab==="html" ? card(false) : GA4.replace("__VAR__", state.tone+"-"+state.place+"-"+state.frame);
+  var code = card(false);
   document.getElementById("code").textContent = code;
 
   [["tones",state.tone],["places",state.place],["frames",state.frame]].forEach(function(pair){
@@ -486,7 +460,7 @@ function render(){
       b.setAttribute("aria-pressed", b.dataset.v===pair[1] ? "true":"false");
     });
   });
-  segSync("dev",state.dev); segSync("gtheme",state.gt); segSync("tabs",state.tab,"t");
+  segSync("dev",state.dev); segSync("gtheme",state.gt);
 }
 function segSync(id,val,attr){
   var box=document.getElementById(id);
@@ -527,8 +501,6 @@ document.getElementById("dev").addEventListener("click",function(e){
   var b=e.target.closest("button"); if(!b)return; state.dev=b.dataset.v; render();});
 document.getElementById("gtheme").addEventListener("click",function(e){
   var b=e.target.closest("button"); if(!b)return; state.gt=b.dataset.v; state.gtTouched=true; render();});
-document.getElementById("tabs").addEventListener("click",function(e){
-  var b=e.target.closest("button"); if(!b)return; state.tab=b.dataset.t; render();});
 
 document.getElementById("cp").addEventListener("click",function(){
   var btn=this, txt=document.getElementById("code").textContent;

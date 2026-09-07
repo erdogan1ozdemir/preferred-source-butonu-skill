@@ -19,7 +19,7 @@ Gerekçe ölçüm: gömme butonu cross-origin iframe olduğu için tıklaması n
 | 2 | Markaya sunum dokümanı · Word veya HTML, süreci ve gerekçeyi anlatır, örnek içerir |
 | 3 | 3 ton x 3 yerleşim x 5 çerçeve üretimi, WCAG AA düzeltmesi |
 | 4 | Tek dosyalık HTML yapılandırıcı · 45 kombinasyon serbest eşleşir |
-| 5 | İki doküman: markaya sunum + IT talep · yalın kod, GA4, QA listesi |
+| 5 | İki doküman: markaya sunum + IT talep · yalın kod ve QA listesi |
 
 ## Eksenler
 
@@ -79,6 +79,6 @@ Bu yüzden skill **Artifact aracına bağımlı değildir**. Claude Code'da dosy
 
 - **Uygunluk kontrolü otomatikleştirilemiyor.** `google.com/preferences/source` Google hesabı girişi ister; skill giriş yapmaz.
 - **`data-theme` anlamı dokümanda net değil.** Karta göre zıt değer öntanımlı verilir, QA'da canlı doğrulama istenir.
-- **Onay tamamlandı mı bilinemez.** Tıklama net ölçülür, ancak okuyucunun Google ekranında onayı verip vermediği siteye dönmez. Raporda "kaç kişi tıkladı" denir.
+- **Onay tamamlandı mı bilinemez.** Tıklama, GA4'ün giden bağlantı ölçümüyle kod eklemeden net alınır; ancak okuyucunun Google ekranında onayı verip vermediği siteye dönmez. Raporda "kaç kişi tıkladı" denir.
 - **Otomatik dil çevirisi yok.** Buton metni elle verilir; çok dilli sitede her dil için ayrı metin gerekir.
 - **Artifact önizlemesinde Google butonu temsilidir.** Artifact CSP'si dış script'e izin vermez.

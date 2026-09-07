@@ -5,23 +5,6 @@ import docx_stil as S
 
 BURASI = os.path.dirname(os.path.abspath(__file__))
 
-GA4_KOD = """<script>
-(function(){
-  var el = document.getElementById("preferred-source-button");
-  if(!el || el.dataset.psBound) return;
-  el.dataset.psBound = "1";
-  el.addEventListener("click", function(e){
-    if(!e.target.closest("a")) return;
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "preferred_source_click",
-      cta_id: "preferred-source-button",
-      cta_variant: "t1-p1-f1",
-      page_path: location.pathname
-    });
-  }, {passive:true});
-})();
-</script>"""
 S.GORSEL_DIZIN = BURASI
 
 KART_CSS = """.tcps{--bg:#164193;--ink:#FFFFFF;--sub:#C6D3EA;--line:rgba(255,255,255,.20);
@@ -79,7 +62,7 @@ for m in [
   "Blog yazı şablonuna tek parça HTML kart eklemek.",
   "Butonu Google'ın tercihler ekranına bağlamak ve yeni sekmede açmak.",
   "Kartın içerik kolonu genişliğini aşmamasını ve mobilde taşmamasını sağlamak.",
-  "Butonun GA4 tarafında kendiliğinden ölçülebilmesi için gereken kimliği vermek.",
+  "Butona ölçüm için gereken kimliği vermek.",
 ]:
     S.madde_imi(d, m)
 
@@ -134,13 +117,13 @@ S.madde_imi(d, "640 px altında buton tam genişliğe açılmalıdır.")
 S.madde_imi(d, "Butona min-height:44px verilmelidir; script geç yüklendiğinde sayfa kaymamalı, dokunma alanı korunmalıdır.")
 S.kod_ornegi(d, KART_CSS)
 
-S.madde_basligi(d, "4. Ölçüm (geliştirici tarafında iş gerektirmez)")
+S.madde_basligi(d, "4. Ölçüm")
 S.etiketli(d, "Mevcut durum:", "Buton alan adı dışına giden bir bağlantıdır. GA4'ün Gelişmiş Ölçüm özelliğindeki giden bağlantı tıklamaları varsayılan olarak açıktır ve bu tıklamayı kendiliğinden kaydeder.")
 S.etiketli(d, "Talep edilen değişiklik:")
-S.madde_imi(d, "Şablona ölçüm kodu eklenmesi gerekmemektedir; 1. maddedeki id yeterlidir.")
+S.madde_imi(d, "Şablona ölçüm kodu eklenmesi gerekmemektedir. 1. maddedeki id yeterlidir.")
 S.madde_imi(d, "GA4 yönetiminde ilgili veri akışında Gelişmiş Ölçüm altındaki giden bağlantı tıklamaları ayarının açık olduğu doğrulanmalıdır.")
-S.madde_imi(d, "Raporlama, olay adı click ve Link ID değeri preferred-source-link filtresiyle yapılır.")
-S.etiketli(d, "Dikkat edilmesi gerekenler:", "Bu yöntem kart varyantını ayırt etmez. Aynı anda birden çok varyant yayınlanacaksa etiket yöneticisinde ayrı bir kural kurulması gerekir; bu da şablon değişikliği gerektirmez.")
+S.etiketli(d, "Örnek:")
+S.paragraf(d, "GA4 Keşif ekranında boyut olarak Link ID, metrik olarak Olay sayısı seçilir; Olay adı click ve Link ID preferred-source-link filtresi uygulanır. Sayfa kırılımı için Sayfa yolu boyutu eklenir.")
 
 S.madde_basligi(d, "5. Erişilebilirlik ve kontrast kontrolü")
 S.etiketli(d, "Mevcut durum:", "Kart yeni bir bileşen olduğundan mevcut kontrol listelerinde yer almamaktadır.")

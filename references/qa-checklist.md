@@ -15,6 +15,7 @@
 | Butonun `href` alan adı | domain veya subdomain, alt dizin değil |
 | Üretim kodunda yorum satırı | 0 |
 | Üretim kodunda `data:` URI | 0 |
+| Üretim kodunda `<script>` | 0 |
 
 **Ölçüm tuzağı:** `.viewport` üzerinde `transition:width` varsa cihaz değişiminden hemen sonra okunan genişlik yanlış çıkar. Tarama öncesi geçiş kapatılır:
 

@@ -137,8 +137,7 @@ const kids = [
   table([2600, 6426], [
     ["Parça", "İçerik"],
     ["Kart kodu", "Tek parça HTML ve CSS. Yorum satırı içermez, blog şablonuna doğrudan yerleştirilir."],
-    ["Ölçüm kodu", "Tıklama olayını GA4'e yazan script."],
-    ["Ölçüm kodu", "Görüntülenme ve tıklama için GA4 katmanı. İsteğe bağlıdır; buton ölçüm kodu olmadan da çalışmaktadır."],
+    ["Ölçüm", "Şablona kod eklenmez. Tıklama GA4 tarafında kendiliğinden kaydedilir."],
     ["Yerleştirme notu", "Hangi şablona ve gövdenin neresine ekleneceği."],
     ["Kontrol listesi", "Yayın öncesi mobil, kontrast, sayfa kayması ve erişilebilirlik kontrolleri."],
   ]),
@@ -148,7 +147,7 @@ const kids = [
   table([3400, 5626], [
     ["Ölçüm", "Durum"],
     ["Kart görüntülenmesi", "Ölçülebilir. Ekran görünürlüğü üzerinden çalışır."],
-    ["Buton tıklaması", "Net ölçülebilir. GA4'ün giden bağlantı ölçümü kendiliğinden kaydeder."],
+    ["Buton tıklaması", "Net ölçülebilir. Siteye ölçüm kodu eklenmeden, GA4'ün giden bağlantı ölçümüyle."],
     ["Onayın tamamlanması", "Ölçülemez. Onay Google tarafında gerçekleşir ve siteye sinyal dönmez."],
   ]),
   RICH([{t:"Raporlamada tıklama net sayı olarak paylaşılır. Ekleme sayısı paylaşılmaz; doğru ifade "},

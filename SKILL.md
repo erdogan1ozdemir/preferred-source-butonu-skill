@@ -95,8 +95,8 @@ Yayınlamadan veya teslim etmeden önce **45 kombinasyon taranır** (bkz. `refer
 Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 
 1. **Yalın HTML + CSS kod bloğu.** Yorum satırı yok, açıklama yok. Logo markanın kendi CDN adresinden çekilir, base64 gömülmez.
-2. **GA4 takibi.** `references/ga4-tracking.md`
-3. **Yerleştirme ve CMS notu.** Hangi şablona, gövdenin neresine; script'in sayfa başına bir kez yükleneceği.
+2. **Ölçüm notu.** Kod değil, tek kontrol: GA4 Gelişmiş Ölçüm açık mı. `references/ga4-tracking.md`
+3. **Yerleştirme ve CMS notu.** Hangi şablona, gövdenin neresine.
 4. **QA kontrol listesi.** `references/qa-checklist.md`
 
 ## Değişmez kurallar
@@ -106,7 +106,8 @@ Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 - **Logo dış adresten çekilir.** Üretim kodunda `data:` URI kullanılmaz; yalnız artifact önizlemesinde gömülür.
 - **Butona sabit `min-height:44px`** verilir. Script geç yüklendiğinde sayfa zıplamaz ve dokunma alanı korunur.
 - **Hareket kısıtı:** çerçeve efektlerine `@media (prefers-reduced-motion:reduce)` ile durdurma eklenir.
-- **Ölçüm dürüstlüğü:** tıklama, şablona kod eklenmeden GA4'ün giden bağlantı ölçümüyle net alınır; buton bu yüzden `id="preferred-source-link"` taşır. Okuyucunun Google ekranında onayı tamamlayıp tamamlamadığı ölçülemez; raporda "kaç kişi tıkladı" denir, "kaç kişi ekledi" denmez.
+- **Ölçüm için kod üretilmez.** Tıklama, GA4'ün giden bağlantı ölçümüyle kendiliğinden alınır. Buton yalnız bunun için `id="preferred-source-link"` taşır. Teslimde GA4 script'i verilmez; yerine tek satırlık kontrol verilir (Gelişmiş Ölçüm açık mı).
+- **Tek varyant yayınlanır.** Yapılandırıcı seçim içindir; seçilen tek kombinasyon teslim edilir. `cta_variant` gibi varyant parametresi kullanılmaz. Okuyucunun Google ekranında onayı tamamlayıp tamamlamadığı ölçülemez; raporda "kaç kişi tıkladı" denir, "kaç kişi ekledi" denmez.
 - **Alan adı `q` parametresiyle verilir.** Yalnız domain veya subdomain yazılır, alt dizin yazılmaz.
 - **Buton yeni sekmede açılır** (`target="_blank" rel="noopener noreferrer"`); okuyucu yazıdan ayrılmaz.
 
