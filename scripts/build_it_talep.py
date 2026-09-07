@@ -57,7 +57,8 @@ KART_HTML = """<div class="tcps" id="preferred-source-button">
       içeriklerimiz arama sonuçlarınızda daha önce çıksın.</span>
   </div>
   <div class="tcps__act">
-    <a class="tcps__btn" target="_blank" rel="noopener noreferrer"
+    <a class="tcps__btn" id="preferred-source-link"
+       target="_blank" rel="noopener noreferrer"
        href="https://www.google.com/preferences/source?q=turkcell.com.tr">
       Tercih edilen kaynak olarak ekle
     </a>
@@ -78,7 +79,7 @@ for m in [
   "Blog yazı şablonuna tek parça HTML kart eklemek.",
   "Butonu Google'ın tercihler ekranına bağlamak ve yeni sekmede açmak.",
   "Kartın içerik kolonu genişliğini aşmamasını ve mobilde taşmamasını sağlamak.",
-  "Buton tıklamasını dataLayer üzerinden GA4'e yazmak.",
+  "Butonun GA4 tarafında kendiliğinden ölçülebilmesi için gereken kimliği vermek.",
 ]:
     S.madde_imi(d, m)
 
@@ -106,8 +107,10 @@ S.madde_imi(d, "Buton, Google'ın tercihler ekranına giden bir bağlantı olmal
 S.madde_imi(d, "Yalnız domain yazılmalıdır; alt dizin (turkcell.com.tr/blog) kabul edilmemektedir.")
 S.madde_imi(d, "Bağlantı yeni sekmede açılmalı, rel değeri noopener noreferrer olmalıdır. Okuyucu yazıdan ayrılmaz.")
 S.madde_imi(d, "Dış script yüklenmemektedir; buton tamamen kendi işaretlememizdir.")
+S.madde_imi(d, "Bağlantıya id=\"preferred-source-link\" verilmelidir; ölçüm bu kimlikle yapılır.")
 S.kod_ornegi(d, [
-  '<a href="https://www.google.com/preferences/source?q=turkcell.com.tr"',
+  '<a id="preferred-source-link"',
+  '   href="https://www.google.com/preferences/source?q=turkcell.com.tr"',
   '   target="_blank" rel="noopener noreferrer">',
   '  Tercih edilen kaynak olarak ekle',
   '</a>'])
@@ -131,14 +134,13 @@ S.madde_imi(d, "640 px altında buton tam genişliğe açılmalıdır.")
 S.madde_imi(d, "Butona min-height:44px verilmelidir; script geç yüklendiğinde sayfa kaymamalı, dokunma alanı korunmalıdır.")
 S.kod_ornegi(d, KART_CSS)
 
-S.madde_basligi(d, "4. Tıklamanın ölçülmesi")
-S.etiketli(d, "Mevcut durum:", "Kart için tanımlı bir ölçüm bulunmamaktadır.")
+S.madde_basligi(d, "4. Ölçüm (geliştirici tarafında iş gerektirmez)")
+S.etiketli(d, "Mevcut durum:", "Buton alan adı dışına giden bir bağlantıdır. GA4'ün Gelişmiş Ölçüm özelliğindeki giden bağlantı tıklamaları varsayılan olarak açıktır ve bu tıklamayı kendiliğinden kaydeder.")
 S.etiketli(d, "Talep edilen değişiklik:")
-S.madde_imi(d, "Butona tıklandığında dataLayer'a preferred_source_click olayı yazılmalıdır.")
-S.madde_imi(d, "Dinleyici kart sarmalayıcısına bağlanmalı, kartın boş alanına yapılan tıklamalar olay üretmemelidir.")
-S.madde_imi(d, "GTM tarafında Custom Event trigger ve GA4 Event tag tanımlanmalıdır. Parametreler: cta_id, cta_variant, page_path.")
-S.madde_imi(d, "cta_variant GA4 yönetiminde custom dimension olarak tanımlanmalıdır; hangi ton ve yerleşimin çalıştığı böyle ayrışır.")
-S.kod_ornegi(d, GA4_KOD.split("\n"))
+S.madde_imi(d, "Şablona ölçüm kodu eklenmesi gerekmemektedir; 1. maddedeki id yeterlidir.")
+S.madde_imi(d, "GA4 yönetiminde ilgili veri akışında Gelişmiş Ölçüm altındaki giden bağlantı tıklamaları ayarının açık olduğu doğrulanmalıdır.")
+S.madde_imi(d, "Raporlama, olay adı click ve Link ID değeri preferred-source-link filtresiyle yapılır.")
+S.etiketli(d, "Dikkat edilmesi gerekenler:", "Bu yöntem kart varyantını ayırt etmez. Aynı anda birden çok varyant yayınlanacaksa etiket yöneticisinde ayrı bir kural kurulması gerekir; bu da şablon değişikliği gerektirmez.")
 
 S.madde_basligi(d, "5. Erişilebilirlik ve kontrast kontrolü")
 S.etiketli(d, "Mevcut durum:", "Kart yeni bir bileşen olduğundan mevcut kontrol listelerinde yer almamaktadır.")
@@ -149,7 +151,7 @@ S.madde_imi(d, "Butonun dokunma alanı en az 44 px yükseklikte olmalıdır.")
 S.madde_imi(d, "Hareketli çerçeve tercih edilirse prefers-reduced-motion açıkken animasyon durmalıdır.")
 
 S.bolum_basligi(d, "NOT")
-S.paragraf(d, "Ölçüm değerleri 28 Ağustos 2026 tarihli tek bir kesitten alınmıştır ve 1440 px genişlikte masaüstü görünümünü yansıtmaktadır. Buton tıklaması net ölçülebilmektedir. Okuyucunun Google ekranında onayı tamamlayıp tamamlamadığı bilgisi Google tarafında kalmakta ve siteye dönmemektedir; bu nedenle raporlamada tıklama sayısı paylaşılır, ekleme sayısı paylaşılmaz.")
+S.paragraf(d, "Ölçüm değerleri 28 Ağustos 2026 tarihli tek bir kesitten alınmıştır ve 1440 px genişlikte masaüstü görünümünü yansıtmaktadır. Buton tıklaması, şablona ek kod gerekmeden GA4 tarafında ölçülebilmektedir. Okuyucunun Google ekranında onayı tamamlayıp tamamlamadığı bilgisi Google tarafında kalmakta ve siteye dönmemektedir; bu nedenle raporlamada tıklama sayısı paylaşılır, ekleme sayısı paylaşılmaz.")
 S.paragraf(d, "Kartın tonu, yerleşimi ve çerçevesi ayrı ayrı seçilebilmektedir; bu dokümandaki örnek lacivert kontrast tonu ile tam genişlik yerleşimini taşımaktadır. Maddelerin önceliklendirilmesi ekiple birlikte güncellenebilir.")
 
 S.kaydet(d, os.path.join(BURASI, "Turkcell-Tercih-Edilen-Kaynak-Butonu-IT-Talep.docx"))

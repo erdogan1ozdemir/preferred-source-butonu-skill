@@ -35,7 +35,7 @@ document.head.appendChild(st);
 - **Uygunluk:** domain `google.com/preferences/source?q=<domain>` listesinde mi (giriş gerekir).
 - **Buton stili:** buton kartla aynı tona düşüyor mu. Ölçülen risk: açık kart (`t2`, `t3`) + açık buton, ayrışma **1.0:1**; koyu kart (`t1`) + koyu buton **1.7:1**. Öntanımlılar bunu önler, elle değiştirilirse yapılandırıcı uyarır.
 - **Bağlantı hedefi:** `href` doğru alan adını taşıyor mu, yeni sekmede mi açılıyor, `rel="noopener noreferrer"` var mı.
-- **Tıklama olayı:** butona tıklandığında `dataLayer`'a `preferred_source_click` düşüyor mu; kartın boş alanına tıklandığında düşmüyor mu.
+- **Ölçüm:** GA4 veri akışında Gelişmiş Ölçüm altındaki giden bağlantı tıklamaları açık mı. Butonda `id="preferred-source-link"` var mı; GA4 Keşif'te `Olay adı = click` ve `Link ID = preferred-source-link` filtresiyle tıklama görünüyor mu.
 - **Taşma:** conic ve gökkuşağı kenarlık kartın 2px dışında dolaşır, pulse glow ~11px, geniş hale ~24px taşar. Gövdede `overflow:hidden` varsa kırpılır.
 - **Çifte çerçeve çizgisi:** halka aktifken kartın kendi kenarlığı `transparent` olmalı. İkisi birlikte görünürse aralarında boşluk kalan iki çizgi oluşur.
 - **Çerçeve sürekliliği:** halkanın düşük alfalı kuyruğu çemberin tamamını kapatmalı. Kuyruk `transparent` bırakılırsa kart, kendi kenarlığı da şeffaf olduğu için çerçevesiz görünür.

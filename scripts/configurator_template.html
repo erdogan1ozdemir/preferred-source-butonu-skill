@@ -419,7 +419,7 @@ function css(t,p,f){
 function card(preview){
   var t=TONES[state.tone],p=PLACES[state.place],f=FRAMES[state.frame],gt=state.gt;
   var logo=preview?LOGO_DATA:LOGO_CDN;
-  var btn = '<a class="tcps__btn tcps__btn--'+gt+'" href="https://www.google.com/preferences/source?q={{BLOG_DOMAIN}}" target="_blank" rel="noopener noreferrer">'+GLOGO+'Tercih edilen kaynak olarak ekle</a>';
+  var btn = '<a class="tcps__btn tcps__btn--'+gt+'" id="preferred-source-link" href="https://www.google.com/preferences/source?q={{BLOG_DOMAIN}}" target="_blank" rel="noopener noreferrer">'+GLOGO+'Tercih edilen kaynak olarak ekle</a>';
   var isik = (f.k==="f4");
   return '<style>'+css(t,p,f)+'</style>\n'+
   (isik?'<div class="tcps-wrap">\n':'')+

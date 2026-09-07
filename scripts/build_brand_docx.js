@@ -144,11 +144,11 @@ const kids = [
   ]),
 
   H2("Ölçüm ve sınırlar"),
-  P("Buton, Google'ın tercihler ekranına giden yayıncı bağlantısıdır. Tıklama sayfanın kendi üzerinde gerçekleştiğinden GA4 ile doğrudan ölçülmektedir; ayrı bir yönteme veya tahmine gerek bulunmamaktadır."),
+  P("Buton, Google'ın tercihler ekranına giden yayıncı bağlantısıdır. Alan adı dışına gittiği için GA4 tarafından kendiliğinden ölçülmektedir; siteye ek ölçüm kodu eklenmesi gerekmemektedir."),
   table([3400, 5626], [
     ["Ölçüm", "Durum"],
     ["Kart görüntülenmesi", "Ölçülebilir. Ekran görünürlüğü üzerinden çalışır."],
-    ["Buton tıklaması", "Net ölçülebilir. Tıklama olayı doğrudan GA4'e yazılır."],
+    ["Buton tıklaması", "Net ölçülebilir. GA4'ün giden bağlantı ölçümü kendiliğinden kaydeder."],
     ["Onayın tamamlanması", "Ölçülemez. Onay Google tarafında gerçekleşir ve siteye sinyal dönmez."],
   ]),
   RICH([{t:"Raporlamada tıklama net sayı olarak paylaşılır. Ekleme sayısı paylaşılmaz; doğru ifade "},

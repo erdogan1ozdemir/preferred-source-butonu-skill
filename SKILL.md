@@ -106,7 +106,7 @@ Kullanıcı seçimini yaptıktan sonra dört parça verilir:
 - **Logo dış adresten çekilir.** Üretim kodunda `data:` URI kullanılmaz; yalnız artifact önizlemesinde gömülür.
 - **Butona sabit `min-height:44px`** verilir. Script geç yüklendiğinde sayfa zıplamaz ve dokunma alanı korunur.
 - **Hareket kısıtı:** çerçeve efektlerine `@media (prefers-reduced-motion:reduce)` ile durdurma eklenir.
-- **Ölçüm dürüstlüğü:** tıklama net ölçülür. Okuyucunun Google ekranında onayı tamamlayıp tamamlamadığı ölçülemez; raporda "kaç kişi tıkladı" denir, "kaç kişi ekledi" denmez.
+- **Ölçüm dürüstlüğü:** tıklama, şablona kod eklenmeden GA4'ün giden bağlantı ölçümüyle net alınır; buton bu yüzden `id="preferred-source-link"` taşır. Okuyucunun Google ekranında onayı tamamlayıp tamamlamadığı ölçülemez; raporda "kaç kişi tıkladı" denir, "kaç kişi ekledi" denmez.
 - **Alan adı `q` parametresiyle verilir.** Yalnız domain veya subdomain yazılır, alt dizin yazılmaz.
 - **Buton yeni sekmede açılır** (`target="_blank" rel="noopener noreferrer"`); okuyucu yazıdan ayrılmaz.
 
