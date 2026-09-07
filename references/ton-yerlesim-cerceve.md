@@ -2,7 +2,7 @@
 
 Üç eksen **bağımsızdır**. 3 x 3 x 5 = 45 kombinasyon serbestçe eşleşir; kullanıcı yapılandırıcıda üçünü ayrı ayrı seçer.
 
-Varyant kodu `t<n>-p<n>-f<n>` biçimindedir ve GA4'te `cta_variant` olarak taşınır.
+Varyant kodu `t<n>-p<n>-f<n>` biçimindedir. Yalnız seçimi ve kayıt tutmayı kolaylaştırır; üretilen koda girmez. Yayına **tek kombinasyon** alınır.
 
 ## Ton (kartın zemini)
 
