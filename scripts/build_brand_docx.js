@@ -94,7 +94,7 @@ const kids = [
         {t:"Bir ay içindeki üç adım, arama görünürlüğünün klasik sıralamanın yanı sıra yapay zeka yanıtlarının içinde şekillendiğini göstermektedir."}], {after:60}),
 
   H2("Okuyucu tarafında işleyiş"),
-  BULLET_R([{t:"Yazının içinde görür. ", b:true},{t:"Kart, blog yazısının akışına yerleştirilir; okuyucu içeriği okurken karşısına çıkar."}]),
+  BULLET_R([{t:"Yazının içinde görür. ", b:true},{t:"Kart, yazının istenen yerine, gövde akışının içine veya sonuna yerleştirilir; okuyucu içeriği okurken karşısına çıkar."}]),
   BULLET_R([{t:"Butona basar ve onaylar. ", b:true},{t:"Google'ın tercihler ekranı yeni sekmede açılır. Yazı açık kaldığından okuyucu okumasına kaldığı yerden devam edebilir."}]),
   BULLET_R([{t:"Sonraki aramalarında görür. ", b:true},{t:"Markanın içerikleri, o okuyucunun AI Overviews ve AI Mode yanıtlarında Preferred etiketiyle işaretlenir."}]),
   P("Taze içerik yayımlayan her site uygun kabul edilmektedir; ayrı bir başvuru veya onay süreci bulunmamaktadır.", {after:60}),
@@ -129,7 +129,7 @@ const kids = [
 
   H2("Kart tasarımı"),
   P("Kartın ve butonun rengi, logosu, metni ve çerçevesi markaya özeldir. Tasarım değerleri turkcell.com.tr/blog/fps-nedir sayfasından ölçülmüştür: içerik kolonu genişliği, paragraf tipografisi, başlık rengi ve köşe yarıçapı canlı sayfadan alınmıştır."),
-  P("Aşağıda üç kart tonu yer almaktadır. Yerleşim ve çerçeve efekti ayrı eksenlerdir; toplam 45 kombinasyon ayrı bir yapılandırıcı üzerinden karşılaştırılabilir.", {after:200}),
+  P("Aşağıda üç kart tonu yer almaktadır. Yerleşim ve çerçeve efekti ayrı eksenlerdir; toplam 45 kombinasyon ayrı bir yapılandırıcı üzerinden karşılaştırılabilir. Yayına tek kombinasyon alınmakta, seçim marka talebine göre sonradan güncellenebilmektedir.", {after:200}),
   new Paragraph({spacing:{after:120}, children:[ new ImageRun({type:"png", data:img, transformation:{width:602, height:349}}) ]}),
   SRC("Ton seçenekleri: lacivert kontrast, sarı tint, minimal çerçeve · Ölçüm tarihi 28.08.2026"),
 

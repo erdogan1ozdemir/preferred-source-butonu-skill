@@ -15,7 +15,7 @@ Ayrıntılı dokümantasyon: `references/google-preferred-sources.md`
 
 ## Akış
 
-Altı aşama sırayla işletilir. Aşama 0 geçilmeden kod üretilmez, Aşama 2 paylaşılmadan varyant üretilmez.
+Yedi aşama sırayla işletilir. Aşama 0 geçilmeden kod üretilmez, Aşama 2 paylaşılmadan varyant üretilmez.
 
 ### Aşama 0 · Uygunluk ön kontrolü
 
@@ -79,7 +79,17 @@ Her tonun metin/zemin kontrastı `scripts/contrast.py` ile hesaplanır; WCAG AA 
 
 Yayınlamadan veya teslim etmeden önce **45 kombinasyon taranır** (bkz. `references/qa-checklist.md`). Taşma, buton dokunma alanı ve yatay kaydırma sıfır olmalıdır.
 
-### Aşama 5 · Teslim
+### Aşama 5 · Varyant seçimi
+
+Doküman üretilmeden önce **hangi kombinasyonun yayına alınacağı kullanıcıya sorulur.** Yapılandırıcıda 45 kombinasyon vardır; yayına **tek** kombinasyon alınır.
+
+Seçim yapıldıktan sonra o kombinasyonun kodu yapılandırıcıdan alınıp `kart-kodu.txt` olarak kaydedilir. **Dokümandaki kod bu dosyadan okunur**, elle yazılmaz. Böylece teslim edilen kod ile yapılandırıcının ürettiği kod bire bir aynı olur.
+
+`build_it_talep.py` bu dosyayı bulamazsa çalışmaz; sessizce yaklaşık bir kod üretmez.
+
+**85 karakter istisnası:** talep dokümanı biçiminde kod satırları 85 karakteri aşmaz. Kart kodu bu kuralın dışındadır; bütünlüğü korunur, çünkü doğrudan kopyalanacak bir bloktur.
+
+### Aşama 6 · Teslim
 
 İki doküman üretilir, alıcıları farklıdır. **Uzun doküman markayı bilgilendirir, IT dokümanı işi yaptırır.** Biri diğerinin yerini tutmaz; IT ekibine uzun doküman gönderilmez.
 
@@ -88,7 +98,21 @@ Yayınlamadan veya teslim etmeden önce **45 kombinasyon taranır** (bkz. `refer
 | Markaya sunum dokümanı | marka, pazarlama | `node scripts/build_brand_docx.js` |
 | IT talep dokümanı | geliştirici ekip | `python3 scripts/build_it_talep.py` |
 
-**IT talep dokümanı** `turkcell-talep-skilli` biçimini taşır: numaralı maddeler, her maddede Mevcut durum -> Talep edilen değişiklik -> Örnek, kopyalanabilir kod. Kapak süsü, "Hazırlayan" satırı ve dokümanın kendini anlattığı cümle bulunmaz. Teslim kontrolü o skill'in `references/teslim-kontrolu.md` listesiyle programatik çalıştırılır; kod satırları 85 karakteri aşmaz.
+**IT talep dokümanı** `turkcell-talep-skilli` biçimini taşır: numaralı maddeler, her maddede Mevcut durum -> Talep edilen değişiklik -> Örnek. Kapak süsü, "Hazırlayan" satırı ve dokümanın kendini anlattığı cümle bulunmaz.
+
+Üç madde yeterlidir ve bu yapı korunur:
+
+| Madde | Kapsam |
+|---|---|
+| 1 | Kart kodunun blog şablonuna eklenmesi · **tam kod tek blok halinde, bir kez** |
+| 2 | Kartın yerleştirileceği konum · kolon genişliği ve mobil davranış |
+| 3 | Ölçüm · şablona kod eklenmez, GA4 Keşif kurulumu anlatılır |
+
+**Yazılmayanlar:** Mevcut Durum Özeti tablosu ve altındaki okuma cümlesi, ölçüm tarihi taşıyan kaynak notu, ayrı bir erişilebilirlik maddesi. Hazır ve denenmiş kod teslim edildiği için bunlar bilgi taşımaz.
+
+**ÖN KOŞUL bölümünde** uygunluk doğrulaması yazılır ve "Google hesabıyla giriş gerektirir, doğrulama yapılıp aksiyona öyle devam edilmelidir" cümlesi **bold** verilir.
+
+Teslim kontrolü `turkcell-talep-skilli` içindeki `references/teslim-kontrolu.md` listesiyle programatik çalıştırılır.
 
 
 

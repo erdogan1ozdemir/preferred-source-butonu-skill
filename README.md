@@ -19,7 +19,8 @@ Gerekçe ölçüm: gömme butonu cross-origin iframe olduğu için tıklaması n
 | 2 | Markaya sunum dokümanı · Word veya HTML, süreci ve gerekçeyi anlatır, örnek içerir |
 | 3 | 3 ton x 3 yerleşim x 5 çerçeve üretimi, WCAG AA düzeltmesi |
 | 4 | Tek dosyalık HTML yapılandırıcı · 45 kombinasyon serbest eşleşir |
-| 5 | İki doküman: markaya sunum + IT talep · yalın kod ve QA listesi |
+| 5 | Varyant seçimi · yayına tek kombinasyon alınır, kodu `kart-kodu.txt`'ye kaydedilir |
+| 6 | İki doküman: markaya sunum + IT talep · yalın kod ve QA listesi |
 
 ## Eksenler
 
@@ -48,6 +49,7 @@ scripts/
   configurator_template.html    yapılandırıcı şablonu
 examples/
   turkcell-config.json
+  kart-kodu.txt                        seçilen varyantın birebir kodu
   Turkcell-Tercih-Edilen-Kaynak-Butonu.docx  markaya sunum dokümanı (Word)
   turkcell-preferred-source-doc.html   markaya sunum dokümanı (HTML)
   kart-ornek.png                       üç ton render'ı
